@@ -1,19 +1,78 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/src/assets/main.css" rel="stylesheet">
-    <link href="/src/assets/anime.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Dashboard Turismo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwind-skeleton@2.0.0/dist/tailwind-skeleton.min.css" rel="stylesheet">
-    <title>Arte Nobre Service</title>
-  </head>
-  <body>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Adicionando fontes do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    'sans': ['Poppins', 'sans-serif'],
+                    'display': ['Montserrat', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        primary: '#410179',
+                        secondary: '#ff3131',
+                        accent: '#f97316',
+                    },
+                    fontSize: {
+                        '2xs': '0.625rem',
+                    },
+                    typography: ({ theme }) => ({
+                        DEFAULT: {
+                            css: {
+                                '--tw-prose-body': theme('colors.gray.800'),
+                                '--tw-prose-headings': theme('colors.primary'),
+                                '--tw-prose-links': theme('colors.secondary'),
+                                '--tw-prose-bold': theme('colors.primary'),
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos personalizados de tipografia */
+        .text-display {
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -0.025em;
+        }
+        
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .heading-underline {
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .heading-underline:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 3rem;
+            height: 0.25rem;
+            background: linear-gradient(90deg, #f97316, #ff3131);
+            border-radius: 0.125rem;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 antialiased">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
     <script type="module" src="/src/directives/anime.js"></script>
-  </body>
+</body>
 </html>
