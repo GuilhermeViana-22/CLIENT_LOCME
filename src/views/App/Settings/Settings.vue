@@ -24,10 +24,8 @@
             <p class="text-sm text-gray-500">{{ currentUser.email }}</p>
           </div>
         </div>
-        <router-link 
-          to="/profile"
-          class="block p-3 text-center text-primary font-medium"
-        >
+        <router-link :to="{ name: 'profile' }"
+          class="block p-3 text-center text-primary font-medium">
           Ver perfil completo
         </router-link>
       </div>
@@ -148,14 +146,12 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const authStore = useAuthStore();
 
-// Dados do usuário
-const currentUser = computed(() => authStore.user || {
+// Dados do usuário (dados mockados temporariamente)
+const currentUser = ref({
   name: 'Carlos Silva',
   email: 'carlos@example.com'
 });
@@ -174,7 +170,6 @@ const toggleDarkMode = () => {
 
 const checkUpdates = () => {
   alert('Sua aplicação está atualizada!');
-  // Lógica para verificar atualizações
 };
 
 const showHelp = () => {
@@ -182,7 +177,8 @@ const showHelp = () => {
 };
 
 const logout = () => {
-  authStore.logout();
+  // Simula o logout sem usar o authStore
+  // Você pode adicionar aqui a lógica de limpeza de localStorage/sessionStorage se necessário
   router.push('/login');
 };
 </script>

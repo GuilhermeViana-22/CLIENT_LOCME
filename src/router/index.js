@@ -10,17 +10,17 @@ const Login = () => import('@/views/Auth/Login.vue')
 const Forgot = () => import('@/views/Auth/Forgot.vue')
 
 // Views - Aplicação
-const Perfil = () => import('@/views/App/Profile/ProfilePage.vue')
+const Profile = () => import('@/views/App/Profile/ProfilePage.vue')
 const Dashboard = () => import('@/views/App/Dashboard.vue')
 const Usuarios = () => import('@/views/App/Users/Users.vue')
-const Configuracoes = () => import('@/views/App/Settings/Settings.vue')
+const Settings = () => import('@/views/App/Settings/Settings.vue')
 
 // Definição das rotas
 const routes = [
-  // Redireciona raiz para login asdasd
+  // Redireciona raiz para dashboard (pode mudar conforme sua necessidade)
   {
     path: '/',
-    redirect: { name: 'login' }
+    redirect: { name: 'dashboard' }
   },
 
   // Autenticação
@@ -52,33 +52,33 @@ const routes = [
         path: 'dashboard',
         name: 'dashboard',
         component: Dashboard,
-        meta: { title: 'Dashboard', public: true }
+        meta: { title: 'Dashboard' } // Removido public: true (será rota privada)
       },
       {
-        path: 'perfil',
-        name: 'perfil',
-        component: Perfil,
-        meta: { title: 'Meu Perfil', public: true }
+        path: 'profile',
+        name: 'profile',
+        component: Profile,
+        meta: { title: 'Meu Perfil' } // Removido public: true
       },
       {
         path: 'usuarios',
         name: 'usuarios',
         component: Usuarios,
-        meta: { title: 'Gestão de Usuários', public: true }
+        meta: { title: 'Gestão de Usuários' } // Removido public: true
       },
       {
-        path: 'configuracoes',
-        name: 'configuracoes',
-        component: Configuracoes,
-        meta: { title: 'Configurações', public: true }
+        path: 'settings',
+        name: 'settings',
+        component: Settings,
+        meta: { title: 'Settings' } // Removido public: true
       }
     ]
   },
 
-  // Fallback para rotas inválidas
+  // Fallback para rotas inválidas - redireciona para dashboard em vez de login
   {
     path: '/:pathMatch(.*)*',
-    redirect: { name: 'login' }
+    redirect: { name: 'dashboard' }
   }
 ]
 

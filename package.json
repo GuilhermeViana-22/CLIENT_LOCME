@@ -13,6 +13,7 @@
     "axios": "^1.9.0",
     "framer-motion": "^12.5.0",
     "pinia": "^3.0.2",
+    "vercel": "^42.3.0",
     "vue": "^3.5.13",
     "vue-router": "4"
   },

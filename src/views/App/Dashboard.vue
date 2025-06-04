@@ -110,10 +110,10 @@ const newsArticles = ref([
 ]);
 
 const menuItems = ref([
-  { name: 'Início', icon: 'home', link: '#' },
-  { name: 'Perfil', icon: 'user', link: '#' },
-  { name: 'Mensagens', icon: 'envelope', link: '#' },
-  { name: 'Configurações', icon: 'cog', link: '#' },
+  { name: 'Início', icon: 'home', link: 'dashboard' },
+  { name: 'Perfil', icon: 'user', link: '/profile' },
+  { name: 'Usuarios', icon: 'envelope', link: 'usuarios' },
+  { name: 'Configurações', icon: 'cog', link: 'settings' },
   { name: 'Ajuda', icon: 'question-circle', link: '#' }
 ]);
 </script>
