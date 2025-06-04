@@ -42,22 +42,38 @@
     </div>
 
     <!-- Sidebar -->
-    <div v-if="sidebarOpen" class="fixed inset-0 bg-black bg-opacity-50 z-50" @click="toggleSidebar"></div>
-    <div v-if="sidebarOpen" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform">
-      <!-- Conteúdo do sidebar -->
-      <div class="p-4">
-        <h2 class="text-lg font-bold text-primary mb-4">Menu</h2>
-        <ul class="space-y-2">
-          <li v-for="item in menuItems" :key="item.name" class="p-2 hover:bg-purple-50 rounded">
-            <a :href="item.link" class="flex items-center text-gray-700">
-              <i :class="`fas fa-${item.icon} mr-2`"></i>
-              {{ item.name }}
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+<!-- Sidebar -->
+<div v-if="sidebarOpen" class="fixed inset-0 bg-black bg-opacity-50 z-50" @click="toggleSidebar"></div>
+<div v-if="sidebarOpen" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform">
+  <!-- Conteúdo do sidebar -->
+  <div class="p-4">
+    <h2 class="text-lg font-bold text-primary mb-4">Menu</h2>
+    <ul class="space-y-2">
+      <li
+        v-for="item in menuItems"
+        :key="item.name"
+        class="p-2 hover:bg-purple-50 rounded"
+      >
+        <router-link
+          v-if="item.routeName"
+          :to="{ name: item.routeName }"
+          class="flex items-center text-gray-700"
+        >
+          <i :class="`fas fa-${item.icon} mr-2`"></i>
+          {{ item.name }}
+        </router-link>
+        <span
+          v-else
+          class="flex items-center text-gray-400 cursor-not-allowed"
+        >
+          <i :class="`fas fa-${item.icon} mr-2`"></i>
+          {{ item.name }}
+        </span>
+      </li>
+    </ul>
   </div>
+</div>
+
 </template>
 
 <script setup>
@@ -110,11 +126,11 @@ const newsArticles = ref([
 ]);
 
 const menuItems = ref([
-  { name: 'Início', icon: 'home', link: 'dashboard' },
-  { name: 'Perfil', icon: 'user', link: '/profile' },
-  { name: 'Usuarios', icon: 'envelope', link: 'usuarios' },
-  { name: 'Configurações', icon: 'cog', link: 'settings' },
-  { name: 'Ajuda', icon: 'question-circle', link: '#' }
+  { name: 'Início', icon: 'home', routeName: 'dashboard' },
+  { name: 'Perfil', icon: 'user', routeName: 'profile' },
+  { name: 'Usuarios', icon: 'envelope', routeName: 'usuarios' },
+  { name: 'Configurações', icon: 'cog', routeName: 'settings' },
+  { name: 'Ajuda', icon: 'question-circle', routeName: null } // Sem rota definida
 ]);
 </script>
 
