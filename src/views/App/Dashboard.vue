@@ -1,4 +1,3 @@
-<!-- src/components/DashboardMobile.vue -->
 <template>
   <div class="dashboard-mobile">
     <!-- Top Bar -->
@@ -41,37 +40,45 @@
       <NewsCard :articles="newsArticles" />
     </div>
 
+    <!-- Overlay -->
+    <div
+      v-if="sidebarOpen"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50"
+      @click="toggleSidebar"
+    ></div>
+
     <!-- Sidebar -->
-<div v-if="sidebarOpen" class="fixed inset-0 bg-black bg-opacity-50 z-50" @click="toggleSidebar"></div>
-<div v-if="sidebarOpen" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform">
-  <!-- Conteúdo do sidebar -->
-  <div class="p-4">
-    <h2 class="text-lg font-bold text-primary mb-4">Menu</h2>
-    <ul class="space-y-2">
-      <li
-        v-for="item in menuItems"
-        :key="item.name"
-        class="p-2 hover:bg-purple-50 rounded"
-      >
-        <router-link
-          v-if="item.routeName"
-          :to="{ name: item.routeName }"
-          class="flex items-center text-gray-700"
-        >
-          <i :class="`fas fa-${item.icon} mr-2`"></i>
-          {{ item.name }}
-        </router-link>
-        <span
-          v-else
-          class="flex items-center text-gray-400 cursor-not-allowed"
-        >
-          <i :class="`fas fa-${item.icon} mr-2`"></i>
-          {{ item.name }}
-        </span>
-      </li>
-    </ul>
-  </div>
-</div>
+    <div
+      v-if="sidebarOpen"
+      class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform"
+    >
+      <div class="p-4">
+        <h2 class="text-lg font-bold text-primary mb-4">Menu</h2>
+        <ul class="space-y-2">
+          <li
+            v-for="item in menuItems"
+            :key="item.name"
+            class="p-2 hover:bg-purple-50 rounded"
+          >
+            <router-link
+              v-if="item.routeName"
+              :to="{ name: item.routeName }"
+              class="flex items-center text-gray-700"
+            >
+              <i :class="`fas fa-${item.icon} mr-2`"></i>
+              {{ item.name }}
+            </router-link>
+            <span
+              v-else
+              class="flex items-center text-gray-400 cursor-not-allowed"
+            >
+              <i :class="`fas fa-${item.icon} mr-2`"></i>
+              {{ item.name }}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -87,7 +94,7 @@ import SuggestedCompanies from '@/components/SuggestedCompanies.vue';
 import RecentActivities from '@/components/RecentActivities.vue';
 import NewsCard from '@/components/NewsCard.vue';
 
-// Estado do componente
+// Controle do menu lateral
 const sidebarOpen = ref(false);
 const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value;
@@ -101,29 +108,33 @@ const currentUser = ref({
   plan: 'RO'
 });
 
-// Dados mockados
+// Dados do plano
 const userPlan = ref({
   type: 'RO',
   progress: 45,
   message: 'Você está nos 100 primeiros'
 });
 
+// Empresas sugeridas
 const suggestedCompanies = ref([
   { id: 1, name: 'EcoTur', type: 'Agência', icon: 'building' },
   { id: 2, name: 'Maria Souza', type: 'Guia', icon: 'user-tie' },
   { id: 3, name: 'Pousada Sol', type: 'Hospedagem', icon: 'hotel' }
 ]);
 
+// Atividades recentes
 const recentActivities = ref([
   { id: 1, type: 'search', text: 'Você buscou por "Guias em SP"' },
   { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' }
 ]);
 
+// Notícias
 const newsArticles = ref([
   { id: 1, title: 'Como destacar seu perfil', preview: 'Dicas para se destacar na plataforma...' },
   { id: 2, title: 'Tendências 2023', preview: 'O que os turistas estão buscando...' }
 ]);
 
+// Itens do menu
 const menuItems = ref([
   { name: 'Início', icon: 'home', routeName: 'dashboard' },
   { name: 'Perfil', icon: 'user', routeName: 'profile' },
