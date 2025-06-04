@@ -7,7 +7,7 @@
         <div class="flex items-center space-x-2">
           <i class="fas fa-bars text-xl" @click="toggleSidebar"></i>
         </div>
-        <h1 class="text-xl font-bold">TurismoConnect</h1>
+        <h1 class="text-xl font-bold">LocME</h1>
         <div class="flex items-center space-x-4">
           <i class="fas fa-bell text-xl"></i>
           <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center">

@@ -1,11 +1,10 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
-import vScrollReveal from './directives/v-scroll-reveal.js';
-import './assets/animations.css';
+// src/main.js ou src/main.ts
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import App from './App.vue'
+import router from './router'
 
-const app = createApp(App);
-
-app.use(router);
-app.directive('scroll-reveal', vScrollReveal);
+const app = createApp(App)
+app.use(createPinia())
+app.use(router)
 app.mount('#app');
