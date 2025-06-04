@@ -18,25 +18,12 @@
 
     <!-- Conteúdo principal -->
     <div class="container mx-auto p-4 space-y-4 pt-20 pb-16">
-      <!-- Card de Busca -->
       <SearchCard />
-
-      <!-- Card de Destaque (Plano Atual) -->
       <PlanCard :userPlan="userPlan" />
-
-      <!-- Card de Perfil Rápido -->
       <ProfileCard :user="currentUser" />
-
-      <!-- Card de Ações Rápidas -->
       <QuickActionsCard />
-
-      <!-- Card de Empresas Sugeridas -->
       <SuggestedCompanies :companies="suggestedCompanies" />
-
-      <!-- Card de Atividades Recentes -->
       <RecentActivities :activities="recentActivities" />
-
-      <!-- Card de Notícias/Blog -->
       <NewsCard :articles="newsArticles" />
     </div>
 
@@ -85,7 +72,6 @@
 <script setup>
 import { ref } from 'vue';
 
-// Componentes filhos
 import SearchCard from '@/components/SearchCard.vue';
 import PlanCard from '@/components/PlanCard.vue';
 import ProfileCard from '@/components/ProfileCard.vue';
@@ -94,13 +80,11 @@ import SuggestedCompanies from '@/components/SuggestedCompanies.vue';
 import RecentActivities from '@/components/RecentActivities.vue';
 import NewsCard from '@/components/NewsCard.vue';
 
-// Controle do menu lateral
 const sidebarOpen = ref(false);
 const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value;
 };
 
-// Dados do usuário
 const currentUser = ref({
   name: 'Carlos Silva',
   role: 'Guia de Turismo',
@@ -108,33 +92,28 @@ const currentUser = ref({
   plan: 'RO'
 });
 
-// Dados do plano
 const userPlan = ref({
   type: 'RO',
   progress: 45,
   message: 'Você está nos 100 primeiros'
 });
 
-// Empresas sugeridas
 const suggestedCompanies = ref([
   { id: 1, name: 'EcoTur', type: 'Agência', icon: 'building' },
   { id: 2, name: 'Maria Souza', type: 'Guia', icon: 'user-tie' },
   { id: 3, name: 'Pousada Sol', type: 'Hospedagem', icon: 'hotel' }
 ]);
 
-// Atividades recentes
 const recentActivities = ref([
   { id: 1, type: 'search', text: 'Você buscou por "Guias em SP"' },
   { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' }
 ]);
 
-// Notícias
 const newsArticles = ref([
   { id: 1, title: 'Como destacar seu perfil', preview: 'Dicas para se destacar na plataforma...' },
   { id: 2, title: 'Tendências 2023', preview: 'O que os turistas estão buscando...' }
 ]);
 
-// Itens do menu
 const menuItems = ref([
   { name: 'Início', icon: 'home', routeName: 'dashboard' },
   { name: 'Perfil', icon: 'user', routeName: 'profile' },
