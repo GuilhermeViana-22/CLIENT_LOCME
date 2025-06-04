@@ -17,12 +17,13 @@ const Configuracoes = () => import('@/views/App/Settings/Settings.vue')
 
 // Definição das rotas
 const routes = [
+  // Redireciona raiz para login asdasd
   {
     path: '/',
-    redirect: '/auth/login'
+    redirect: { name: 'login' }
   },
 
-  // Rotas de autenticação (públicas)
+  // Autenticação
   {
     path: '/auth',
     component: AuthLayout,
@@ -42,7 +43,7 @@ const routes = [
     ]
   },
 
-  // Rotas da aplicação (todas públicas temporariamente)
+  // Aplicação
   {
     path: '/app',
     component: MainLayout,
@@ -74,10 +75,10 @@ const routes = [
     ]
   },
 
-  // Fallback para rotas desconhecidas
+  // Fallback para rotas inválidas
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/auth/login'
+    redirect: { name: 'login' }
   }
 ]
 
@@ -89,7 +90,7 @@ const router = createRouter({
   }
 })
 
-// Guarda de navegação - todas as rotas são públicas
+// Atualiza título da página
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title ? `${to.meta.title} | Sistema` : 'Sistema'
   next()
