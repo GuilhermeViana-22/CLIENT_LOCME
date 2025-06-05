@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white rounded-lg shadow-md p-4">
-    <div class="flex items-center space-x-3">
-      <div class="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
+  <div class="bg-white rounded-lg shadow-md md:p-12 p-4 md:flex">
+    <div class="flex items-center space-x-3 md:w-2/3">
+      <div class="w-12 h-12 md:h-full md:w-24 md:rounded-lg rounded-full bg-accent flex items-center justify-center">
         <i class="fas fa-user text-white text-xl"></i>
       </div>
       <div>
@@ -11,7 +11,7 @@
       </div>
     </div>
     <button 
-      class="mt-3 w-full border border-primary text-primary rounded-full py-1 text-sm font-medium"
+      class="mt-3 md:w-1/3 w-full md:rounded-lg border border-primary text-primary rounded-full py-1 text-sm font-medium hover:bg-accent hover:text-white hover:border-white transition-colors"
       @click="editProfile"
     >
       Editar perfil

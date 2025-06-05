@@ -17,7 +17,7 @@
     </div>
 
     <!-- Top Bar Desktop -->
-    <div class="bg-primary text-white p-4 shadow-md fixed top-0 left-0 right-0 z-40 h-16 flex items-center">
+    <div class="hidden md:flex bg-primary text-white p-4 shadow-md fixed top-0 left-0 right-0 z-40 h-16 flex items-center">
       <section class="container mx-auto">
         <div class="flex justify-between items-center w-full px-6">
           <!-- Logo e Nome do Sistema -->
@@ -114,14 +114,18 @@
         <SearchCard />
       </div>
       
-      <section class="md:grid grid-cols-2 gap-4">
+      <section class="grid md:grid-cols-2 grid-cols-1 gap-4">
         <PlanCard :userPlan="userPlan" />
         <ProfileCard :user="currentUser" />
       </section>
       
-      <QuickActionsCard />
+       <section class="grid md:grid-cols-2 grid-cols-1 gap-4">
+        <QuickActionsCard />
+        <RecentActivities :activities="recentActivities" />
+      </section>
+
       <SuggestedCompanies :companies="suggestedCompanies" />
-      <RecentActivities :activities="recentActivities" />
+      
       <NewsCard :articles="newsArticles" />
     </div>
 
@@ -204,7 +208,12 @@ const suggestedCompanies = ref([
 
 const recentActivities = ref([
   { id: 1, type: 'search', text: 'Você buscou por "Guias em SP"' },
-  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' }
+  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
+  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
+  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
+  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
+  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
+  
 ]);
 
 const newsArticles = ref([

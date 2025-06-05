@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gradient-to-r from-primary to-purple-800 text-white rounded-lg shadow-md p-4">
+  <div class="bg-gradient-to-r from-primary to-purple-800 text-white rounded-lg shadow-md md:p-12 p-4">
     <h2 class="font-bold text-lg mb-2">Seu Plano Atual</h2>
     <div class="flex justify-between items-center mb-2">
       <span class="bg-accent px-2 py-1 rounded-full text-xs">{{ userPlan.type }}</span>
