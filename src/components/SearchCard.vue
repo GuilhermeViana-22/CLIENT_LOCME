@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white rounded-lg shadow-md p-4">
-    <div class="flex items-center border border-gray-300 rounded-full px-4 py-2">
+  <div class="bg-white md:bg-transparent rounded-lg shadow-md md:shadow-none p-4">
+    <div class="flex items-center border border-gray-300 rounded-full px-4 py-2 bg-white">
       <i class="fas fa-search text-gray-500 mr-2"></i>
       <input 
         type="text" 
