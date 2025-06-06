@@ -137,18 +137,24 @@
             @click="changePassword"
             class="py-3 px-4 border border-primary rounded-md text-sm font-medium text-primary bg-white hover:bg-purple-50"
         >
-          Alterar Senha
+          Editar Perfil
         </button>
         <button
-            @click="logout"
-            class="py-3 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-secondary hover:bg-red-600"
+            @click="changePassword"
+            class="py-3 px-4 border border-primary rounded-md text-sm font-medium text-primary bg-white hover:bg-purple-50"
         >
-          Sair
+          Alterar Senha
         </button>
       </div>
 
       <!-- Botões de Ação (Desktop) -->
       <div class="hidden md:flex justify-end space-x-4">
+        <button
+            @click="changePassword"
+            class="px-6 py-2 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors"
+        >
+          Editar Perfil
+        </button>
         <button
             @click="changePassword"
             class="px-6 py-2 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors"
