@@ -1,104 +1,113 @@
 <template>
-  <div class="dashboard-mobile">
-    <!-- Top Bar -->
-    <div class="bg-primary text-white p-4 shadow-md fixed top-0 left-0 right-0 z-50">
-      <div class="flex justify-between items-center">
-        <router-link to="/dashboard">
-          <i class="fas fa-arrow-left text-xl"></i>
-        </router-link>
-        <h1 class="text-xl font-bold">Meu Perfil</h1>
-        <router-link to="/profile/edit">
-          <i class="fas fa-edit text-xl"></i>
-        </router-link>
-      </div>
-    </div>
+  <div class="profile-container">
 
     <!-- Conteúdo principal -->
-    <div class="container mx-auto p-4 space-y-6 pt-20 pb-16">
-      <!-- Card de Identificação -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <div class="flex flex-col items-center">
-          <div class="w-20 h-20 rounded-full bg-accent flex items-center justify-center text-white text-3xl mb-4">
-            {{ userInitials }}
+    <div class="container mx-auto p-4 space-y-6 md:pt-8 md:pb-8 md:mt-0 mb-16">
+      <!-- Seção Superior (Desktop) -->
+      <div class="md:flex md:space-x-6 md:mb-6">
+        <!-- Card de Identificação -->
+        <div class="bg-white rounded-xl shadow-lg p-6 md:w-1/3">
+          <div class="flex flex-col items-center">
+            <div class="w-24 h-24 rounded-full bg-accent flex items-center justify-center text-white text-4xl mb-4 shadow-md">
+              {{ userInitials }}
+            </div>
+            <h2 class="text-xl font-bold text-center text-gray-800">{{ user.name }}</h2>
+            <p class="text-sm text-gray-500">{{ user.role }}</p>
+
+            <div class="mt-4 flex space-x-2">
+              <span class="px-3 py-1 bg-purple-100 text-primary rounded-full text-xs">
+                {{ user.type }}
+              </span>
+              <span
+                  class="px-3 py-1 rounded-full text-xs"
+                  :class="user.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'"
+              >
+                {{ user.status }}
+              </span>
+            </div>
           </div>
-          <h2 class="text-xl font-bold text-center text-gray-800">{{ user.name }}</h2>
-          <p class="text-sm text-gray-500">{{ user.role }}</p>
-          
-          <div class="mt-4 flex space-x-2">
-            <span class="px-3 py-1 bg-purple-100 text-primary rounded-full text-xs">
-              {{ user.type }}
-            </span>
-            <span 
-              class="px-3 py-1 rounded-full text-xs"
-              :class="user.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'"
-            >
-              {{ user.status }}
-            </span>
+
+          <!-- Estatísticas (Desktop) -->
+          <div class="mt-8 grid grid-cols-2 gap-3">
+            <div class="bg-purple-50 p-3 rounded-lg text-center">
+              <p class="text-sm text-gray-500">Conexões</p>
+              <p class="text-xl font-bold text-primary">{{ stats.connections }}</p>
+            </div>
+            <div class="bg-orange-50 p-3 rounded-lg text-center">
+              <p class="text-sm text-gray-500">Avaliação</p>
+              <div class="flex justify-center items-center">
+                <p class="text-xl font-bold text-accent mr-1">{{ stats.rating }}</p>
+                <i class="fas fa-star text-yellow-400"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção Direita (Desktop) -->
+        <div class="md:flex-1 md:space-y-6">
+          <!-- Card de Informações Pessoais -->
+          <div class="bg-white rounded-xl shadow-lg p-6 mt-6 md:mt-0">
+            <h3 class="text-lg font-semibold text-primary mb-4 flex items-center">
+              <i class="fas fa-user-circle mr-2"></i>
+              Informações Pessoais
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-500">Nome Completo</p>
+                <p class="font-medium">{{ user.name }}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">E-mail</p>
+                <p class="font-medium">{{ user.email }}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Telefone</p>
+                <p class="font-medium">{{ user.phone || 'Não cadastrado' }}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Data de Nascimento</p>
+                <p class="font-medium">{{ user.birthDate || 'Não cadastrada' }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card de Informações Profissionais -->
+          <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-primary mb-4 flex items-center">
+              <i class="fas fa-briefcase mr-2"></i>
+              Informações Profissionais
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-500">Cargo/Função</p>
+                <p class="font-medium">{{ user.role }}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Empresa</p>
+                <p class="font-medium">{{ user.company || 'Não cadastrada' }}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Registro Profissional</p>
+                <p class="font-medium">{{ user.registration || 'Não cadastrado' }}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">Desde</p>
+                <p class="font-medium">{{ user.since || 'Não informado' }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Card de Informações Pessoais -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-lg font-semibold text-primary mb-4 flex items-center">
-          <i class="fas fa-user-circle mr-2"></i>
-          Informações Pessoais
-        </h3>
-        
-        <div class="space-y-3">
-          <div class="flex justify-between border-b pb-2">
-            <span class="text-gray-500">Nome Completo</span>
-            <span class="font-medium">{{ user.name }}</span>
-          </div>
-          <div class="flex justify-between border-b pb-2">
-            <span class="text-gray-500">E-mail</span>
-            <span class="font-medium">{{ user.email }}</span>
-          </div>
-          <div class="flex justify-between border-b pb-2">
-            <span class="text-gray-500">Telefone</span>
-            <span class="font-medium">{{ user.phone || 'Não cadastrado' }}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-500">Data de Nascimento</span>
-            <span class="font-medium">{{ user.birthDate || 'Não cadastrada' }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card de Informações Profissionais -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-lg font-semibold text-primary mb-4 flex items-center">
-          <i class="fas fa-briefcase mr-2"></i>
-          Informações Profissionais
-        </h3>
-        
-        <div class="space-y-3">
-          <div class="flex justify-between border-b pb-2">
-            <span class="text-gray-500">Cargo/Função</span>
-            <span class="font-medium">{{ user.role }}</span>
-          </div>
-          <div class="flex justify-between border-b pb-2">
-            <span class="text-gray-500">Empresa</span>
-            <span class="font-medium">{{ user.company || 'Não cadastrada' }}</span>
-          </div>
-          <div class="flex justify-between border-b pb-2">
-            <span class="text-gray-500">Registro Profissional</span>
-            <span class="font-medium">{{ user.registration || 'Não cadastrado' }}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-500">Desde</span>
-            <span class="font-medium">{{ user.since || 'Não informado' }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card de Estatísticas -->
-      <div class="bg-white rounded-lg shadow-md p-6">
+      <!-- Card de Estatísticas (Mobile) -->
+      <div class="md:hidden bg-white rounded-xl shadow-lg p-6">
         <h3 class="text-lg font-semibold text-primary mb-4 flex items-center">
           <i class="fas fa-chart-line mr-2"></i>
           Estatísticas
         </h3>
-        
+
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-purple-50 p-3 rounded-lg text-center">
             <p class="text-sm text-gray-500">Conexões</p>
@@ -122,17 +131,33 @@
         </div>
       </div>
 
-      <!-- Botões de Ação -->
-      <div class="grid grid-cols-2 gap-3">
-        <button 
-          @click="changePassword"
-          class="py-3 px-4 border border-primary rounded-md text-sm font-medium text-primary bg-white hover:bg-purple-50"
+      <!-- Botões de Ação (Mobile) -->
+      <div class="md:hidden grid grid-cols-2 gap-3">
+        <button
+            @click="changePassword"
+            class="py-3 px-4 border border-primary rounded-md text-sm font-medium text-primary bg-white hover:bg-purple-50"
         >
           Alterar Senha
         </button>
-        <button 
-          @click="logout"
-          class="py-3 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-secondary hover:bg-red-600"
+        <button
+            @click="logout"
+            class="py-3 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-secondary hover:bg-red-600"
+        >
+          Sair
+        </button>
+      </div>
+
+      <!-- Botões de Ação (Desktop) -->
+      <div class="hidden md:flex justify-end space-x-4">
+        <button
+            @click="changePassword"
+            class="px-6 py-2 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors"
+        >
+          Alterar Senha
+        </button>
+        <button
+            @click="logout"
+            class="px-6 py-2 border border-transparent rounded-lg font-medium text-white bg-secondary hover:bg-red-700 transition-colors"
         >
           Sair
         </button>
@@ -186,7 +211,7 @@ const logout = () => {
 </script>
 
 <style scoped>
-.dashboard-mobile {
+.profile-container {
   font-family: 'Poppins', sans-serif;
 }
 
@@ -212,5 +237,15 @@ const logout = () => {
 
 .text-accent {
   color: #f97316;
+}
+
+/* Transições suaves para hover */
+button, a {
+  transition: all 0.2s ease;
+}
+
+/* Melhoria na legibilidade */
+p, span {
+  line-height: 1.5;
 }
 </style>

@@ -1,18 +1,7 @@
 <template>
   <div class="dashboard-mobile">
-    <!-- Top Bar -->
-    <div class="bg-primary text-white p-4 shadow-md fixed top-0 left-0 right-0 z-50">
-      <div class="flex justify-between items-center">
-        <router-link to="/dashboard">
-          <i class="fas fa-arrow-left text-xl"></i>
-        </router-link>
-        <h1 class="text-xl font-bold">Gerenciar Usuários</h1>
-        <div class="w-8"></div> <!-- Espaço para alinhamento -->
-      </div>
-    </div>
-
     <!-- Conteúdo principal -->
-    <div class="container mx-auto p-4 space-y-4 pt-20 pb-16">
+    <div class="container mx-auto p-4 space-y-4 pb-16">
       <!-- Barra de busca e filtro -->
       <div class="flex space-x-2">
         <div class="flex-1 relative">
