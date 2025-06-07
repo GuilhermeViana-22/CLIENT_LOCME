@@ -52,7 +52,7 @@ export const useAuthStore = defineStore('auth', () => {
       setUser(response.user || null)
       setToken(response.access_token || null)
 
-      await router.push({ name: 'login' })
+      await router.push({ name: 'dashboard' })
       return response.data
     } catch (error) {
       handleErrors(error)
