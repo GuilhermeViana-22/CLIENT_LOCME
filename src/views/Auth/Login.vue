@@ -31,7 +31,7 @@
               </div>
               <input
                 id="email"
-                v-model="email"
+                v-model="form.email"
                 name="email"
                 type="email"
                 autocomplete="email"
@@ -53,7 +53,7 @@
               </div>
               <input
                 id="password"
-                v-model="password"
+                v-model="form.password"
                 name="password"
                 type="password"
                 autocomplete="current-password"
@@ -87,12 +87,12 @@
 
           <!-- Botão de Login -->
           <div>
-           <router-link
-  :to="{ name: 'dashboard' }"
-  class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
->
-  Entrar
-</router-link>
+            <button type="submit"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                    :disabled="authStore.isLoading">
+              <span v-if="!authStore.isLoading">Sign in</span>
+              <span v-else>Processing...</span>
+            </button>
 
           </div>
         </form>
@@ -112,7 +112,7 @@
 
           <div class="mt-6">
             <router-link
-              to="/cadastro"
+              to="/auth/register"
               class="w-full flex justify-center py-2 px-4 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
             >
               Criar uma conta
@@ -125,19 +125,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth/auth.store'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
-const email = ref('');
-const password = ref('');
+const authStore = useAuthStore()
+const router = useRouter()
 
-const handleLogin = () => {
-  // Lógica de autenticação aqui
-  console.log('Login attempt with:', email.value);
-  // Após login bem-sucedido:
-  router.push('/dashboard');
-};
+const form = ref({
+  email: '',
+  password: ''
+})
+
+const handleLogin = async () => {
+  try {
+    await authStore.login(form.value)
+  } catch (error) {
+    console.error('Erro no login:', error)
+    // Verifique se o erro vem do backend
+    if (error.response?.data?.errors) {
+      authStore.errors.value = error.response.data.errors
+    }
+  }
+}
 </script>
 
 <style scoped>

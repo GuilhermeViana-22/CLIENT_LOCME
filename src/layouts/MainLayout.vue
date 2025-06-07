@@ -94,7 +94,7 @@
               </router-link>
 
               <router-link
-                  to="auth/login"
+                  to="/auth/login"
                   class="text-sm hover:text-accent transition-colors duration-200 block px-4 py-2 hover:bg-gray-100"
                   active-class="text-accent"
               >

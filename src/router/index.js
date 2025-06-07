@@ -7,6 +7,7 @@ const AuthLayout = () => import('@/layouts/AuthLayout.vue')
 
 // Views - Autenticação
 const Login = () => import('@/views/Auth/Login.vue')
+const Register = () => import('@/views/Auth/Register.vue')
 const Forgot = () => import('@/views/Auth/Forgot.vue')
 
 // Views - Aplicação
@@ -20,7 +21,7 @@ const routes = [
   // Redireciona raiz para dashboard (pode mudar conforme sua necessidade)
   {
     path: '/',
-    redirect: { name: 'dashboard' }
+    redirect: { name: 'login' }
   },
 
   // Autenticação
@@ -33,6 +34,12 @@ const routes = [
         name: 'login',
         component: Login,
         meta: { title: 'Login', public: true }
+      },
+      {
+        path: 'register',
+        name: 'register',
+        component: Register,
+        meta: { title: 'Registro', public: true }
       },
       {
         path: 'forgot',

@@ -2373,6 +2373,11 @@ superjson@^2.2.2:
   dependencies:
     copy-anything "^3.0.2"
 
+sweetalert2@^11.22.0:
+  version "11.22.0"
+  resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.22.0.tgz"
+  integrity sha512-pSMuRGDULhh+wrFkO22O0YsIXxs8yFE0O+WVYXcqc/sTa1oRnf0JlR+vfQIRY1QM1UeFfnCjyw6DYnG75/oxiQ==
+
 tar@^7.4.0:
   version "7.4.3"
   resolved "https://registry.npmjs.org/tar/-/tar-7.4.3.tgz"
@@ -2614,6 +2619,11 @@ vue-router@4:
   integrity sha512-HDuk+PuH5monfNuY+ct49mNmkCRK4xJAV9Ts4z9UFc4rzdDnxQLyCMGGc8pKhZhHTVzfanpNwB/lwqevcBwI4w==
   dependencies:
     "@vue/devtools-api" "^6.6.4"
+
+vue-the-mask@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.npmjs.org/vue-the-mask/-/vue-the-mask-0.11.1.tgz"
+  integrity sha512-UquSfnSWejD0zAfcD+3jJ1chUAkOAyoxya9Lxh9acCRtrlmGcAIvd0cQYraWqKenbuZJUdum+S174atv2AuEHQ==
 
 "vue@^2.7.0 || ^3.5.11", vue@^3.0.0, vue@^3.2.0, vue@^3.2.25, vue@^3.5.13, vue@3.5.13:
   version "3.5.13"
