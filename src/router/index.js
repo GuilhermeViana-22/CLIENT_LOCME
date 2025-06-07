@@ -1,5 +1,6 @@
 // router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth/auth.store.js'
 
 // Layouts
 const MainLayout = () => import('@/layouts/MainLayout.vue')
@@ -59,25 +60,25 @@ const routes = [
         path: 'dashboard',
         name: 'dashboard',
         component: Dashboard,
-        meta: { title: 'Dashboard' } // Removido public: true (será rota privada)
+        meta: { requiresAuth: true, title: 'Dashboard' } // Removido public: true (será rota privada)
       },
       {
         path: 'profile',
         name: 'profile',
         component: Profile,
-        meta: { title: 'Meu Perfil' } // Removido public: true
+        meta: { requiresAuth: true, title: 'Meu Perfil' } // Removido public: true
       },
       {
         path: 'usuarios',
         name: 'usuarios',
         component: Usuarios,
-        meta: { title: 'Gestão de Usuários' } // Removido public: true
+        meta: { requiresAuth: true, title: 'Gestão de Usuários' } // Removido public: true
       },
       {
         path: 'settings',
         name: 'settings',
         component: Settings,
-        meta: { title: 'Settings' } // Removido public: true
+        meta: { requiresAuth: true, title: 'Settings' } // Removido public: true
       }
     ]
   },
@@ -97,10 +98,36 @@ const router = createRouter({
   }
 })
 
-// Atualiza título da página
-router.beforeEach((to, from, next) => {
+/// guardião das rotas
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore()
   document.title = to.meta.title ? `${to.meta.title} | Sistema` : 'Sistema'
-  next()
+
+  // Verifica se a rota requer autenticação
+  if (to.meta.requiresAuth) {
+    // 1. Verifica se tem token no localStorage
+    const token = localStorage.getItem('auth_token')
+
+    if (!token) {
+      return next({ name: 'login' }) // Redireciona para login
+    }
+
+    // 2. Verifica se o token está definido no store (Pinia)
+    if (!authStore.token) {
+      authStore.setToken(token) // Sincroniza o store
+    }
+
+    // 3. Opcional: Valida o token com o backend
+    if(authStore.isAuthenticated) {
+
+      next() // Permite acesso
+    } else{
+      authStore.logout()
+      next({ name: 'login' }) // Token inválido
+    }
+  } else {
+    next() // Rota pública
+  }
 })
 
 export default router

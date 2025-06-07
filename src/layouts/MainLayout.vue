@@ -93,13 +93,12 @@
                 <p>Configurações</p>
               </router-link>
 
-              <router-link
-                  to="/auth/login"
-                  class="text-sm hover:text-accent transition-colors duration-200 block px-4 py-2 hover:bg-gray-100"
-                  active-class="text-accent"
+              <button
+                  class="text-sm hover:text-accent transition-colors duration-200 block px-4 py-2 hover:bg-gray-100 w-full text-left"
+                  @click="handleLogout"
               >
-                <p>Sair</p>
-              </router-link>
+                Sair
+              </button>
 
             </div>
           </div>
@@ -158,11 +157,23 @@
 <script setup lang="ts">
 import SearchCard from "@/components/SearchCard.vue";
 import {ref} from "vue";
+import { useAuthStore } from '@/stores/auth/auth.store'
 
 const sidebarOpen = ref(false);
 const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value;
 };
+
+/// logout
+const authStore = useAuthStore()
+
+const handleLogout = async () => {
+  try {
+    authStore.logout();
+  } catch (error) {
+    console.error('Erro no login:', error)
+  }
+}
 
 /// menu desktop
 const menuItemsD = ref([

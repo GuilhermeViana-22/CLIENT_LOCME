@@ -81,7 +81,7 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (error) {
       // Tratamento simples de erro
       errors.value = {
-        general: [error.response?.data?.message || 'Login falhou']
+        general: [error.message || 'Login falhou']
       };
       console.error('Erro no login:', error);
     } finally {
