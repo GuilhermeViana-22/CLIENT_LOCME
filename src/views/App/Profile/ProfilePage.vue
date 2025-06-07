@@ -173,32 +173,36 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import users from "@/services/users/users.js";
 
+const route = useRoute();
 const router = useRouter();
 
-// Dados mockados do usuário
+// Dados reativos
 const user = ref({
-  name: 'Carlos Eduardo Silva',
-  email: 'carlos.silva@example.com',
-  phone: '(11) 98765-4321',
-  birthDate: '15/05/1985',
-  role: 'Guia de Turismo Especializado',
-  type: 'Premium',
-  status: 'Ativo',
-  company: 'EcoTur Viagens',
-  registration: 'REG-123456',
-  since: '2018'
+  name: '',
+  email: '',
+  phone: '',
+  birthDate: '',
+  role: '',
+  type: '',
+  status: '',
+  company: '',
+  registration: '',
+  since: ''
 });
 
-// Estatísticas mockadas
 const stats = ref({
-  connections: 142,
-  rating: 4.8,
-  projects: 67,
-  years: 5
+  connections: 0,
+  rating: 0,
+  projects: 0,
+  years: 0
 });
+
+const isLoading = ref(true);
+const error = ref(null);
 
 // Computed property para iniciais
 const userInitials = computed(() => {
@@ -214,6 +218,45 @@ const logout = () => {
   console.log('Usuário deslogado');
   router.push('/login');
 };
+
+// Função para carregar dados do usuário
+const fetchUserData = async () => {
+  try {
+    isLoading.value = true;
+    const userId = route.params.id || 10; // Pega o ID da rota ou usa 10 como fallback
+    const userData = await users.getById(userId);
+
+    // Atualiza os dados do usuário
+    user.value = {
+      name: userData.data.name || 'Nome não disponível',
+      email: userData.data.email || 'carlos.silva@example.com',
+      phone: userData.data.phone || '(11) 98765-4321',
+      birthDate: userData.data.birthDate || '15/05/1985',
+      role: userData.data.role || 'Guia de Turismo Especializado',
+      type: userData.data.type || 'Premium',
+      status: userData.data.status || 'Ativo',
+      company: userData.data.company || 'EcoTur Viagens',
+      registration: userData.data.registration || 'REG-123456',
+      since: userData.data.since || '2018'
+    };
+
+    // Atualiza as estatísticas (pode vir da API também)
+    stats.value = {
+      connections: userData.data.connections || 142,
+      rating: userData.data.rating || 4.8,
+      projects: userData.data.projects || 67,
+      years: userData.data.years || 5
+    };
+  } catch (err) {
+    error.value = 'Erro ao carregar dados do usuário';
+    console.error('Erro:', err);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// Carrega os dados quando o componente é montado
+onMounted(fetchUserData);
 </script>
 
 <style scoped>
