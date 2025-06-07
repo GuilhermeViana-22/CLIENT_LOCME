@@ -64,17 +64,17 @@
                 <i class="fas fa-passport text-gray-400"></i>
               </div>
               <CpfInput
-                  :mask="['###.###.###-##', '##.###.###/####-##']"
-                  id="cpf"
                   v-model="form.cpf"
-                  name="cpf"
-                  type="text"
-                  autocomplete="cpf"
-                  required
-                  class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-                  :class="{'border-red-400': authStore.errors.cpf, 'border-gray-300': !authStore.errors.cpf}"
-                  placeholder="Seu CPF"
-              />
+                  :mask="['###.###.###-##']"
+                  id="user-cpf"
+                  name="user_cpf"
+                  :required="true"
+                  placeholder="Digite CPF"
+                  :input-class="[
+                  'py-2 pl-10 block w-full border rounded-md focus:ring-primary focus:border-primary',
+                  authStore.errors.cpf ? 'border-red-400' : 'border-gray-300'
+                  ]"
+                  />
               <div v-if="authStore.errors.cpf" class="text-red-600 text-sm mt-1.5">
                 {{ authStore.errors.cpf[0] }}
               </div>

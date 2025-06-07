@@ -29,7 +29,6 @@ export const useAuthStore = defineStore('auth', () => {
       id: userData.id,
       name: userData.name,
       email: userData.email,
-      telefone_celular: userData.telefone_celular
       // Adicione outros campos que você realmente usa
     } : null
   }
@@ -48,10 +47,10 @@ export const useAuthStore = defineStore('auth', () => {
         password_confirmation: formData.password_confirmation
       })
 
-      console.log(response)
+      console.log(response);
 
-      setUser(response.data.user || null)
-      setToken(response.data.token || null)
+      setUser(response.user || null)
+      setToken(response.access_token || null)
 
       await router.push({ name: 'login' })
       return response.data
@@ -111,12 +110,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Error Handling
   const handleErrors = (error) => {
-    if (error.response?.status === 422) {
-      errors.value = error.response.data.errors || {}
+
+    if (error.status == 422) {
+      errors.value = error.errors || {}
     } else {
-      errors.value = { general: [error.response?.data?.message || 'Ocorreu um erro. Tente novamente.'] }
+      errors.value = { general: [error.message || 'Ocorreu um erro. Tente novamente.'] }
     }
-    console.error('❌ Erro:', errors.value)
   }
 
   return {
