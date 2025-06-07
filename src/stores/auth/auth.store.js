@@ -42,7 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await api.post('/register', {
         name: formData.name.trim(),
-        cpf: formData.name.trim(),
+        cpf: formData.cpf.trim(),
         email: formData.email.trim(),
         password: formData.password,
         password_confirmation: formData.password_confirmation
