@@ -108,7 +108,7 @@
               </router-link>
 
               <button
-                  class="text-sm hover:text-accent transition-colors duration-200 block px-4 py-2 hover:bg-gray-100 w-full text-left"
+                  class="text-sm hover:text-accent cursor-pointer transition-colors duration-200 block px-4 py-2 hover:bg-gray-100 w-full text-left"
                   @click="handleLogout"
               >
                 Sair

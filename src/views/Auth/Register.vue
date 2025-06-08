@@ -3,7 +3,7 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <!-- Logo -->
       <div class="flex justify-center">
-        <div class="w-20 h-20 rounded-full bg-white bg-opacity-20 flex items-center justify-center shadow-lg">
+        <div class="w-20 h-20 rounded-full border border-white bg-opacity-20 flex items-center justify-center shadow-lg">
           <i class="fas fa-user-lock text-white text-3xl"></i>
         </div>
       </div>
@@ -42,9 +42,9 @@
                   :class="{'border-red-400': authStore.errors.name, 'border-gray-300': !authStore.errors.name}"
                   placeholder="Seu nome"
               />
-              <div v-if="authStore.errors.name" class="text-red-600 text-sm mt-1.5">
-                {{ authStore.errors.name[0] }}
-              </div>
+            </div>
+            <div v-if="authStore.errors.name" class="text-red-600 text-sm mt-1.5">
+              {{ authStore.errors.name[0] }}
             </div>
           </div>
 
@@ -69,9 +69,9 @@
                   authStore.errors.cpf ? 'border-red-400' : 'border-gray-300'
                   ]"
                   />
-              <div v-if="authStore.errors.cpf" class="text-red-600 text-sm mt-1.5">
-                {{ authStore.errors.cpf[0] }}
-              </div>
+            </div>
+            <div v-if="authStore.errors.cpf" class="text-red-600 text-sm mt-1.5">
+              {{ authStore.errors.cpf[0] }}
             </div>
           </div>
 
@@ -95,9 +95,9 @@
                 :class="{'border-red-400': authStore.errors.email, 'border-gray-300': !authStore.errors.email}"
                 placeholder="seu@email.com"
               />
-              <div v-if="authStore.errors.email" class="text-red-600 text-sm mt-1.5">
-                {{ authStore.errors.email[0] }}
-              </div>
+            </div>
+            <div v-if="authStore.errors.email" class="text-red-600 text-sm mt-1.5">
+              {{ authStore.errors.email[0] }}
             </div>
           </div>
 
@@ -121,9 +121,9 @@
                 :class="{'border-red-400': authStore.errors.password, 'border-gray-300': !authStore.errors.password}"
                 placeholder="••••••••"
               />
-              <div v-if="authStore.errors.password" class="text-red-600 text-sm mt-1.5">
-                {{ authStore.errors.password[0] }}
-              </div>
+            </div>
+            <div v-if="authStore.errors.password" class="text-red-600 text-sm mt-1.5">
+              {{ authStore.errors.password[0] }}
             </div>
           </div>
 
@@ -147,9 +147,9 @@
                   :class="{'border-red-400': authStore.errors.password_confirmation, 'border-gray-300': !authStore.errors.password_confirmation}"
                   placeholder="••••••••"
               />
-              <div v-if="authStore.errors.password_confirmation" class="text-red-600 text-sm mt-1.5">
-                {{ authStore.errors.password_confirmation[0] }}
-              </div>
+            </div>
+            <div v-if="authStore.errors.password_confirmation" class="text-red-600 text-sm mt-1.5">
+              {{ authStore.errors.password_confirmation[0] }}
             </div>
           </div>
 
@@ -167,7 +167,7 @@
           <div>
             <button type="submit"
                     :disabled="authStore.isLoading"
-                    class="w-full py-3.5 px-4 bg-primary text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.01] shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-md mt-2">
+                    class="w-full cursor-pointer py-3.5 px-4 bg-primary text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.01] shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-md mt-2">
               <span v-if="!authStore.isLoading">Criar Conta</span>
               <span v-else class="flex items-center justify-center">
                 <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -177,7 +177,6 @@
                 Processando...
               </span>
             </button>
-
           </div>
         </form>
 

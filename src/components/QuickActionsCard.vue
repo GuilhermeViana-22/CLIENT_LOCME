@@ -5,7 +5,7 @@
       <button 
         v-for="action in quickActions"
         :key="action.id"
-        class="flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 hover:shadow-md hover:bg-purple-50 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-200"
+        class="flex flex-col items-center cursor-pointer justify-center p-4 rounded-xl transition-all duration-300 hover:shadow-md hover:bg-purple-50 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-200"
         @click="handleAction(action)"
       >
         <div class="w-12 h-12 flex items-center justify-center bg-purple-100 rounded-full mb-3 text-purple-600">
@@ -21,7 +21,7 @@
 const quickActions = [
   { id: 1, icon: 'search', label: 'Buscar', action: 'search' },
   { id: 2, icon: 'users', label: 'Conexões', action: 'connections' },
-  { id: 3, icon: 'edit', label: 'Sugerir', action: 'suggest' },
+  { id: 3, icon: 'file', label: 'Importar', action: 'suggest' },
   { id: 4, icon: 'crown', label: 'Planos', action: 'plans' }
 ];
 

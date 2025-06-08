@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@theme {
+    --font-display: "Montserrat", "sans-serif";
+    --breakpoint-3xl: 1920px;
+
+    --color-primary: #410179;
+    --color-secundary: #ff3131;
+    --color-secondary: #ff3131;
+    --color-accent: #f97316;
+
+    --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+    --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+    /* ... */
+}

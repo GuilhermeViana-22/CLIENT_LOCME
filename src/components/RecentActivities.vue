@@ -5,9 +5,9 @@
       <li 
         v-for="activity in activities"
         :key="activity.id"
-        class="flex items-start items-center md:py-10"
+        class="flex items-center md:py-10 py-2"
       >
-        <div class="bg-secondary text-white p-2 rounded-full mr-2 mt-1 w-12 h-12 flex justify-center items-center" v-if="activity.type === 'search'">
+        <div class="bg-secondary text-white p-2 rounded-full mr-2 mt-1 w-12 h-12 flex justify-center items-center" v-if="activity.type == 1">
           <i class="fas fa-search text-xs"></i>
         </div>
         <div class="bg-accent text-white p-2 rounded-full mr-2 mt-1 w-12 h-12 flex justify-center items-center" v-else>

@@ -6,6 +6,7 @@ import router from './router'
 
 import "vue-toastification/dist/index.css";
 import Toast from "vue-toastification";
+import '@/assets/css/main.css'
 
 
 const app = createApp(App)

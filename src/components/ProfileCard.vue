@@ -11,7 +11,7 @@
       </div>
     </div>
     <button 
-      class="mt-3 md:w-1/3 w-full md:rounded-lg border border-primary text-primary rounded-full py-1 text-sm font-medium hover:bg-accent hover:text-white hover:border-white transition-colors"
+      class="mt-3 md:w-1/3 w-full cursor-pointer md:rounded-lg border border-primary text-primary rounded-full py-1 text-sm font-medium hover:bg-accent hover:text-white hover:border-white transition-colors"
       @click="editProfile"
     >
       Editar perfil

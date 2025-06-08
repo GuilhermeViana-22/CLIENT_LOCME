@@ -3,7 +3,7 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <!-- Logo -->
       <div class="flex justify-center">
-        <div class="w-20 h-20 rounded-full bg-white bg-opacity-20 flex items-center justify-center shadow-lg">
+        <div class="w-20 h-20 rounded-full border border-white bg-opacity-20 flex items-center justify-center shadow-lg">
           <i class="fas fa-user-lock text-white text-3xl"></i>
         </div>
       </div>
@@ -41,6 +41,9 @@
                 placeholder="seu@email.com"
               />
             </div>
+            <div v-if="authStore.errors.email" class="text-red-600 text-sm mt-1.5">
+              {{ authStore.errors.email[0] }}
+            </div>
           </div>
 
           <!-- Senha -->
@@ -62,6 +65,9 @@
                 class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
                 placeholder="••••••••"
               />
+            </div>
+            <div v-if="authStore.errors.password" class="text-red-600 text-sm mt-1.5">
+              {{ authStore.errors.password[0] }}
             </div>
           </div>
 
@@ -89,9 +95,9 @@
           <!-- Botão de Login -->
           <div>
             <button type="submit"
-                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                    class="w-full flex justify-center py-3 px-4 border cursor-pointer border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     :disabled="authStore.isLoading">
-              <span v-if="!authStore.isLoading">Sign in</span>
+              <span v-if="!authStore.isLoading">Logar</span>
               <span v-else>Processing...</span>
             </button>
 
