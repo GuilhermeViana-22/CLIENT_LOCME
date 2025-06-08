@@ -1,6 +1,7 @@
 // router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth/auth.store.js'
+import { useToast } from 'vue-toastification'
 
 // Layouts
 const MainLayout = () => import('@/layouts/MainLayout.vue')
@@ -102,6 +103,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   document.title = to.meta.title ? `${to.meta.title} | Sistema` : 'Sistema'
+  const toast = useToast()
 
   // Verifica se a rota requer autenticação
   if (to.meta.requiresAuth) {
@@ -109,6 +111,11 @@ router.beforeEach(async (to, from, next) => {
     const token = localStorage.getItem('auth_token')
 
     if (!token) {
+      toast.error('Você não tem permissão ou suas credências expiraram, tente realizar o login novamente.', {
+        position: "bottom-right",
+        timeout: 3000
+      })
+
       return next({ name: 'login' }) // Redireciona para login
     }
 
@@ -122,6 +129,11 @@ router.beforeEach(async (to, from, next) => {
 
       next() // Permite acesso
     } else{
+      toast.error('Você não tem permissão ou suas credências expiraram, tente realizar o login novamente.', {
+        position: "bottom-right",
+        timeout: 3000
+      })
+
       authStore.logout()
       next({ name: 'login' }) // Token inválido
     }

@@ -117,11 +117,20 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const logout = () => {
+    const toast = useToast()
+    showFancyLoading();
+
     user.value = null
     token.value = null
     localStorage.removeItem('auth_token')
     delete api.defaults.headers.common['Authorization']
     router.push({ name: 'login' })
+
+    toast.success("Sua conta foi deslogada!", {
+      position: "bottom-right",
+      timeout: 3000
+    })
+    hideLoading();
   }
 
   const refreshToken = async () => {
