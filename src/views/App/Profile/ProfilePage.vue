@@ -227,29 +227,30 @@ const logout = () => {
 const fetchUserData = async () => {
   try {
     isLoading.value = true;
-    const userId = route.params.id || 10; // Pega o ID da rota ou usa 10 como fallback
-    const userData = await users.getById(userId);
+    const userData = await users.getMe();
+
+    console.log(userData)
 
     // Atualiza os dados do usuário
     user.value = {
-      name: userData.data.name || 'Nome não disponível',
-      email: userData.data.email || 'carlos.silva@example.com',
-      phone: userData.data.phone || '(11) 98765-4321',
-      birthDate: userData.data.birthDate || '15/05/1985',
-      role: userData.data.role || 'Guia de Turismo Especializado',
-      type: userData.data.type || 'Premium',
-      status: userData.data.status || 'Ativo',
-      company: userData.data.company || 'EcoTur Viagens',
-      registration: userData.data.registration || 'REG-123456',
-      since: userData.data.since || '2018'
+      name: userData.name || 'Nome não disponível',
+      email: userData.email || 'Não informado',
+      phone: userData.telefone_celular || 'Não informado',
+      birthDate: userData.data_nascimento || 'Não informado',
+      role: userData.cargo_funcao || 'Não informado',
+      type: userData.type || 'Não informado',
+      status: userData.status || 'Não informado',
+      company: userData.empresa_atual || 'Não informado',
+      registration: userData.registration || 'Não informado',
+      since: userData.created_at || 'Não informado'
     };
 
     // Atualiza as estatísticas (pode vir da API também)
     stats.value = {
-      connections: userData.data.connections || 142,
-      rating: userData.data.rating || 4.8,
-      projects: userData.data.projects || 67,
-      years: userData.data.years || 5
+      connections: userData.connections || 0,
+      rating: userData.rating || 0,
+      projects: userData.projects || 0,
+      years: userData.years || 0
     };
   } catch (err) {
     error.value = 'Erro ao carregar dados do usuário';

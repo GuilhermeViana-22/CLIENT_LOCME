@@ -8,6 +8,9 @@
     --color-secondary: #ff3131;
     --color-accent: #f97316;
 
+    --color-bg-principal: #f9fafb;
+    --color-bg-card: #f9fafb;
+
     --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
     --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
     /* ... */
@@ -50,4 +53,8 @@
 
 .animate-pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+button{
+    cursor: pointer;
 }
