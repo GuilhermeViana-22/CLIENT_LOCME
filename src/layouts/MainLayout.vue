@@ -17,7 +17,7 @@
   </div>
 
   <!-- Top Bar Desktop -->
-  <div class="hidden md:flex bg-primary text-white p-4 shadow-md fixed top-0 left-0 right-0 z-40 h-16 flex items-center">
+  <div class="hidden md:flex bg-primary text-white p-4 shadow-md fixed top-0 left-0 right-0 z-40 h-16 items-center">
     <section class="container mx-auto">
       <div class="flex justify-between items-center w-full px-6">
         <!-- Logo e Nome do Sistema -->
