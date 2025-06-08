@@ -18,10 +18,6 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow-lg rounded-lg sm:px-10">
-        <!-- Mensagem de erro geral -->
-        <div v-if="authStore.errors.general" class="mb-4 p-3 bg-red-50 text-red-600 rounded-md">
-          {{ authStore.errors.general[0] }}
-        </div>
 
         <!-- Formulário de Login -->
         <form class="space-y-6" @submit.prevent="handleLogin">

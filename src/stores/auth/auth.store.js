@@ -3,6 +3,9 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
+import Swal from "sweetalert2";
+import { useToast } from 'vue-toastification'
+import { showFancyLoading, hideLoading } from '@/utils/swalCustoms.js';
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
@@ -35,7 +38,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Methods
   const register = async (formData) => {
+    const toast = useToast()
+
     isLoading.value = true
+    showFancyLoading();
+
     errors.value = {}
 
     try {
@@ -52,9 +59,18 @@ export const useAuthStore = defineStore('auth', () => {
       setUser(response.user || null)
       setToken(response.access_token || null)
 
-      await router.push({ name: 'dashboard' })
+      router.push({ name: 'dashboard' })
+
+      hideLoading();
+      toast.success("Bem-vindo!", {
+        position: "bottom-right",
+        timeout: 3000
+      })
+
       return response.data
     } catch (error) {
+
+      hideLoading();
       handleErrors(error)
       throw error
     } finally {
@@ -62,7 +78,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
   const login = async (formData) => {
+    const toast = useToast()
+
     isLoading.value = true;
+    showFancyLoading();
+
     errors.value = {};
 
     try {
@@ -78,11 +98,19 @@ export const useAuthStore = defineStore('auth', () => {
       // 3. Redireciona sem complicação
       router.push({ name: 'dashboard' });
 
+      hideLoading();
+      toast.success("Bem-vindo de volta!", {
+        position: "bottom-right",
+        timeout: 3000
+      })
+
     } catch (error) {
-      // Tratamento simples de erro
-      errors.value = {
-        general: [error.message || 'Login falhou']
-      };
+      toast.error(error.message || 'Login falhou', {
+        position: "bottom-right",
+        timeout: 3000
+      })
+
+      hideLoading();
       console.error('Erro no login:', error);
     } finally {
       isLoading.value = false;
@@ -114,7 +142,10 @@ export const useAuthStore = defineStore('auth', () => {
     if (error.status == 422) {
       errors.value = error.errors || {}
     } else {
-      errors.value = { general: [error.message || 'Ocorreu um erro. Tente novamente.'] }
+      toast.error(error.message || 'Ocorreu um erro. Tente novamente.', {
+        position: "bottom-right",
+        timeout: 3000
+      })
     }
   }
 
