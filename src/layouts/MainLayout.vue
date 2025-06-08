@@ -127,7 +127,7 @@
   </div>
 
   <!-- Footer -->
-  <div class="text-center text-sm text-gray-500 mt-8 pt-6 pb-6 border-t">
+  <div class="text-center text-sm text-gray-500 border-gray-400 mt-8 pt-6 pb-6 border-t">
     <p>LocMe © 2025 - Todos os direitos reservados</p>
   </div>
 
