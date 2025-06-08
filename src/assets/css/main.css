@@ -37,3 +37,17 @@
     scrollbar-width: thin;
     scrollbar-color: #410179 #f1f1f1;
 }
+
+/* Adicione no seu arquivo de estilos global ou no componente */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

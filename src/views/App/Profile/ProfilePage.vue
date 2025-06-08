@@ -1,8 +1,11 @@
 <template>
   <div class="profile-container">
 
+    <!-- Mostra o skeleton enquanto está carregando -->
+    <ProfileSkeleton v-if="isLoading" />
+
     <!-- Conteúdo principal -->
-    <div class="container mx-auto p-4 space-y-6 md:pt-8 md:pb-8 md:mt-0 mb-16">
+    <div v-else class="container mx-auto p-4 space-y-6 md:pt-8 md:pb-8 md:mt-0 mb-16">
       <!-- Seção Superior (Desktop) -->
       <div class="md:flex md:space-x-6 md:mb-6">
         <!-- Card de Identificação -->
@@ -176,6 +179,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import users from "@/services/users/users.js";
+import ProfileSkeleton from "@/components/ProfileSkeleton.vue";
 
 const route = useRoute();
 const router = useRouter();
