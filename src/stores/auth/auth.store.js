@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
-import Swal from "sweetalert2";
 import { useToast } from 'vue-toastification'
 import { showFancyLoading, hideLoading } from '@/utils/swalCustoms.js';
 
