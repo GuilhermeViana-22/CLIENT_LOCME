@@ -146,6 +146,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Error Handling
   const handleErrors = (error) => {
+    const toast = useToast()
 
     if (error.status == 422) {
       errors.value = error.errors || {}

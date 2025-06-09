@@ -14,6 +14,7 @@ const Forgot = () => import('@/views/Auth/Forgot.vue')
 
 // Views - Aplicação
 const Profile = () => import('@/views/App/Profile/ProfilePage.vue')
+const ProfileComplete = () => import('@/views/App/Profile/ProfileCompletePage.vue')
 const Dashboard = () => import('@/views/App/Dashboard.vue')
 const Usuarios = () => import('@/views/App/Users/Users.vue')
 const Settings = () => import('@/views/App/Settings/Settings.vue')
@@ -67,6 +68,12 @@ const routes = [
         path: 'profile',
         name: 'profile',
         component: Profile,
+        meta: { requiresAuth: true, title: 'Meu Perfil' } // Removido public: true
+      },
+      {
+        path: 'profile/completar',
+        name: 'completar',
+        component: ProfileComplete,
         meta: { requiresAuth: true, title: 'Meu Perfil' } // Removido public: true
       },
       {

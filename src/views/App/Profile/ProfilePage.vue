@@ -11,9 +11,19 @@
         <!-- Card de Identificação -->
         <div class="bg-white rounded-xl shadow-lg p-6 md:w-1/3">
           <div class="flex flex-col items-center">
-            <div class="w-24 h-24 rounded-full bg-accent flex items-center justify-center text-white text-4xl mb-4 shadow-md">
-              {{ userInitials }}
+
+            <div class="relative inline-block mb-4"> <!-- Container relativo -->
+              <!-- Div com as iniciais -->
+              <div class="w-24 h-24 rounded-full bg-accent flex items-center justify-center text-white text-4xl shadow-md z-1">
+                {{ userInitials }}
+              </div>
+
+              <!-- Componente de avatar posicionado absolutamente -->
+              <div class="absolute inset-0 flex items-center justify-center z-2">
+                <ProfileAvatar :user="user" />
+              </div>
             </div>
+
             <h2 class="text-xl font-bold text-center text-gray-800">{{ user.name }}</h2>
             <p class="text-sm text-gray-500">{{ user.role }}</p>
 
@@ -180,8 +190,8 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import users from "@/services/users/users.js";
 import ProfileSkeleton from "@/components/ProfileSkeleton.vue";
+import ProfileAvatar from "@/components/ProfileAvatar.vue";
 
-const route = useRoute();
 const router = useRouter();
 
 // Dados reativos
@@ -195,7 +205,8 @@ const user = ref({
   status: '',
   company: '',
   registration: '',
-  since: ''
+  since: '',
+  foto_perfil_url: ''
 });
 
 const stats = ref({
@@ -242,7 +253,8 @@ const fetchUserData = async () => {
       status: userData.status || 'Não informado',
       company: userData.empresa_atual || 'Não informado',
       registration: userData.registration || 'Não informado',
-      since: userData.created_at || 'Não informado'
+      since: userData.created_at || 'Não informado',
+      foto_perfil_url : userData.foto_perfil_url
     };
 
     // Atualiza as estatísticas (pode vir da API também)

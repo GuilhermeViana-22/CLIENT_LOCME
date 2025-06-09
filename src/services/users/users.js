@@ -41,17 +41,28 @@ const usersService = {
       throw this.handleError(error);
     }
   },
-//atualizando
-async update(id, userData) {
-  try {
-    console.log(`Enviando dados para atualização do usuário ${id}:`, userData);
-    const response = await api.put(`/users/${id}`, userData);
-    return response.data;
-  } catch (error) {
-    console.error(`Erro na API ao atualizar usuário ${id}:`, error.response?.data || error.message);
-    throw this.handleError(error);
-  }
-},
+  //atualizando
+  async update(id, userData) {
+    try {
+      console.log(`Enviando dados para atualização do usuário ${id}:`, userData);
+      const response = await api.put(`/users/${id}`, userData);
+      return response.data;
+    } catch (error) {
+      console.error(`Erro na API ao atualizar usuário ${id}:`, error.response?.data || error.message);
+      throw this.handleError(error);
+    }
+  },
+
+  //atualizando
+  async updateAvatar(data) {
+    try {
+      console.log(`Enviando dados para atualização do avatar do usuário:`, data);
+      return await api.post(`/profile/updateavatar`, data);
+    } catch (error) {
+      console.error(`Erro na API ao atualizar usuário:`, error.response?.data || error.message);
+      throw this.handleError(error);
+    }
+  },
 
   async delete(id) {
     try {
