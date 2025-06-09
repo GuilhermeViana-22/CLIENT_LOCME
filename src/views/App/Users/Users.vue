@@ -214,28 +214,4 @@ const prevPage = () => {
 .dashboard-mobile {
   font-family: 'Poppins', sans-serif;
 }
-
-.bg-primary {
-  background-color: #410179;
-}
-
-.bg-secondary {
-  background-color: #ff3131;
-}
-
-.bg-accent {
-  background-color: #f97316;
-}
-
-.text-primary {
-  color: #410179;
-}
-
-.text-secondary {
-  color: #ff3131;
-}
-
-.text-accent {
-  color: #f97316;
-}
 </style>

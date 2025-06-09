@@ -5,7 +5,7 @@ import api from '@/services/api'
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
-  
+
   // State
   const token = ref(localStorage.getItem('token') || null)
   const isLoading = ref(false)
@@ -32,14 +32,14 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isLoading.value = true
       error.value = null
-      
+
       const response = await api.post('/login', credentials)
-      
+
       setToken(response.data.token)
       if (response.data.user) {
         setUser(response.data.user)
       }
-      
+
       return response.data
     } catch (err) {
       error.value = err.response?.data?.message || 'Login failed'
@@ -61,7 +61,7 @@ export const useAuthStore = defineStore('auth', () => {
   const validateToken = async () => {
     try {
       if (!token.value) return false
-      
+
       const response = await api.get('/auth/validate')
       if (response.data.user) {
         setUser(response.data.user)

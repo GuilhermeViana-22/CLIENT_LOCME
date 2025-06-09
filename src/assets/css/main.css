@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@theme {
+    --font-display: "Montserrat", "sans-serif";
+    --breakpoint-3xl: 1920px;
+
+    --color-primary: #410179;
+    --color-secundary: #ff3131;
+    --color-secondary: #ff3131;
+    --color-accent: #f97316;
+
+    --color-bg-principal: #f9fafb;
+    --color-bg-card: #f9fafb;
+
+    --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+    --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+    /* ... */
+}
+
+/* Estilização da scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #410179;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #f97316;
+}
+
+/* Para Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #410179 #f1f1f1;
+}
+
+/* Adicione no seu arquivo de estilos global ou no componente */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+button{
+    cursor: pointer;
+}

@@ -17,7 +17,7 @@
   </div>
 
   <!-- Top Bar Desktop -->
-  <div class="hidden md:flex bg-primary text-white p-4 shadow-md fixed top-0 left-0 right-0 z-40 h-16 flex items-center">
+  <div class="hidden md:flex bg-primary text-white p-4 shadow-md fixed top-0 left-0 right-0 z-40 h-16 items-center">
     <section class="container mx-auto">
       <div class="flex justify-between items-center w-full px-6">
         <!-- Logo e Nome do Sistema -->
@@ -44,20 +44,24 @@
         <!-- Ícones do Lado Direito -->
         <div class="flex items-center space-x-6">
           <!-- Tradutor -->
-          <div class="relative group">
-            <i class="fas fa-language text-xl cursor-pointer hover:text-accent"></i>
-            <div class="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg py-1 hidden group-hover:block z-50">
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100">Português</a>
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100">English</a>
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100">Español</a>
-            </div>
+          <div class="relative">
+            <i class="fas fa-moon text-xl cursor-pointer hover:text-accent"></i>
           </div>
 
           <!-- Notificações -->
           <div class="relative group">
             <i class="fas fa-bell text-xl cursor-pointer hover:text-accent"></i>
             <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-            <div class="absolute right-0 mt-2 w-72 bg-white text-gray-800 rounded-md shadow-lg py-1 hidden group-hover:block z-50">
+
+            <div class="
+              absolute right-0 mt-2 w-72 bg-white text-gray-800 rounded-md shadow-lg py-1
+              opacity-0 invisible
+              group-hover:opacity-100 group-hover:visible
+              transition-all duration-200 ease-in-out
+              transform -translate-y-1
+              group-hover:translate-y-0
+              z-50
+            ">
               <div class="px-4 py-2 border-b border-gray-100 font-medium">Notificações</div>
               <a href="#" class="block px-4 py-2 hover:bg-gray-100 text-sm">Nova mensagem recebida</a>
               <a href="#" class="block px-4 py-2 hover:bg-gray-100 text-sm">Atualização do sistema</a>
@@ -76,7 +80,17 @@
               <span class="text-sm hidden md:inline-block">Usuário</span>
               <i class="fas fa-chevron-down text-xs hidden md:inline-block"></i>
             </div>
-            <div class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg py-1 hidden group-hover:block z-50">
+
+            <!-- Dropdown com transição suave -->
+            <div class="
+              absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg py-1
+              opacity-0 invisible
+              group-hover:opacity-100 group-hover:visible
+              transition-all duration-200 ease-in-out
+              transform -translate-y-1
+              group-hover:translate-y-0
+              z-50
+            ">
               <router-link
                   to="profile"
                   class="text-sm hover:text-accent transition-colors duration-200 block px-4 py-2 hover:bg-gray-100"
@@ -93,16 +107,16 @@
                 <p>Configurações</p>
               </router-link>
 
-              <router-link
-                  to="auth/login"
-                  class="text-sm hover:text-accent transition-colors duration-200 block px-4 py-2 hover:bg-gray-100"
-                  active-class="text-accent"
+              <button
+                  class="text-sm hover:text-accent cursor-pointer transition-colors duration-200 block px-4 py-2 hover:bg-gray-100 w-full text-left"
+                  @click="handleLogout"
               >
-                <p>Sair</p>
-              </router-link>
-
+                Sair
+              </button>
             </div>
           </div>
+
+
         </div>
       </div>
     </section>
@@ -113,7 +127,7 @@
   </div>
 
   <!-- Footer -->
-  <div class="text-center text-sm text-gray-500 mt-8 pt-6 pb-6 border-t">
+  <div class="text-center text-sm text-gray-500 border-gray-400 mt-8 pt-6 pb-6 border-t">
     <p>LocMe © 2025 - Todos os direitos reservados</p>
   </div>
 
@@ -158,11 +172,23 @@
 <script setup lang="ts">
 import SearchCard from "@/components/SearchCard.vue";
 import {ref} from "vue";
+import { useAuthStore } from '@/stores/auth/auth.store'
 
 const sidebarOpen = ref(false);
 const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value;
 };
+
+/// logout
+const authStore = useAuthStore()
+
+const handleLogout = async () => {
+  try {
+    authStore.logout();
+  } catch (error) {
+    console.error('Erro no login:', error)
+  }
+}
 
 /// menu desktop
 const menuItemsD = ref([

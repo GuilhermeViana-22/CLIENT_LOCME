@@ -7,7 +7,7 @@
         <div class="space-y-6">
           <!-- Card de Perfil -->
           <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="p-6 flex flex-col items-center text-center border-b">
+            <div class="p-6 flex flex-col items-center text-center border-b border-gray-400">
               <div class="w-16 h-16 rounded-full bg-accent flex items-center justify-center text-white text-2xl mb-3">
                 {{ userInitials }}
               </div>
@@ -24,7 +24,7 @@
 
           <!-- Card de Ações Rápidas -->
           <div class="bg-white rounded-xl shadow-md">
-            <h3 class="p-4 text-lg font-semibold border-b">Ações Rápidas</h3>
+            <h3 class="p-4 text-lg font-semibold border-b border-gray-400">Ações Rápidas</h3>
             <div class="p-2">
               <button
                   @click="checkUpdates"
@@ -54,7 +54,7 @@
         <!-- Coluna 2: Preferências -->
         <div>
           <div class="bg-white rounded-xl shadow-md">
-            <h3 class="p-6 text-xl font-semibold border-b">Preferências</h3>
+            <h3 class="p-6 text-xl font-semibold border-b border-gray-400">Preferências</h3>
             <div class="p-4 space-y-4">
               <div class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-lg transition-colors">
                 <div class="flex items-center">
@@ -101,7 +101,7 @@
         <!-- Coluna 3: Informações Técnicas -->
         <div>
           <div class="bg-white rounded-xl shadow-md h-full">
-            <h3 class="p-6 text-xl font-semibold border-b">Sobre o Sistema</h3>
+            <h3 class="p-6 text-xl font-semibold border-b border-gray-400">Sobre o Sistema</h3>
             <div class="p-6 space-y-6">
               <div>
                 <h4 class="font-medium mb-3 text-primary">Tecnologias Utilizadas</h4>
@@ -130,7 +130,7 @@
                 </div>
               </div>
 
-              <div class="pt-4 border-t pb-4">
+              <div class="pt-4 border-t border-gray-400 pb-4">
                 <div class="flex justify-between items-center">
                   <span class="text-gray-500">Versão</span>
                   <span class="font-medium">2.3.1</span>
@@ -140,7 +140,7 @@
                   <span class="font-medium">06/06/2025</span>
                 </div>
               </div>
-              <div class="pt-4 border-t pb-4">
+              <div class="pt-4 border-t border-gray-400 pb-4">
                 <h4 class="font-medium mb-3 text-primary">Desenvolvedores</h4>
                 <div class="flex justify-between  items-center mt-2">
                   <span class="text-gray-500">Guilherme Viana</span>
@@ -200,30 +200,6 @@ const logout = () => {
 <style scoped>
 .settings-container {
   font-family: 'Poppins', sans-serif;
-}
-
-.bg-primary {
-  background-color: #410179;
-}
-
-.bg-secondary {
-  background-color: #ff3131;
-}
-
-.bg-accent {
-  background-color: #f97316;
-}
-
-.text-primary {
-  color: #410179;
-}
-
-.text-secondary {
-  color: #ff3131;
-}
-
-.text-accent {
-  color: #f97316;
 }
 
 /* Transições suaves */

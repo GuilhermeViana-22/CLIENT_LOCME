@@ -1,16 +1,29 @@
 <template>
   <div class="profile-container">
 
+    <!-- Mostra o skeleton enquanto está carregando -->
+    <ProfileSkeleton v-if="isLoading" />
+
     <!-- Conteúdo principal -->
-    <div class="container mx-auto p-4 space-y-6 md:pt-8 md:pb-8 md:mt-0 mb-16">
+    <div v-else class="container mx-auto p-4 space-y-6 md:pt-8 md:pb-8 md:mt-0 mb-16">
       <!-- Seção Superior (Desktop) -->
       <div class="md:flex md:space-x-6 md:mb-6">
         <!-- Card de Identificação -->
         <div class="bg-white rounded-xl shadow-lg p-6 md:w-1/3">
           <div class="flex flex-col items-center">
-            <div class="w-24 h-24 rounded-full bg-accent flex items-center justify-center text-white text-4xl mb-4 shadow-md">
-              {{ userInitials }}
+
+            <div class="relative inline-block mb-4"> <!-- Container relativo -->
+              <!-- Div com as iniciais -->
+              <div class="w-24 h-24 rounded-full bg-accent flex items-center justify-center text-white text-4xl shadow-md z-1">
+                {{ userInitials }}
+              </div>
+
+              <!-- Componente de avatar posicionado absolutamente -->
+              <div class="absolute inset-0 flex items-center justify-center z-2">
+                <ProfileAvatar :user="user" />
+              </div>
             </div>
+
             <h2 class="text-xl font-bold text-center text-gray-800">{{ user.name }}</h2>
             <p class="text-sm text-gray-500">{{ user.role }}</p>
 
@@ -173,32 +186,38 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import users from "@/services/users/users.js";
+import ProfileSkeleton from "@/components/ProfileSkeleton.vue";
+import ProfileAvatar from "@/components/ProfileAvatar.vue";
 
 const router = useRouter();
 
-// Dados mockados do usuário
+// Dados reativos
 const user = ref({
-  name: 'Carlos Eduardo Silva',
-  email: 'carlos.silva@example.com',
-  phone: '(11) 98765-4321',
-  birthDate: '15/05/1985',
-  role: 'Guia de Turismo Especializado',
-  type: 'Premium',
-  status: 'Ativo',
-  company: 'EcoTur Viagens',
-  registration: 'REG-123456',
-  since: '2018'
+  name: '',
+  email: '',
+  phone: '',
+  birthDate: '',
+  role: '',
+  type: '',
+  status: '',
+  company: '',
+  registration: '',
+  since: '',
+  foto_perfil_url: ''
 });
 
-// Estatísticas mockadas
 const stats = ref({
-  connections: 142,
-  rating: 4.8,
-  projects: 67,
-  years: 5
+  connections: 0,
+  rating: 0,
+  projects: 0,
+  years: 0
 });
+
+const isLoading = ref(true);
+const error = ref(null);
 
 // Computed property para iniciais
 const userInitials = computed(() => {
@@ -214,35 +233,52 @@ const logout = () => {
   console.log('Usuário deslogado');
   router.push('/login');
 };
+
+// Função para carregar dados do usuário
+const fetchUserData = async () => {
+  try {
+    isLoading.value = true;
+    const userData = await users.getMe();
+
+    console.log(userData)
+
+    // Atualiza os dados do usuário
+    user.value = {
+      name: userData.name || 'Nome não disponível',
+      email: userData.email || 'Não informado',
+      phone: userData.telefone_celular || 'Não informado',
+      birthDate: userData.data_nascimento || 'Não informado',
+      role: userData.cargo_funcao || 'Não informado',
+      type: userData.type || 'Não informado',
+      status: userData.status || 'Não informado',
+      company: userData.empresa_atual || 'Não informado',
+      registration: userData.registration || 'Não informado',
+      since: userData.created_at || 'Não informado',
+      foto_perfil_url : userData.foto_perfil_url
+    };
+
+    // Atualiza as estatísticas (pode vir da API também)
+    stats.value = {
+      connections: userData.connections || 0,
+      rating: userData.rating || 0,
+      projects: userData.projects || 0,
+      years: userData.years || 0
+    };
+  } catch (err) {
+    error.value = 'Erro ao carregar dados do usuário';
+    console.error('Erro:', err);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// Carrega os dados quando o componente é montado
+onMounted(fetchUserData);
 </script>
 
 <style scoped>
 .profile-container {
   font-family: 'Poppins', sans-serif;
-}
-
-.bg-primary {
-  background-color: #410179;
-}
-
-.bg-secondary {
-  background-color: #ff3131;
-}
-
-.bg-accent {
-  background-color: #f97316;
-}
-
-.text-primary {
-  color: #410179;
-}
-
-.text-secondary {
-  color: #ff3131;
-}
-
-.text-accent {
-  color: #f97316;
 }
 
 /* Transições suaves para hover */

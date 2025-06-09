@@ -17,7 +17,7 @@
         <h3 class="font-semibold text-sm text-gray-800 text-center">{{ company.name }}</h3>
         <p class="text-xs text-gray-500 text-center mb-3">{{ company.type }}</p>
         <button 
-          class="text-xs bg-purple-600 hover:bg-purple-700 text-white px-4 py-1.5 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2"
+          class="text-xs bg-purple-600 cursor-pointer hover:bg-purple-700 text-white px-4 py-1.5 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2"
           @click="viewCompany(company)"
         >
           Ver perfil

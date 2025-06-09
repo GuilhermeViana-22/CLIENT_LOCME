@@ -61,12 +61,12 @@ const suggestedCompanies = ref([
 ]);
 
 const recentActivities = ref([
-  { id: 1, type: 'search', text: 'Você buscou por "Guias em SP"' },
-  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
-  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
-  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
-  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
-  { id: 2, type: 'view', text: 'Visualizou o perfil de EcoTur' },
+  { id: 1, type: 1, text: 'Você buscou por "Guias em SP"' },
+  { id: 2, type: 2, text: 'Visualizou o perfil de EcoTur' },
+  { id: 3, type: 2, text: 'Visualizou o perfil de EcoTur' },
+  { id: 4, type: 1, text: 'Você buscou por "Guias em MG' },
+  { id: 5, type: 2, text: 'Visualizou o perfil de EcoTur' },
+  { id: 6, type: 1, text: 'Você buscou por "Guias em DF' },
   
 ]);
 

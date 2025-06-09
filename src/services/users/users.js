@@ -1,20 +1,10 @@
 import axios from 'axios';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
-
-// Configuração padrão do axios para esta API
-const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  }
-});
+import api from '@/services/api'
 
 const usersService = {
   async getAll(params = {}) {
     try {
-      const response = await apiClient.get('/users', { params });
+      const response = await api.get('/users', { params });
       return response.data;
     } catch (error) {
       console.error('Erro ao buscar usuários:', error);
@@ -24,7 +14,7 @@ const usersService = {
 
   async getById(id) {
     try {
-      const response = await apiClient.get(`/users/${id}`);
+      const response = await api.get(`/users/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Erro ao buscar usuário ${id}:`, error);
@@ -32,30 +22,51 @@ const usersService = {
     }
   },
 
+  async getMe() {
+    try {
+      const response = await api.get(`/me`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erro ao buscar informações:`, error);
+      throw this.handleError(error);
+    }
+  },
+
   async create(userData) {
     try {
-      const response = await apiClient.post('/users', userData);
+      const response = await api.post('/users', userData);
       return response.data;
     } catch (error) {
       console.error('Erro ao criar usuário:', error);
       throw this.handleError(error);
     }
   },
-//atualizando
-async update(id, userData) {
-  try {
-    console.log(`Enviando dados para atualização do usuário ${id}:`, userData);
-    const response = await apiClient.put(`/users/${id}`, userData);
-    return response.data;
-  } catch (error) {
-    console.error(`Erro na API ao atualizar usuário ${id}:`, error.response?.data || error.message);
-    throw this.handleError(error);
-  }
-},
+  //atualizando
+  async update(id, userData) {
+    try {
+      console.log(`Enviando dados para atualização do usuário ${id}:`, userData);
+      const response = await api.put(`/users/${id}`, userData);
+      return response.data;
+    } catch (error) {
+      console.error(`Erro na API ao atualizar usuário ${id}:`, error.response?.data || error.message);
+      throw this.handleError(error);
+    }
+  },
+
+  //atualizando
+  async updateAvatar(data) {
+    try {
+      console.log(`Enviando dados para atualização do avatar do usuário:`, data);
+      return await api.post(`/profile/updateavatar`, data);
+    } catch (error) {
+      console.error(`Erro na API ao atualizar usuário:`, error.response?.data || error.message);
+      throw this.handleError(error);
+    }
+  },
 
   async delete(id) {
     try {
-      const response = await apiClient.delete(`/users/${id}`);
+      const response = await api.delete(`/users/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Erro ao deletar usuário ${id}:`, error);
@@ -65,7 +76,7 @@ async update(id, userData) {
 
   async toggleStatus(id) {
     try {
-      const response = await apiClient.patch(`/users/${id}/toggle-status`);
+      const response = await api.patch(`/users/${id}/toggle-status`);
       return response.data;
     } catch (error) {
       console.error(`Erro ao alternar status do usuário ${id}:`, error);
