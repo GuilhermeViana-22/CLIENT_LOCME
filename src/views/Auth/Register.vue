@@ -48,32 +48,68 @@
             </div>
           </div>
 
-          <!-- CPF -->
+          <!-- tipo de perfil -->
           <div>
-            <label for="cpf" class="block text-sm font-medium text-gray-700">
-              CPF
+            <label for="tipo_perfil" class="block text-sm font-medium text-gray-700">
+              Tipo de Perfil
             </label>
             <div class="mt-1 relative rounded-md shadow-sm">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-passport text-gray-400"></i>
+                <i class="fas fa-user-tag text-gray-400"></i>
               </div>
-              <CpfInput
-                  v-model="form.cpf"
-                  :mask="['###.###.###-##']"
-                  id="user-cpf"
-                  name="user_cpf"
-                  :required="true"
-                  placeholder="Digite CPF"
-                  :input-class="[
-                  'py-2 pl-10 block w-full border rounded-md focus:ring-primary focus:border-primary',
-                  authStore.errors.cpf ? 'border-red-400' : 'border-gray-300'
-                  ]"
-                  />
+              <select
+                  id="tipo_perfil"
+                  v-model="form.tipo_perfil_id"
+                  name="tipo_perfil"
+                  required
+                  class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                  :class="{'border-red-400': authStore.errors.tipo_perfil_id, 'border-gray-300': !authStore.errors.tipo_perfil_id}"
+                  :disabled="perfilStore.isLoading"
+              >
+                <option value="" disabled selected>Selecione seu tipo de perfil</option>
+                <option
+                    v-for="tipo in perfilStore.tiposPerfil"
+                    :key="tipo.id"
+                    :value="tipo.id"
+                >
+                  {{ tipo.tipo }}
+                </option>
+              </select>
             </div>
-            <div v-if="authStore.errors.cpf" class="text-red-600 text-sm mt-1.5">
-              {{ authStore.errors.cpf[0] }}
+            <div v-if="authStore.errors.tipo_perfil_id" class="text-red-600 text-sm mt-1.5">
+              {{ authStore.errors.tipo_perfil_id[0] }}
+            </div>
+            <div v-if="perfilStore.error" class="text-red-600 text-sm mt-1.5">
+              {{ perfilStore.error }}
             </div>
           </div>
+
+          <!-- CPF -->
+<!--          <div>-->
+<!--            <label for="cpf" class="block text-sm font-medium text-gray-700">-->
+<!--              CPF-->
+<!--            </label>-->
+<!--            <div class="mt-1 relative rounded-md shadow-sm">-->
+<!--              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">-->
+<!--                <i class="fas fa-passport text-gray-400"></i>-->
+<!--              </div>-->
+<!--              <CpfInput-->
+<!--                  v-model="form.cpf"-->
+<!--                  :mask="['###.###.###-##']"-->
+<!--                  id="user-cpf"-->
+<!--                  name="user_cpf"-->
+<!--                  :required="true"-->
+<!--                  placeholder="Digite CPF"-->
+<!--                  :input-class="[-->
+<!--                  'py-2 pl-10 block w-full border rounded-md focus:ring-primary focus:border-primary',-->
+<!--                  authStore.errors.cpf ? 'border-red-400' : 'border-gray-300'-->
+<!--                  ]"-->
+<!--                  />-->
+<!--            </div>-->
+<!--            <div v-if="authStore.errors.cpf" class="text-red-600 text-sm mt-1.5">-->
+<!--              {{ authStore.errors.cpf[0] }}-->
+<!--            </div>-->
+<!--          </div>-->
 
           <!-- Email -->
           <div>
@@ -208,18 +244,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import { useAuthStore } from '@/stores/auth/auth.store'
-import CpfInput from "@/components/CpfInput.vue";
+import { usePerfilStore } from '@/stores/perfil/perfil.store'
 
 const authStore = useAuthStore()
+const perfilStore = usePerfilStore()
 
 const form = ref({
   name: '',
   cpf: '',
   email: '',
   password: '',
-  password_confirmation: ''
+  password_confirmation: '',
+  tipo_perfil_id: ''
+})
+
+// Carrega os tipos de perfil quando o componente é montado
+onMounted(async () => {
+  await perfilStore.fetchTiposPerfil()
 })
 
 const handleRegister = async () => {
@@ -234,7 +277,6 @@ const handleRegister = async () => {
     console.error('Erro no registro:', error)
   }
 }
-
 
 </script>
 

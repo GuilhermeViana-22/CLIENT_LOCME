@@ -1,4 +1,3 @@
-import axios from 'axios';
 import api from '@/services/api'
 
 const usersService = {
@@ -23,6 +22,16 @@ const usersService = {
   },
 
   async getMe() {
+    try {
+      const response = await api.get(`/me`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erro ao buscar informações:`, error);
+      throw this.handleError(error);
+    }
+  },
+
+  async getTiposPerfis() {
     try {
       const response = await api.get(`/me`);
       return response.data;

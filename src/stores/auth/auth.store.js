@@ -2,9 +2,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import api from '@/services/api'
 import { useToast } from 'vue-toastification'
 import { showFancyLoading, hideLoading } from '@/utils/swalCustoms.js';
+import api from '@/services/api'
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
@@ -26,13 +26,9 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const setUser = (userData) => {
-    // Filtra apenas os campos necessários
-    user.value = userData ? {
-      id: userData.id,
-      name: userData.name,
-      email: userData.email,
-      // Adicione outros campos que você realmente usa
-    } : null
+
+    /// depois a gente foca em filtrar, manda tudo
+    user.value = userData ? userData : null
   }
 
   // Methods
@@ -47,7 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await api.post('/register', {
         name: formData.name.trim(),
-        cpf: formData.cpf.trim(),
+        tipo_perfil_id: formData.tipo_perfil_id.trim(),
         email: formData.email.trim(),
         password: formData.password,
         password_confirmation: formData.password_confirmation

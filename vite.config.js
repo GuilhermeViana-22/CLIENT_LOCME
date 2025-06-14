@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import compression from 'vite-plugin-compression'
 import path from 'path'
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
 
@@ -12,10 +12,7 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
-    tailwindcss(),
-    compression({
-      threshold: 10240, // Comprime arquivos acima de 10KB
-    }),
+    tailwindcss()
   ],
   resolve: {
     alias: {
