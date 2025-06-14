@@ -8,7 +8,7 @@
       
       <section class="grid md:grid-cols-2 grid-cols-1 gap-4">
         <PlanCard :userPlan="userPlan" />
-        <ProfileCard :user="currentUser" />
+        <ProfileCard :user="authStore.user" />
       </section>
       
        <section class="grid md:grid-cols-2 grid-cols-1 gap-4">
@@ -40,13 +40,9 @@ import QuickActionsCard from '@/components/dashboard/QuickActionsCard.vue';
 import SuggestedCompanies from '@/components/dashboard/SuggestedCompanies.vue';
 import RecentActivities from '@/components/dashboard/RecentActivities.vue';
 import NewsCard from '@/components/dashboard/NewsCard.vue';
+import {useAuthStore} from "@/stores/auth/auth.store.js";
 
-const currentUser = ref({
-  name: 'Carlos Silva',
-  role: 'Guia de Turismo',
-  company: 'RioTur Viagens',
-  plan: 'RO'
-});
+const authStore = useAuthStore()
 
 const userPlan = ref({
   type: 'RO',

@@ -93,7 +93,7 @@
             <div class="grid md:grid-cols-2 gap-4">
               <div>
                 <p class="text-sm text-gray-500">Tipo de Perfil</p>
-                <p class="font-medium">{{ userType }}</p>
+                <p class="font-medium">{{ authStore.user.tipo_perfil || 'Não disponível' }}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-500">Empresa</p>

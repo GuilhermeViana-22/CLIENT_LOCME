@@ -5,8 +5,8 @@
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0">
           <h2 class="text-xl font-bold text-primary">LocMe</h2>
-          <p class="text-sm text-gray-500 mt-1">Conectando pessoas</p>
-          <p class="text-sm text-gray-500 mt-1">Promovendo turismo.</p>
+          <p class="text-sm text-gray-500 mt-1">conectando pessoas.</p>
+          <p class="text-sm text-gray-500 mt-1">promovendo turismo.</p>
         </div>
 
         <div class="flex space-x-6">
