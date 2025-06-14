@@ -1,8 +1,7 @@
 <template>
   <div class="profile-container">
-
     <!-- Mostra o skeleton enquanto está carregando -->
-    <ProfileSkeleton v-if="isLoading" />
+    <ProfileSkeleton v-if="!authStore.user" />
 
     <!-- Conteúdo principal -->
     <div v-else class="container mx-auto p-4 space-y-6 md:pt-8 md:pb-8 md:mt-0 mb-16">
@@ -11,8 +10,7 @@
         <!-- Card de Identificação -->
         <div class="bg-white rounded-xl shadow-lg p-6 md:w-1/3">
           <div class="flex flex-col items-center">
-
-            <div class="relative inline-block mb-4"> <!-- Container relativo -->
+            <div class="relative inline-block mb-4">
               <!-- Div com as iniciais -->
               <div class="w-24 h-24 rounded-full bg-accent flex items-center justify-center text-white text-4xl shadow-md z-1">
                 {{ userInitials }}
@@ -20,22 +18,22 @@
 
               <!-- Componente de avatar posicionado absolutamente -->
               <div class="absolute inset-0 flex items-center justify-center z-2">
-                <ProfileAvatar :user="user" />
+                <ProfileAvatar :user="authStore.user" />
               </div>
             </div>
 
-            <h2 class="text-xl font-bold text-center text-gray-800">{{ user.name }}</h2>
-            <p class="text-sm text-gray-500">{{ user.role }}</p>
+            <h2 class="text-xl font-bold text-center text-gray-800">{{ authStore.user.name || 'Nome não disponível' }}</h2>
+            <p class="text-sm text-gray-500">{{ userRole }}</p>
 
             <div class="mt-4 flex space-x-2">
               <span class="px-3 py-1 bg-purple-100 text-primary rounded-full text-xs">
-                {{ user.type }}
+                {{ userType }}
               </span>
               <span
                   class="px-3 py-1 rounded-full text-xs"
-                  :class="user.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'"
+                  :class="userStatus === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'"
               >
-                {{ user.status }}
+                {{ userStatus }}
               </span>
             </div>
           </div>
@@ -68,19 +66,19 @@
             <div class="grid md:grid-cols-2 gap-4">
               <div>
                 <p class="text-sm text-gray-500">Nome Completo</p>
-                <p class="font-medium">{{ user.name }}</p>
+                <p class="font-medium">{{ authStore.user.name || 'Não disponível' }}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-500">E-mail</p>
-                <p class="font-medium">{{ user.email }}</p>
+                <p class="font-medium">{{ authStore.user.email || 'Não disponível' }}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-500">Telefone</p>
-                <p class="font-medium">{{ user.phone || 'Não cadastrado' }}</p>
+                <p class="font-medium">Não disponível</p>
               </div>
               <div>
                 <p class="text-sm text-gray-500">Data de Nascimento</p>
-                <p class="font-medium">{{ user.birthDate || 'Não cadastrada' }}</p>
+                <p class="font-medium">Não disponível</p>
               </div>
             </div>
           </div>
@@ -94,20 +92,20 @@
 
             <div class="grid md:grid-cols-2 gap-4">
               <div>
-                <p class="text-sm text-gray-500">Cargo/Função</p>
-                <p class="font-medium">{{ user.role }}</p>
+                <p class="text-sm text-gray-500">Tipo de Perfil</p>
+                <p class="font-medium">{{ userType }}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-500">Empresa</p>
-                <p class="font-medium">{{ user.company || 'Não cadastrada' }}</p>
+                <p class="font-medium">Não disponível</p>
               </div>
               <div>
                 <p class="text-sm text-gray-500">Registro Profissional</p>
-                <p class="font-medium">{{ user.registration || 'Não cadastrado' }}</p>
+                <p class="font-medium">Não disponível</p>
               </div>
               <div>
-                <p class="text-sm text-gray-500">Desde</p>
-                <p class="font-medium">{{ user.since || 'Não informado' }}</p>
+                <p class="text-sm text-gray-500">Membro desde</p>
+                <p class="font-medium">{{ formattedCreatedAt }}</p>
               </div>
             </div>
           </div>
@@ -144,24 +142,8 @@
         </div>
       </div>
 
-      <!-- Botões de Ação (Mobile) -->
-      <div class="md:hidden grid grid-cols-2 gap-3">
-        <button
-            @click="changePassword"
-            class="py-3 px-4 border border-primary rounded-md text-sm font-medium text-primary bg-white hover:bg-purple-50"
-        >
-          Editar Perfil
-        </button>
-        <button
-            @click="changePassword"
-            class="py-3 px-4 border border-primary rounded-md text-sm font-medium text-primary bg-white hover:bg-purple-50"
-        >
-          Alterar Senha
-        </button>
-      </div>
-
-      <!-- Botões de Ação (Desktop) -->
-      <div class="hidden md:flex justify-end space-x-4">
+      <!-- Botões de Ação -->
+      <div class="flex flex-col md:flex-row justify-end space-y-3 md:space-y-0 md:space-x-4">
         <button
             @click="changePassword"
             class="px-6 py-2 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors"
@@ -186,42 +168,62 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import users from "@/services/users/users.js";
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth/auth.store';
 import ProfileSkeleton from "@/components/ProfileSkeleton.vue";
 import ProfileAvatar from "@/components/ProfileAvatar.vue";
 
 const router = useRouter();
+const authStore = useAuthStore();
 
-// Dados reativos
-const user = ref({
-  name: '',
-  email: '',
-  phone: '',
-  birthDate: '',
-  role: '',
-  type: '',
-  status: '',
-  company: '',
-  registration: '',
-  since: '',
-  foto_perfil_url: ''
-});
-
-const stats = ref({
+// Dados padrão para estatísticas
+const stats = {
   connections: 0,
   rating: 0,
   projects: 0,
   years: 0
+};
+
+// Computed properties
+const userInitials = computed(() => {
+  if (!authStore.user?.name) return '??';
+  return authStore.user.name.split(' ').map(n => n[0]).join('').substring(0, 2);
 });
 
-const isLoading = ref(true);
-const error = ref(null);
+const userRole = computed(() => {
+  // Você pode adicionar lógica para determinar o role se necessário
+  return 'Usuário';
+});
 
-// Computed property para iniciais
-const userInitials = computed(() => {
-  return user.value.name.split(' ').map(n => n[0]).join('').substring(0, 2);
+const userType = computed(() => {
+  // Aqui você pode mapear o tipo_perfil_id para um texto mais amigável
+  if (!authStore.user?.tipo_perfil_id) return 'Tipo não definido';
+
+  const tipos = {
+    1: 'Representante',
+    2: 'Agente de viagens',
+    3: 'Agência de viagens',
+    4: 'Guia de turismo',
+    5: 'Empresa / Entidade'
+  };
+
+  return tipos[authStore.user.tipo_perfil_id] || 'Tipo desconhecido';
+});
+
+const userStatus = computed(() => {
+  return 'Ativo'; // Você pode adicionar lógica para status se necessário
+});
+
+const formattedCreatedAt = computed(() => {
+  if (!authStore.user?.created_at) return 'Não disponível';
+
+  try {
+    const date = new Date(authStore.user.created_at);
+    return date.toLocaleDateString('pt-BR');
+  } catch {
+    return 'Não disponível';
+  }
 });
 
 // Métodos
@@ -230,50 +232,8 @@ const changePassword = () => {
 };
 
 const logout = () => {
-  console.log('Usuário deslogado');
-  router.push('/login');
+  authStore.logout();
 };
-
-// Função para carregar dados do usuário
-const fetchUserData = async () => {
-  try {
-    isLoading.value = true;
-    const userData = await users.getMe();
-
-    console.log(userData)
-
-    // Atualiza os dados do usuário
-    user.value = {
-      name: userData.name || 'Nome não disponível',
-      email: userData.email || 'Não informado',
-      phone: userData.telefone_celular || 'Não informado',
-      birthDate: userData.data_nascimento || 'Não informado',
-      role: userData.cargo_funcao || 'Não informado',
-      type: userData.type || 'Não informado',
-      status: userData.status || 'Não informado',
-      company: userData.empresa_atual || 'Não informado',
-      registration: userData.registration || 'Não informado',
-      since: userData.created_at || 'Não informado',
-      foto_perfil_url : userData.foto_perfil_url
-    };
-
-    // Atualiza as estatísticas (pode vir da API também)
-    stats.value = {
-      connections: userData.connections || 0,
-      rating: userData.rating || 0,
-      projects: userData.projects || 0,
-      years: userData.years || 0
-    };
-  } catch (err) {
-    error.value = 'Erro ao carregar dados do usuário';
-    console.error('Erro:', err);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-// Carrega os dados quando o componente é montado
-onMounted(fetchUserData);
 </script>
 
 <style scoped>

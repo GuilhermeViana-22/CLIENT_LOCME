@@ -2,7 +2,7 @@
   <div class="profile-avatar">
     <!-- Avatar com overlay para editar -->
     <div class="avatar-wrapper w-24 h-24" @click="showModal = true">
-      <img :src="user.foto_perfil_url" class="avatar-image">
+      <img :src="authStore.user?.foto_perfil_url" class="avatar-image">
       <div class="avatar-overlay">
         <i class="fas fa-camera"></i>
       </div>
@@ -38,13 +38,18 @@
       </template>
 
       <template #footer>
-        <button class="btn btn-secondary px-6 py-2 border border-transparent rounded-lg font-medium text-white bg-secondary hover:bg-red-700 transition-colors" @click="showModal = false">Cancelar</button>
+        <button
+            class="btn btn-secondary px-6 py-2 border border-transparent rounded-lg font-medium text-white bg-secondary hover:bg-red-700 transition-colors"
+            @click="showModal = false"
+        >
+          Cancelar
+        </button>
         <button
             class="btn btn-primary px-6 py-2 border border-transparent rounded-lg font-medium text-white bg-green-600 hover:bg-green-700 transition-colors"
             @click="uploadAvatar"
-            :disabled="!selectedFile || uploading"
+            :disabled="!selectedFile || authStore.isLoading"
         >
-          <span v-if="uploading">Enviando...</span>
+          <span v-if="authStore.isLoading">Enviando...</span>
           <span v-else>Salvar</span>
         </button>
       </template>
@@ -52,84 +57,41 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth/auth.store'
+import Modal from "@/components/Modal.vue"
 
-import users from "@/services/users/users.js";
-import Modal from "@/components/Modal.vue";
-import {useToast} from "vue-toastification";
-import {hideLoading, showFancyLoading} from "@/utils/swalCustoms.js";
+const authStore = useAuthStore()
 
-export default {
-  components: {Modal},
-  props: {
-    user: {
-      type: Object,
-      required: true
+const showModal = ref(false)
+const selectedFile = ref(null)
+const previewImage = ref(null)
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0]
+  if (file && file.type.match('image.*')) {
+    selectedFile.value = file
+
+    // Criar pré-visualização
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      previewImage.value = e.target.result
     }
-  },
+    reader.readAsDataURL(file)
+  }
+}
 
-  data() {
-    return {
-      showModal: false,
-      selectedFile: null,
-      previewImage: null,
-      uploading: false
-    }
-  },
+const uploadAvatar = async () => {
+  if (!selectedFile.value) return
 
-  methods: {
-    handleFileChange(event) {
-      const file = event.target.files[0];
-      if (file && file.type.match('image.*')) {
-        this.selectedFile = file;
-
-        // Criar pré-visualização
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.previewImage = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    },
-
-    async uploadAvatar() {
-      const toast = useToast()
-
-      /// fancyload
-      showFancyLoading();
-
-      if (!this.selectedFile) return;
-
-      this.uploading = true;
-
-      try {
-        const formData = new FormData();
-        formData.append('foto_perfil', this.selectedFile);
-
-        // Chamada para o backend Laravel
-        const response = await users.updateAvatar(formData);
-
-        // Atualizar a foto do usuário
-        this.$emit('avatar-updated', response.foto_perfil_url);
-        this.showModal = false;
-
-        // sucesso
-        toast.success("Sua foto foi atualizada!", {
-          position: "bottom-right",
-          timeout: 3000
-        })
-
-      } catch (error) {
-        // sucesso
-        toast.error("Erro ao tentar atualizar sua foto!", {
-          position: "bottom-right",
-          timeout: 3000
-        })
-      } finally {
-        hideLoading();
-        this.uploading = false;
-      }
-    }
+  try {
+    await authStore.updateProfilePhoto(selectedFile.value)
+    showModal.value = false
+    selectedFile.value = null
+    previewImage.value = null
+  } catch (error) {
+    console.error('Erro ao atualizar foto:', error)
   }
 }
 </script>

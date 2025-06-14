@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { showFancyLoading, hideLoading } from '@/utils/swalCustoms.js';
 import api from '@/services/api'
+import users from "@/services/users/users.js";
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
@@ -24,9 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.setItem('auth_token', newToken)
     api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
   }
-
   const setUser = (userData) => {
-
     /// depois a gente foca em filtrar, manda tudo
     user.value = userData ? userData : null
   }
@@ -43,7 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await api.post('/register', {
         name: formData.name.trim(),
-        tipo_perfil_id: formData.tipo_perfil_id.trim(),
+        tipo_perfil_id: formData.tipo_perfil_id,
         email: formData.email.trim(),
         password: formData.password,
         password_confirmation: formData.password_confirmation
@@ -82,13 +81,14 @@ export const useAuthStore = defineStore('auth', () => {
 
     try {
       // 1. Faz a requisição de login diretamente
-      const { data } = await api.post('/login', {
+      const data = await api.post('/login', {
         email: formData.email.trim(),
         password: formData.password
       });
 
       // 2. Armazena o token (só isso é essencial)
       setToken(data.token);
+      setUser(data.user);
 
       // 3. Redireciona sem complicação
       router.push({ name: 'dashboard' });
@@ -111,7 +111,6 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = false;
     }
   };
-
   const logout = () => {
     const toast = useToast()
     showFancyLoading();
@@ -128,7 +127,6 @@ export const useAuthStore = defineStore('auth', () => {
     })
     hideLoading();
   }
-
   const refreshToken = async () => {
     try {
       const response = await api.post('/refresh-token')
@@ -137,6 +135,53 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (error) {
       logout()
       throw error
+    }
+  }
+  const initializeAuth = async () => {
+    if (token.value && !user.value) {
+      try {
+        this.isLoading = true;
+        const { data } = await api.get('/me')
+        setUser(data)
+      } catch (error) {
+        console.error('Falha ao carregar user:', error)
+        logout()
+      } finally {
+        this.isLoading = false;
+      }
+    }
+  }
+  const updateProfilePhoto = async (file) => {
+    const toast = useToast()
+    showFancyLoading()
+
+    try {
+      const formData = new FormData()
+      formData.append('foto_perfil', file)
+
+      // Chamada para o backend Laravel
+      const response = await users.updateAvatar(formData);
+
+      // Atualiza o usuário no store com a nova foto
+      setUser( {
+        ...user.value,
+        foto_perfil_url: response.foto_perfil_url
+      });
+
+      toast.success("Foto de perfil atualizada com sucesso!", {
+        position: "bottom-right",
+        timeout: 3000
+      })
+
+      return response.data
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Erro ao atualizar foto de perfil", {
+        position: "bottom-right",
+        timeout: 3000
+      })
+      throw error
+    } finally {
+      hideLoading()
     }
   }
 
@@ -165,6 +210,8 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     register,
     logout,
-    refreshToken
+    refreshToken,
+    initializeAuth,
+    updateProfilePhoto
   }
 })

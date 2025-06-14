@@ -66,7 +66,7 @@ const usersService = {
   async updateAvatar(data) {
     try {
       console.log(`Enviando dados para atualização do avatar do usuário:`, data);
-      return await api.post(`/profile/updateavatar`, data);
+      return await api.post(`/perfil/updateavatar`, data);
     } catch (error) {
       console.error(`Erro na API ao atualizar usuário:`, error.response?.data || error.message);
       throw this.handleError(error);

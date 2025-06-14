@@ -12,8 +12,7 @@ export const usePerfilStore = defineStore('perfil', {
             this.isLoading = true
             this.error = null
             try {
-                const response = await perfisService.getTiposPerfis()
-                this.tiposPerfil = response.data
+                this.tiposPerfil = await perfisService.getTiposPerfis()
             } catch (error) {
                 this.error = error.message || 'Falha ao carregar tipos de perfil'
                 console.error('Erro ao buscar tipos de perfil:', error)
