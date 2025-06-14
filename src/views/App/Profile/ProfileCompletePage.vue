@@ -8,5 +8,5 @@
   </div>
 </template>
 <script setup lang="ts">
-import ProfileAvatar from "@/components/ProfileAvatar.vue";
+import ProfileAvatar from "@/components/user/ProfileAvatar.vue";
 </script>

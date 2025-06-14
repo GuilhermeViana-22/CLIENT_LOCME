@@ -140,14 +140,14 @@ export const useAuthStore = defineStore('auth', () => {
   const initializeAuth = async () => {
     if (token.value && !user.value) {
       try {
-        this.isLoading = true;
+        isLoading.value = true;
         const { data } = await api.get('/me')
         setUser(data)
       } catch (error) {
         console.error('Falha ao carregar user:', error)
         logout()
       } finally {
-        this.isLoading = false;
+        isLoading.value = false;
       }
     }
   }

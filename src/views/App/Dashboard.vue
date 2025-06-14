@@ -33,13 +33,13 @@
 <script setup>
 import { ref } from 'vue';
 
-import SearchCard from '@/components/SearchCard.vue';
-import PlanCard from '@/components/PlanCard.vue';
-import ProfileCard from '@/components/ProfileCard.vue';
-import QuickActionsCard from '@/components/QuickActionsCard.vue';
-import SuggestedCompanies from '@/components/SuggestedCompanies.vue';
-import RecentActivities from '@/components/RecentActivities.vue';
-import NewsCard from '@/components/NewsCard.vue';
+import SearchCard from '@/components/dashboard/SearchCard.vue';
+import PlanCard from '@/components/dashboard/PlanCard.vue';
+import ProfileCard from '@/components/dashboard/ProfileCard.vue';
+import QuickActionsCard from '@/components/dashboard/QuickActionsCard.vue';
+import SuggestedCompanies from '@/components/dashboard/SuggestedCompanies.vue';
+import RecentActivities from '@/components/dashboard/RecentActivities.vue';
+import NewsCard from '@/components/dashboard/NewsCard.vue';
 
 const currentUser = ref({
   name: 'Carlos Silva',

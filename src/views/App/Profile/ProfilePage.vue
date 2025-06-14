@@ -171,8 +171,8 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth/auth.store';
-import ProfileSkeleton from "@/components/ProfileSkeleton.vue";
-import ProfileAvatar from "@/components/ProfileAvatar.vue";
+import ProfileSkeleton from "@/components/user/ProfileSkeleton.vue";
+import ProfileAvatar from "@/components/user/ProfileAvatar.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
