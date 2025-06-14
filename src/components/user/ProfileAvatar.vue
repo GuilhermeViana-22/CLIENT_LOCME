@@ -60,7 +60,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth/auth.store.js'
-import Modal from "@/components/Modal.vue"
+import Modal from "@/components/utils/Modal.vue"
 
 const authStore = useAuthStore()
 

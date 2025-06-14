@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import AppNotificationDropdown from '../AppNotificationDropdown.vue'
+import AppNotificationDropdown from '../utils/AppNotificationDropdown.vue'
 import UserDropdown from '../user/UserDropdown.vue'
 import UserAvatar from '../user/UserAvatar.vue'
 
