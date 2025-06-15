@@ -53,7 +53,7 @@ export const useAuthStore = defineStore('auth', () => {
       setUser(response.user || null)
       setToken(response.access_token || null)
 
-      router.push({ name: 'dashboard' })
+      router.push({ name: 'completar' })
 
       hideLoading();
       toast.success("Bem-vindo!", {

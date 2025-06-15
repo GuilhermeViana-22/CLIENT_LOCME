@@ -74,7 +74,7 @@ const routes = [
         path: 'profile/completar',
         name: 'completar',
         component: ProfileComplete,
-        meta: { requiresAuth: true, title: 'Meu Perfil' } // Removido public: true
+        meta: { requiresAuth: true, title: 'Completar Perfil' } // Removido public: true
       },
       {
         path: 'usuarios',

@@ -1,12 +1,16 @@
 <template>
-  <div class="profile-container">
+  <div>
+
+    <RepresentanteForm v-if="authStore.user?.tipo_perfil_id === 1" />
 
 
-
-
-
+    <!-- outros tipos -->
   </div>
 </template>
-<script setup lang="ts">
-import ProfileAvatar from "@/components/user/ProfileAvatar.vue";
+
+<script setup>
+import {useAuthStore} from "@/stores/auth/auth.store.js";
+import RepresentanteForm from "@/components/perfis/RepresentanteForm.vue";
+
+const authStore = useAuthStore();
 </script>

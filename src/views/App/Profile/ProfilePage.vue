@@ -27,7 +27,7 @@
 
             <div class="mt-4 flex space-x-2">
               <span class="px-3 py-1 bg-purple-100 text-primary rounded-full text-xs">
-                {{ userType }}
+                {{ authStore.user.tipo_perfil || 'Não disponível' }}
               </span>
               <span
                   class="px-3 py-1 rounded-full text-xs"
@@ -194,21 +194,6 @@ const userInitials = computed(() => {
 const userRole = computed(() => {
   // Você pode adicionar lógica para determinar o role se necessário
   return 'Usuário';
-});
-
-const userType = computed(() => {
-  // Aqui você pode mapear o tipo_perfil_id para um texto mais amigável
-  if (!authStore.user?.tipo_perfil_id) return 'Tipo não definido';
-
-  const tipos = {
-    1: 'Representante',
-    2: 'Agente de viagens',
-    3: 'Agência de viagens',
-    4: 'Guia de turismo',
-    5: 'Empresa / Entidade'
-  };
-
-  return tipos[authStore.user.tipo_perfil_id] || 'Tipo desconhecido';
 });
 
 const userStatus = computed(() => {
