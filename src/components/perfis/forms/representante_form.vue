@@ -10,6 +10,7 @@
       :error-message="storeErrors?.nome?.[0]"
       :required="required"
       :readonly="readonly"
+      :disabled="disabled"
   />
 
 </template>
@@ -17,19 +18,27 @@
 <script setup>
 import TextInput from "@/components/formulario/TextInput.vue";
 import { computed } from "vue";
+
+
+//// TEM QUE USAR A STORE CERTA !!!!!!!!!!!
 import { useRepresentateStore } from "@/stores/perfil/representante.store.js";
-import { useAuthStore } from "@/stores/auth/auth.store.js";
 
 const props = defineProps({
   modelValue: {
     type: Object,
     required: true,
     default: () => ({
+
+      /// VALORES DEFAULTS
       nome: '',
 
     })
   },
   readonly: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
     type: Boolean,
     default: false
   },
@@ -39,20 +48,8 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['update:modelValue']);
-
 const store = useRepresentateStore();
-const authStore = useAuthStore();
 
 // Computed para os erros da store
 const storeErrors = computed(() => store.errors);
-
-// Inicializa valores padrão do authStore se disponíveis
-if (authStore.user?.name && !props.modelValue.apelido) {
-  emit('update:modelValue', {
-    ...props.modelValue,
-    apelido: authStore.user.name,
-    email: authStore.user.email
-  });
-}
 </script>

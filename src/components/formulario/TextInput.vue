@@ -16,6 +16,7 @@
           :autocomplete="autocomplete"
           :required="required"
           :readonly="readonly"
+          :disabled="disabled"
           class="py-2 block w-full border rounded-md focus:ring-primary focus:border-primary"
           :class="[
           icon ? 'pl-10' : 'pl-3',
@@ -88,6 +89,10 @@ export default {
       default: ''
     },
     readonly: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     },
