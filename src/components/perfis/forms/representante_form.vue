@@ -13,6 +13,48 @@
       :disabled="disabled"
   />
 
+  <!-- Nome Completo -->
+  <TextInput
+      id="nome"
+      label="Nome Completo"
+      v-model="modelValue.nome"
+      name="nome"
+      placeholder="Seu nome completo"
+      :error="storeErrors?.nome"
+      :error-message="storeErrors?.nome?.[0]"
+      :required="required"
+      :readonly="readonly"
+      :disabled="disabled"
+  />
+
+  <!-- Nome Completo -->
+  <TextInput
+      id="nome"
+      label="Nome Completo"
+      v-model="modelValue.nome"
+      name="nome"
+      placeholder="Seu nome completo"
+      :error="storeErrors?.nome"
+      :error-message="storeErrors?.nome?.[0]"
+      :required="required"
+      :readonly="readonly"
+      :disabled="disabled"
+  />
+
+  <!-- Nome Completo -->
+  <TextInput
+      id="nome"
+      label="Nome Completo"
+      v-model="modelValue.nome"
+      name="nome"
+      placeholder="Seu nome completo"
+      :error="storeErrors?.nome"
+      :error-message="storeErrors?.nome?.[0]"
+      :required="required"
+      :readonly="readonly"
+      :disabled="disabled"
+  />
+
 </template>
 
 <script setup>

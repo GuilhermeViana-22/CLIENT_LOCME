@@ -10,14 +10,16 @@
 
       <!-- Formulário do Representante -->
       <form class="md:flex md:flex-row flex-col" @submit.prevent="submit">
-        <!-- FOTO DE PERFIL -->
+
         <section class="md:w-1/3 w-full">
           <div class="flex align-middle justify-center flex-col items-center md:px-4">
 
+            <!-- Alerta simples -->
             <InfoAlert type="info" :dismissible="false" class="mb-6">
               Insira uma foto para o seu usuário clicando sobre o ícone abaixo.
             </InfoAlert>
 
+            <!-- FOTO DE PERFIL -->
             <ProfileAvatarCompact size="lg" :user="authStore.user" editable />
           </div>
         </section>
@@ -57,7 +59,7 @@
             />
           </div>
 
-          <Line spacing="my-8" />
+          <Line spacing="my-4" />
 
           <div class="w-full md:w-50">
             <ButtonSubmit
@@ -89,7 +91,7 @@ const perfilStore = usePerfilStore();
 const authStore = useAuthStore();
 
 const form = ref({
-  apelido: authStore.user?.apelido,
+  apelido: authStore.user?.name,
   email: authStore.user?.email,
   nome: '',
 });
