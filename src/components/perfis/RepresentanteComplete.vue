@@ -59,7 +59,12 @@
             />
           </div>
 
-          <Line spacing="my-4" />
+          <Line
+              variant="text-center"
+              color="border-gray-200"
+              textColor="text-gray-700"
+              spacing="my-8"
+          />
 
           <div class="w-full md:w-50">
             <ButtonSubmit
