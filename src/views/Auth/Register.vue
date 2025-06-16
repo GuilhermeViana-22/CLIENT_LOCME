@@ -7,7 +7,7 @@
           <i class="fas fa-user-lock text-white text-3xl"></i>
         </div>
       </div>
-      
+
       <h2 class="mt-6 text-center text-3xl font-extrabold text-white text-display">
         LocMe
       </h2>
@@ -18,35 +18,21 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow-lg rounded-lg sm:px-10">
-
         <!-- Formulário de Login -->
         <form class="space-y-6" @submit.prevent="handleRegister">
 
           <!-- Nome -->
-          <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">
-              Nome
-            </label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-user text-gray-400"></i>
-              </div>
-              <input
-                  id="name"
-                  v-model="form.name"
-                  name="name"
-                  type="text"
-                  autocomplete="name"
-                  required
-                  class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-                  :class="{'border-red-400': authStore.errors.name, 'border-gray-300': !authStore.errors.name}"
-                  placeholder="Seu nome"
-              />
-            </div>
-            <div v-if="authStore.errors.name" class="text-red-600 text-sm mt-1.5">
-              {{ authStore.errors.name[0] }}
-            </div>
-          </div>
+          <TextInput
+              id="name"
+              label="Nome"
+              v-model="form.name"
+              name="name"
+              icon="fas fa-user text-gray-400"
+              placeholder="Seu nome"
+              :error="authStore.errors.name"
+              :error-message="authStore.errors.name?.[0]"
+              required
+          />
 
           <!-- tipo de perfil -->
           <div>
@@ -84,122 +70,61 @@
             </div>
           </div>
 
-          <!-- CPF -->
-<!--          <div>-->
-<!--            <label for="cpf" class="block text-sm font-medium text-gray-700">-->
-<!--              CPF-->
-<!--            </label>-->
-<!--            <div class="mt-1 relative rounded-md shadow-sm">-->
-<!--              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">-->
-<!--                <i class="fas fa-passport text-gray-400"></i>-->
-<!--              </div>-->
-<!--              <CpfInput-->
-<!--                  v-model="form.cpf"-->
-<!--                  :mask="['###.###.###-##']"-->
-<!--                  id="user-cpf"-->
-<!--                  name="user_cpf"-->
-<!--                  :required="true"-->
-<!--                  placeholder="Digite CPF"-->
-<!--                  :input-class="[-->
-<!--                  'py-2 pl-10 block w-full border rounded-md focus:ring-primary focus:border-primary',-->
-<!--                  authStore.errors.cpf ? 'border-red-400' : 'border-gray-300'-->
-<!--                  ]"-->
-<!--                  />-->
-<!--            </div>-->
-<!--            <div v-if="authStore.errors.cpf" class="text-red-600 text-sm mt-1.5">-->
-<!--              {{ authStore.errors.cpf[0] }}-->
-<!--            </div>-->
-<!--          </div>-->
-
           <!-- Email -->
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              E-mail
-            </label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-envelope text-gray-400"></i>
-              </div>
-              <input
-                id="email"
-                v-model="form.email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                required
-                class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-                :class="{'border-red-400': authStore.errors.email, 'border-gray-300': !authStore.errors.email}"
-                placeholder="seu@email.com"
-              />
-            </div>
-            <div v-if="authStore.errors.email" class="text-red-600 text-sm mt-1.5">
-              {{ authStore.errors.email[0] }}
-            </div>
-          </div>
+          <TextInput
+              id="email"
+              label="E-mail"
+              v-model="form.email"
+              name="email"
+              type="email"
+              icon="fas fa-envelope text-gray-400"
+              placeholder="seu@email.com"
+              :error="authStore.errors.email"
+              :error-message="authStore.errors.email?.[0]"
+              required
+              autocomplete="email"
+          />
 
           <!-- Senha -->
-          <div>
-            <label for="password" class="block text-sm font-medium text-gray-700">
-              Senha
-            </label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-lock text-gray-400"></i>
-              </div>
-              <input
-                id="password"
-                v-model="form.password"
-                name="password"
-                type="password"
-                autocomplete="current-password"
-                required
-                class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-                :class="{'border-red-400': authStore.errors.password, 'border-gray-300': !authStore.errors.password}"
-                placeholder="••••••••"
-              />
-            </div>
-            <div v-if="authStore.errors.password" class="text-red-600 text-sm mt-1.5">
-              {{ authStore.errors.password[0] }}
-            </div>
-          </div>
+          <TextInput
+              id="password"
+              label="Senha"
+              v-model="form.password"
+              name="password"
+              type="password"
+              icon="fas fa-lock text-gray-400"
+              placeholder="••••••••"
+              :error="authStore.errors.password"
+              :error-message="authStore.errors.password?.[0]"
+              required
+              autocomplete="new-password"
+          />
 
-          <!-- Senha -->
-          <div>
-            <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
-              Confirme sua Senha
-            </label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-lock text-gray-400"></i>
-              </div>
-              <input
-                  id="password_confirmation"
-                  v-model="form.password_confirmation"
-                  name="password_confirmation"
-                  type="password"
-                  autocomplete="password_confirmation"
-                  required
-                  class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-                  :class="{'border-red-400': authStore.errors.password_confirmation, 'border-gray-300': !authStore.errors.password_confirmation}"
-                  placeholder="••••••••"
-              />
-            </div>
-            <div v-if="authStore.errors.password_confirmation" class="text-red-600 text-sm mt-1.5">
-              {{ authStore.errors.password_confirmation[0] }}
-            </div>
-          </div>
+          <!-- Confirmação de Senha -->
+          <TextInput
+              id="password_confirmation"
+              label="Confirme sua Senha"
+              v-model="form.password_confirmation"
+              name="password_confirmation"
+              type="password"
+              icon="fas fa-lock text-gray-400"
+              placeholder="••••••••"
+              :error="authStore.errors.password_confirmation"
+              :error-message="authStore.errors.password_confirmation?.[0]"
+              required
+              autocomplete="new-password"
+          />
 
-          <!-- Lembrar de mim e Esqueci a senha -->
+          <!-- Termos de Uso -->
           <div class="flex items-center justify-between">
             <div class="flex items-center">
-
               <label for="remember-me" class="ml-2 block text-sm text-gray-700">
-                Ao criar sua conta você afirma estar ciente e concordar com os <a href="#" class="bg-primary text-white ">Termos de Uso e Política de Privacidade</a>
+                Ao criar sua conta você afirma estar ciente e concordar com os <a href="#" class="bg-primary text-white">Termos de Uso e Política de Privacidade</a>
               </label>
             </div>
           </div>
 
-          <!-- Botão de Login -->
+          <!-- Botão de Registro -->
           <div>
             <button type="submit"
                     :disabled="authStore.isLoading"
@@ -231,8 +156,8 @@
 
           <div class="mt-6">
             <router-link
-              to="/auth/login"
-              class="w-full flex justify-center py-2 px-4 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                to="/auth/login"
+                class="w-full flex justify-center py-2 px-4 border border-primary rounded-md shadow-sm text-sm font-medium text-primary bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
             >
               Logar
             </router-link>
@@ -244,9 +169,10 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue';
+import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth/auth.store'
 import { usePerfilStore } from '@/stores/perfil/perfil.store'
+import TextInput from "@/components/formulario/TextInput.vue";
 
 const authStore = useAuthStore()
 const perfilStore = usePerfilStore()
@@ -277,7 +203,6 @@ const handleRegister = async () => {
     console.error('Erro no registro:', error)
   }
 }
-
 </script>
 
 <style scoped>

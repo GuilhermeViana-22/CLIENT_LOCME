@@ -7,30 +7,37 @@
       <form class="space-y-6" @submit.prevent="submit">
 
         <!-- Nome -->
-        <div>
-          <label for="name" class="block text-sm font-medium text-gray-700">
-            Apelido
-          </label>
-          <div class="mt-1 relative rounded-md shadow-sm">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i class="fas fa-user text-gray-400"></i>
-            </div>
-            <input
-                id="apelido"
-                v-model="form.apelido"
-                name="apelido"
-                type="text"
-                autocomplete="apelido"
-                required
-                class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-                :class="{'border-red-400': store.errors.apelido, 'border-gray-300': !store.errors.apelido}"
-                placeholder="Seu apelido"
-            />
-          </div>
-          <div v-if="store.errors.apelido" class="text-red-600 text-sm mt-1.5">
-            {{ store.errors.name[0] }}
-          </div>
-        </div>
+        <TextInput
+            id="apelido"
+            label="Apelido"
+            v-model="form.apelido"
+            name="apelido"
+            placeholder="Seu apelido"
+            icon="fas fa-user text-gray-400"
+            :error="store.errors.apelido"
+            :error-message="store.errors.apelido?.[0]"
+            readonly
+        />
+
+        <TextInput
+            id="nome"
+            label="Nome Completo"
+            v-model="form.nome"
+            name="nome"
+            placeholder="Seu nome completo"
+            required
+        />
+
+        <TextInput
+            id="email"
+            label="E-mail"
+            v-model="form.email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="seu@email.com"
+            icon="fas fa-envelope text-gray-400"
+        />
 
 
 
@@ -62,6 +69,7 @@
 import {useRepresentateStore} from "@/stores/perfil/representante.store.js";
 import {usePerfilStore} from "@/stores/perfil/perfil.store.js";
 import {ref} from "vue";
+import TextInput from "@/components/formulario/TextInput.vue";
 
 const store = useRepresentateStore()
 const perfilStore = usePerfilStore()
