@@ -22,7 +22,7 @@
           {
             'border-red-400': error && !viewMode,
             'border-gray-300': !error && !viewMode,
-            'bg-gray-50 cursor-not-allowed': readonly
+            'bg-gray-200 cursor-not-allowed': readonly
           }
         ]"
           :placeholder="placeholder"

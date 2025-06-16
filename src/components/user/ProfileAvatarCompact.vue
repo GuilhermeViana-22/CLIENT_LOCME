@@ -1,15 +1,29 @@
 <template>
-  <div class="profile-avatar">
+  <div class="relative inline-block mb-4">
     <!-- Avatar com overlay para editar -->
-    <div class="avatar-wrapper w-24 h-24" @click="showModal = true">
-      <img :src="authStore.user?.foto_perfil_url" class="avatar-image">
-      <div class="avatar-overlay">
+    <div
+        class="avatar-wrapper rounded-full flex items-center justify-center shadow-md z-1"
+        :class="[sizeClasses, bgColorClass]"
+        @click="showModal = editable"
+    >
+      <!-- Mostra a foto ou iniciais -->
+      <img
+          v-if="user?.foto_perfil_url"
+          :src="user.foto_perfil_url"
+          class="avatar-image"
+      >
+      <span v-else class="text-white" :class="textSizeClass">
+        {{ computedInitials }}
+      </span>
+
+      <!-- Overlay de edição -->
+      <div v-if="editable" class="avatar-overlay">
         <i class="fas fa-camera"></i>
       </div>
     </div>
 
     <!-- Modal de Upload -->
-    <Modal :show="showModal" @close="showModal = false">
+    <Modal v-if="editable" :show="showModal" @close="showModal = false">
       <template #header>
         <h2 class="text-primary font-bold">Alterar Foto de Perfil</h2>
       </template>
@@ -58,22 +72,82 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth/auth.store.js'
 import Modal from "@/components/utils/Modal.vue"
 
-const authStore = useAuthStore()
+const props = defineProps({
+  user: {
+    type: Object,
+    default: () => ({})
+  },
+  name: {
+    type: String,
+    default: ''
+  },
+  size: {
+    type: String,
+    default: 'md',
+    validator: (value) => ['sm', 'md', 'lg', 'xl'].includes(value)
+  },
+  bgColor: {
+    type: String,
+    default: 'accent'
+  },
+  editable: {
+    type: Boolean,
+    default: false
+  }
+})
 
+const authStore = useAuthStore()
 const showModal = ref(false)
 const selectedFile = ref(null)
 const previewImage = ref(null)
 
+// Classes computadas
+const sizeClasses = computed(() => {
+  const sizes = {
+    sm: 'w-16 h-16',
+    md: 'w-24 h-24',
+    lg: 'w-32 h-32',
+    xl: 'w-40 h-40'
+  }
+  return sizes[props.size]
+})
+
+const textSizeClass = computed(() => {
+  const sizes = {
+    sm: 'text-2xl',
+    md: 'text-4xl',
+    lg: 'text-5xl',
+    xl: 'text-6xl'
+  }
+  return sizes[props.size]
+})
+
+const bgColorClass = computed(() => {
+  return `bg-${props.bgColor}`
+})
+
+const computedInitials = computed(() => {
+  const name = props.user?.name || props.name
+  if (!name) return '??'
+
+  return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .substring(0, 2)
+      .toUpperCase()
+})
+
+// Métodos
 const handleFileChange = (event) => {
   const file = event.target.files[0]
   if (file && file.type.match('image.*')) {
     selectedFile.value = file
 
-    // Criar pré-visualização
     const reader = new FileReader()
     reader.onload = (e) => {
       previewImage.value = e.target.result
@@ -100,12 +174,12 @@ const uploadAvatar = async () => {
 .avatar-wrapper {
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .avatar-image {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
   object-fit: cover;
 }
 
@@ -116,7 +190,6 @@ const uploadAvatar = async () => {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,7 +204,6 @@ const uploadAvatar = async () => {
 
 .upload-container {
   text-align: center;
-
 }
 
 .image-preview {

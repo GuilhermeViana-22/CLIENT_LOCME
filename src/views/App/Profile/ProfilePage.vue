@@ -10,17 +10,7 @@
         <!-- Card de Identificação -->
         <div class="bg-white rounded-xl shadow-lg p-6 md:w-1/3">
           <div class="flex flex-col items-center">
-            <div class="relative inline-block mb-4">
-              <!-- Div com as iniciais -->
-              <div class="w-24 h-24 rounded-full bg-accent flex items-center justify-center text-white text-4xl shadow-md z-1">
-                {{ userInitials }}
-              </div>
-
-              <!-- Componente de avatar posicionado absolutamente -->
-              <div class="absolute inset-0 flex items-center justify-center z-2">
-                <ProfileAvatar :user="authStore.user" />
-              </div>
-            </div>
+            <ProfileAvatarCompact :user="authStore.user" editable />
 
             <h2 class="text-xl font-bold text-center text-gray-800">{{ authStore.user.name || 'Nome não disponível' }}</h2>
             <p class="text-sm text-gray-500">{{ userRole }}</p>
@@ -172,7 +162,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth/auth.store';
 import ProfileSkeleton from "@/components/user/ProfileSkeleton.vue";
-import ProfileAvatar from "@/components/user/ProfileAvatar.vue";
+import ProfileAvatarCompact from "@/components/user/ProfileAvatarCompact.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -184,12 +174,6 @@ const stats = {
   projects: 0,
   years: 0
 };
-
-// Computed properties
-const userInitials = computed(() => {
-  if (!authStore.user?.name) return '??';
-  return authStore.user.name.split(' ').map(n => n[0]).join('').substring(0, 2);
-});
 
 const userRole = computed(() => {
   // Você pode adicionar lógica para determinar o role se necessário
