@@ -6,6 +6,8 @@ import api from "@/services/api.js";
 import {ref} from "vue";
 import { useRouter } from 'vue-router'
 
+
+
 export const usePerfilStore = defineStore('perfil', () => {
     const router = useRouter()
 
@@ -13,20 +15,22 @@ export const usePerfilStore = defineStore('perfil', () => {
     const errors = ref({});
     const isLoading = ref(false);
 
+
+
     // Setters
 
     // Methods
     // Os dados do formulário e o auth do tipo de perfil que está sendo usado no formulário para mostrar os erros
-    const submitCompletarPerfil = async(formData, perfilAuth) => {
+    const submitCompletarPerfil = async(formData, perfilStore) => {
         const toast = useToast()
 
-        perfilAuth.setIsLoading(true);
+        perfilStore.setIsLoading(true);
         showFancyLoading();
 
-        perfilAuth.setErrors({});
+        perfilStore.setErrors({});
 
         try {
-            const dadosFiltrados = perfilAuth.getDadosFiltrados(formData);
+            const dadosFiltrados = perfilStore.getDadosFiltrados(formData);
 
             // 1. Faz a requisição para enviar o formulário
             const data = await api.post('/perfil/completar', dadosFiltrados);
@@ -41,9 +45,9 @@ export const usePerfilStore = defineStore('perfil', () => {
                 })
 
         } catch (error) {
-            handleErrors(error, perfilAuth)
+            handleErrors(error, perfilStore)
         } finally {
-            perfilAuth.setIsLoading(false);
+            perfilStore.setIsLoading(false);
         }
     };
 
@@ -62,12 +66,12 @@ export const usePerfilStore = defineStore('perfil', () => {
     };
 
     // Error Handling
-    const handleErrors = (error, perfilAuth = null) => {
+    const handleErrors = (error, perfilStore = null) => {
         const toast = useToast()
 
         if (error.status == 422) {
-            if(perfilAuth){
-                perfilAuth.setErrors(error.errors || {});
+            if(perfilStore){
+                perfilStore.setErrors(error.errors || {});
             } else {
                 errors.value = error.errors || {};
             }
