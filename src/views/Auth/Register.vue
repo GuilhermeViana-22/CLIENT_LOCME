@@ -24,11 +24,11 @@
           <!-- Nome -->
           <TextInput
               id="name"
-              label="Nome"
+              label="Usuário"
               v-model="form.name"
               name="name"
               icon="fas fa-user text-gray-400"
-              placeholder="Seu nome"
+              placeholder="Seu nome de usuário"
               :error="authStore.errors.name"
               :error-message="authStore.errors.name?.[0]"
               required

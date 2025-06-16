@@ -1,13 +1,13 @@
 <!-- components/layout/UserAvatar.vue -->
 <template>
   <div
-      class="rounded-full flex items-center justify-center overflow-hidden md:w-16 w-12 h-12"
+      class="rounded-full flex items-center justify-center overflow-hidden w-12 h-12"
       :style="avatarStyle"
   >
     <template v-if="user?.foto_perfil_url">
       <img
           :src="user.foto_perfil_url"
-          :alt="user.name"
+          :alt="user.name.split(' ')[0]"
           class="w-full h-full object-cover"
       />
     </template>

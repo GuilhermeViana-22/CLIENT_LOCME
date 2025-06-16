@@ -3,7 +3,7 @@
   <div class="relative group">
     <div class="flex items-center space-x-2 cursor-pointer">
       <UserAvatar :user="user" size="sm" />
-      <span class="text-sm hidden md:inline-block">{{ user?.name || 'Usuário' }}</span>
+      <span class="text-sm hidden md:inline-block">{{ user?.name.split(" ")[0] || 'Usuário' }}</span>
       <i class="fas fa-chevron-down text-xs hidden md:inline-block"></i>
     </div>
 
