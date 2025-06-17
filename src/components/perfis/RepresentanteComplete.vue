@@ -16,7 +16,7 @@
 
             <!-- Alerta simples -->
             <InfoAlert type="info" :dismissible="false" class="mb-6">
-              Insira uma foto para o seu usuário clicando sobre o ícone abaixo.
+              Selecione uma foto para o seu usuário clicando sobre o ícone abaixo.
             </InfoAlert>
 
             <!-- FOTO DE PERFIL -->
@@ -51,6 +51,17 @@
                 icon="fas fa-envelope text-gray-400"
                 readonly
             />
+            </div>
+
+          <Line
+              variant="text-center"
+              color="border-gray-200"
+              textColor="text-gray-700"
+              spacing="my-8"
+              text="Dados cadastrais"
+          />
+
+          <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
 
             <!-- Formulário -->
             <representante_form
@@ -66,7 +77,7 @@
               spacing="my-8"
           />
 
-          <div class="w-full md:w-50">
+          <div class="w-full md:w-50 md:float-right">
             <ButtonSubmit
               :loading="store.isLoading"
               label="Finalizar"
