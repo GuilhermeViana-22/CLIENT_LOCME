@@ -4,7 +4,7 @@
     <RepresentanteComplete v-if="authStore.user?.tipo_perfil_id === 1" />
 
 
-    <!-- outros tipos -->
+    <!-- outros tipos s-->
   </div>
 </template>
 
