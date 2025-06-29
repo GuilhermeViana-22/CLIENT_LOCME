@@ -1,90 +1,56 @@
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
-    <div class="container mx-auto px-4">
-      <!-- Header Section -->
-      <div class="bg-white px-6 py-4 shadow rounded-lg md:bg-transparent md:shadow-none">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="text-2xl font-bold text-primary">Complete seu perfil de Empresa</h2>
-          <h4 class="text-gray-600 mt-2">Insira as informações para terminar o cadastro da empresa.</h4>
+  <div class="min-h-screen bg-gray-50 py-6">
+    <div class="container mx-auto px-4 lg:px-8">
+      <!-- Cabeçalho -->
+      <div class="bg-white p-6 shadow rounded-lg mb-6">
+        <h2 class="text-xl font-bold text-primary">Complete seu perfil de Empresa</h2>
+        <p class="text-gray-600">Insira as informações para terminar o cadastro.</p>
+      </div>
+
+      <!-- Grid Principal -->
+      <form @submit.prevent="submit" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Avatar -->
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+          <InfoAlert type="info" class="mb-4">
+            Selecione uma foto para a empresa clicando no ícone.
+          </InfoAlert>
+          <div class="flex justify-center">
+            <ProfileAvatarCompact 
+              size="lg" 
+              :user="authStore.user" 
+              editable
+            />
+          </div>
         </div>
-      </div>
 
-      <!-- Main Form Container -->
-      <div class="mt-6 bg-white shadow-xl rounded-lg overflow-hidden">
-        <form class="grid grid-cols-1 md:grid-cols-12 gap-0" @submit.prevent="submit">
-          <!-- Left Column (Avatar Section) -->
-          <div class="md:col-span-4 p-8 bg-gray-50 border-r border-gray-200">
-            <div class="space-y-6">
-              <InfoAlert type="info" :dismissible="false">
-                Selecione uma foto para a empresa clicando sobre o ícone abaixo.
-              </InfoAlert>
-              
-              <div class="flex justify-center">
-                <ProfileAvatarCompact 
-                  size="xl" 
-                  :user="authStore.user" 
-                  editable 
-                  class="ring-4 ring-white shadow-lg"
-                />
-              </div>
-              
-              <div class="hidden md:block mt-12 text-center">
-                <p class="text-sm text-gray-500">
-                  A imagem deve ser quadrada e ter no mínimo 300x300 pixels.
-                  Formatos aceitos: JPG, PNG.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Column (Form Section) -->
-          <div class="md:col-span-8 p-8">
-            <div class="max-w-2xl mx-auto">
-              <!-- Form Grid -->
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <empresa_form v-model="form" :required="true" />
-              </div>
-
-              <!-- Divider -->
-              <Line 
-                variant="text-center" 
-                color="border-gray-200" 
-                textColor="text-gray-700" 
-                spacing="my-8"
-              />
-
-              <!-- Submit Button -->
-              <div class="flex justify-end">
-                <div class="w-full md:w-64">
-                  <ButtonSubmit 
-                    :loading="store.isLoading" 
-                    label="Finalizar Cadastro" 
-                    class="w-full bg-accent hover:bg-accent-dark transition-colors"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+        <!-- Formulário (ocupa 2 colunas em telas grandes) -->
+        <div class="lg:col-span-2 bg-white rounded-lg shadow p-6">
+          <empresa_form 
+            v-model="formData"
+            :required="true"
+            :errors="errors"
+            :loading="loading"
+            @submit="submit"
+          />
+        </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { useAuthStore } from '@/stores/auth/auth.store.js';
-import { useEmpresaStore } from '@/stores/perfil/empresa.store.js';
+import { useAuthStore } from '@/stores/auth/auth.store';
+import { useEmpresaStore } from '@/stores/perfil/empresa.store';
 import ProfileAvatarCompact from '@/components/user/ProfileAvatarCompact.vue';
 import empresa_form from '@/components/perfis/forms/empresa_form.vue';
-import ButtonSubmit from '@/components/formulario/ButtonSubmit.vue';
 import InfoAlert from '@/components/utils/InfoAlert.vue';
-import Line from '@/components/utils/Line.vue';
 
-const store = useEmpresaStore();
 const authStore = useAuthStore();
+const empresaStore = useEmpresaStore();
 
-const form = ref({
+const loading = ref(false);
+const formData = ref({
   nome_empresa: '',
   telefone: '',
   email_contato: '',
@@ -104,11 +70,17 @@ const form = ref({
   pais: ''
 });
 
+const errors = ref({});
+
 async function submit() {
+  loading.value = true;
   try {
-    await store.submitForm();
+    await empresaStore.submitForm(formData.value);
   } catch (error) {
-    console.error('Erro no cadastro da empresa:', error);
+    errors.value = error?.response?.data?.errors || {};
+    console.error('Erro:', error);
+  } finally {
+    loading.value = false;
   }
 }
 </script>
