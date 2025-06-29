@@ -163,8 +163,10 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth/auth.store';
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 // Dados do usuário (dados mockados temporariamente)
 const currentUser = ref({
@@ -192,8 +194,12 @@ const showHelp = () => {
   router.push('/help');
 };
 
-const logout = () => {
-  router.push('/login');
+const logout = async () => {
+  try {
+    await authStore.logout();
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+  }
 };
 </script>
 

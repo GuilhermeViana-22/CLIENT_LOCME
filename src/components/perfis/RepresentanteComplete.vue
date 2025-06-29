@@ -107,9 +107,23 @@ const perfilStore = usePerfilStore();
 const authStore = useAuthStore();
 
 const form = ref({
-  apelido: authStore.user?.name,
-  email: authStore.user?.email,
-  nome: '',
+  apelido: authStore.user?.name || '',
+  email: authStore.user?.email || '',
+  whatsapp: '',
+  email_contato: '',
+  data_nascimento: '',
+  operadora_id: null,
+  empresa_id: null,
+  empresa_outra: '',
+  telefone_vendas: '',
+  url: '',
+  endereco: '',
+  cidade: '',
+  estado: '',
+  cep: '',
+  pais: 'Brasil',
+  disponivel: true,
+  cv: ''
 });
 
 async function submit() {
