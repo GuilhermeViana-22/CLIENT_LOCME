@@ -8,7 +8,7 @@
 
     <div class="bg-white py-8 px-4 shadow-lg rounded-lg sm:px-10 md:mt-0 mt-2">
 
-      <!-- Formulário do Representante -->
+      <!-- Formulário do Guia de Turismo -->
       <form class="md:flex md:flex-row flex-col" @submit.prevent="submit">
 
         <section class="md:w-1/3 w-full">
@@ -28,13 +28,13 @@
           <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
 
             <!-- Dados do Usuário -->
-            <!-- Apelido -->
+            <!-- Nome -->
             <TextInput
-                id="apelido"
-                label="Apelido"
-                v-model="form.apelido"
-                name="apelido"
-                placeholder="Seu apelido"
+                id="name"
+                label="Nome"
+                v-model="form.name"
+                name="name"
+                placeholder="Seu nome"
                 icon="fas fa-user text-gray-400"
                 readonly
             />
@@ -64,7 +64,7 @@
           <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
 
             <!-- Formulário -->
-            <representante_form
+            <guia_turismo_form
                 v-model="form"
                 :required="true"
             />
@@ -91,39 +91,30 @@
 </template>
 
 <script setup>
-import { useRepresentateStore } from "@/stores/perfil/representante.store.js";
+import { useGuiaTurismoStore } from "@/stores/perfil/guiaTurismo.store.js";
 import { usePerfilStore } from "@/stores/perfil/perfil.store.js";
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth/auth.store.js";
 import ProfileAvatarCompact from "@/components/user/ProfileAvatarCompact.vue";
-import Representante_form from "@/components/perfis/forms/representante_form.vue";
+import guia_turismo_form from "@/components/perfis/forms/guia_turismo_form.vue";
 import TextInput from "@/components/formulario/TextInput.vue";
 import ButtonSubmit from "@/components/formulario/ButtonSubmit.vue";
 import InfoAlert from "@/components/utils/InfoAlert.vue";
 import Line from "@/components/utils/Line.vue";
 
-const store = useRepresentateStore();
+const store = useGuiaTurismoStore();
 const perfilStore = usePerfilStore();
 const authStore = useAuthStore();
 
 const form = ref({
-  apelido: authStore.user?.name || '',
-  email: authStore.user?.email || '',
+  name: authStore.user?.name,
+  email: authStore.user?.email,
+  apelido: '',
   whatsapp: '',
   email_contato: '',
   data_nascimento: '',
-  operadora_id: null,
-  empresa_id: null,
-  empresa_outra: '',
-  telefone_vendas: '',
-  url: '',
-  endereco: '',
-  cidade: '',
-  estado: '',
-  cep: '',
-  pais: 'Brasil',
-  disponivel: true,
-  cv: ''
+  cadastur: '',
+  abrangencia_id: ''
 });
 
 async function submit() {
@@ -133,4 +124,4 @@ async function submit() {
     console.error('Erro no cadastro:', error);
   }
 }
-</script>
+</script> 

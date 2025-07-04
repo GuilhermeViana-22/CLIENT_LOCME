@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import {ref} from "vue";
 import { useRouter } from 'vue-router'
 
-export const useRepresentateStore = defineStore('representante', () => {
+export const useAgenteViagemStore = defineStore('agenteViagem', () => {
     const router = useRouter()
 
     const errors = ref({});
@@ -21,21 +21,17 @@ export const useRepresentateStore = defineStore('representante', () => {
     const getDadosFiltrados = (formData = {}) => {
         return {
             apelido: formData.apelido,
+            email: formData.email,
+            nome_completo: formData.nome_completo,
+            cpf: formData.cpf,
             whatsapp: formData.whatsapp,
-            email_contato: formData.email_contato,
-            data_nascimento: formData.data_nascimento,
-            operadora_id: formData.operadora_id,
-            empresa_id: formData.empresa_id,
-            empresa_outra: formData.empresa_outra,
-            telefone_vendas: formData.telefone_vendas,
-            url: formData.url,
-            endereco: formData.endereco,
             cidade: formData.cidade,
-            estado: formData.estado,
-            cep: formData.cep,
-            pais: formData.pais,
-            disponivel: formData.disponivel,
-            cv: formData.cv
+            uf: formData.uf,
+            vinculado_agencia: formData.vinculado_agencia || false,
+            cnpj_agencia_vinculada: formData.cnpj_agencia_vinculada || '',
+            tem_cnpj_proprio: formData.tem_cnpj_proprio || false,
+            portfolio_redes_sociais: formData.portfolio_redes_sociais || '',
+            aceita_contato_representantes: formData.aceita_contato_representantes || false
         }
     }
 
@@ -52,4 +48,4 @@ export const useRepresentateStore = defineStore('representante', () => {
         setErrors,
         getDadosFiltrados
     }
-})
+}) 

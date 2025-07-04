@@ -8,7 +8,7 @@
 
     <div class="bg-white py-8 px-4 shadow-lg rounded-lg sm:px-10 md:mt-0 mt-2">
 
-      <!-- Formulário do Representante -->
+      <!-- Formulário do Agente de Viagem -->
       <form class="md:flex md:flex-row flex-col" @submit.prevent="submit">
 
         <section class="md:w-1/3 w-full">
@@ -64,7 +64,7 @@
           <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
 
             <!-- Formulário -->
-            <representante_form
+            <agente_viagem_form
                 v-model="form"
                 :required="true"
             />
@@ -91,39 +91,34 @@
 </template>
 
 <script setup>
-import { useRepresentateStore } from "@/stores/perfil/representante.store.js";
+import { useAgenteViagemStore } from "@/stores/perfil/agenteViagem.store.js";
 import { usePerfilStore } from "@/stores/perfil/perfil.store.js";
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth/auth.store.js";
 import ProfileAvatarCompact from "@/components/user/ProfileAvatarCompact.vue";
-import Representante_form from "@/components/perfis/forms/representante_form.vue";
+import agente_viagem_form from "@/components/perfis/forms/agente_viagem_form.vue";
 import TextInput from "@/components/formulario/TextInput.vue";
 import ButtonSubmit from "@/components/formulario/ButtonSubmit.vue";
 import InfoAlert from "@/components/utils/InfoAlert.vue";
 import Line from "@/components/utils/Line.vue";
 
-const store = useRepresentateStore();
+const store = useAgenteViagemStore();
 const perfilStore = usePerfilStore();
 const authStore = useAuthStore();
 
 const form = ref({
-  apelido: authStore.user?.name || '',
-  email: authStore.user?.email || '',
+  apelido: authStore.user?.name,
+  email: authStore.user?.email,
+  nome_completo: '',
+  cpf: '',
   whatsapp: '',
-  email_contato: '',
-  data_nascimento: '',
-  operadora_id: null,
-  empresa_id: null,
-  empresa_outra: '',
-  telefone_vendas: '',
-  url: '',
-  endereco: '',
   cidade: '',
-  estado: '',
-  cep: '',
-  pais: 'Brasil',
-  disponivel: true,
-  cv: ''
+  uf: '',
+  portfolio_redes_sociais: '',
+  vinculado_agencia: false,
+  cnpj_agencia_vinculada: '',
+  tem_cnpj_proprio: false,
+  aceita_contato_representantes: false
 });
 
 async function submit() {
@@ -133,4 +128,4 @@ async function submit() {
     console.error('Erro no cadastro:', error);
   }
 }
-</script>
+</script> 
