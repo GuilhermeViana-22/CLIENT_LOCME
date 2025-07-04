@@ -1,12 +1,12 @@
 <template>
-  <!-- WhatsApp -->
-  <TextInput
+
+  <!-- Whatsapp -->
+  <TelefoneInput
       id="whatsapp"
       label="WhatsApp"
       v-model="modelValue.whatsapp"
       name="whatsapp"
       placeholder="(00) 00000-0000"
-      mask="(##) #####-####"
       :error="storeErrors?.whatsapp"
       :error-message="storeErrors?.whatsapp?.[0]"
       :required="required"
@@ -87,8 +87,7 @@
       :disabled="disabled"
   />
 
-  <!-- Telefone de Vendas -->
-  <TextInput
+  <TelefoneInput
       id="telefone_vendas"
       label="Telefone de Vendas"
       v-model="modelValue.telefone_vendas"
@@ -116,75 +115,14 @@
       :disabled="disabled"
   />
 
+
   <!-- Endereço -->
-  <TextInput
-      id="endereco"
-      label="Endereço"
-      v-model="modelValue.endereco"
-      name="endereco"
-      placeholder="Rua, número, complemento"
-      :error="storeErrors?.endereco"
-      :error-message="storeErrors?.endereco?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
-  />
-
-  <!-- Cidade -->
-  <TextInput
-      id="cidade"
-      label="Cidade"
-      v-model="modelValue.cidade"
-      name="cidade"
-      placeholder="Sua cidade"
-      :error="storeErrors?.cidade"
-      :error-message="storeErrors?.cidade?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
-  />
-
-  <!-- Estado -->
-  <TextInput
-      id="estado"
-      label="Estado (UF)"
-      v-model="modelValue.estado"
-      name="estado"
-      placeholder="SP"
-      maxlength="2"
-      :error="storeErrors?.estado"
-      :error-message="storeErrors?.estado?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
-  />
-
-  <!-- CEP -->
-  <TextInput
-      id="cep"
-      label="CEP"
-      v-model="modelValue.cep"
-      name="cep"
-      placeholder="00000-000"
-      :error="storeErrors?.cep"
-      :error-message="storeErrors?.cep?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
-  />
-
-  <!-- País -->
-  <TextInput
-      id="pais"
-      label="País"
-      v-model="modelValue.pais"
-      name="pais"
-      placeholder="Brasil"
-      :error="storeErrors?.pais"
-      :error-message="storeErrors?.pais?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
+  <EnderecoForm
+      v-model="modelValue.value"
+      :store-errors="storeErrors"
+      :required="true"
+      :readonly="false"
+      :disabled="false"
   />
 
   <!-- CV -->
@@ -221,6 +159,9 @@ import TextInput from "@/components/formulario/TextInput.vue";
 import { computed } from "vue";
 
 import { useRepresentateStore } from "@/stores/perfil/representante.store.js";
+import CpfInput from "@/components/formulario/CpfInput.vue";
+import TelefoneInput from "@/components/formulario/TelefoneInput.vue";
+import EnderecoForm from "@/components/formulario/EnderecoForm.vue";
 
 const props = defineProps({
   modelValue: {

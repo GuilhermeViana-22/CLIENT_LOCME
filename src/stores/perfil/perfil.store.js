@@ -47,6 +47,7 @@ export const usePerfilStore = defineStore('perfil', () => {
         } catch (error) {
             handleErrors(error, perfilStore)
         } finally {
+            hideLoading();
             perfilStore.setIsLoading(false);
         }
     };
