@@ -1,18 +1,4 @@
 <template>
-  <!-- Apelido -->
-  <TextInput
-      id="apelido"
-      label="Apelido"
-      v-model="modelValue.apelido"
-      name="apelido"
-      placeholder="Seu apelido"
-      :error="storeErrors?.apelido"
-      :error-message="storeErrors?.apelido?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
-  />
-
   <!-- WhatsApp -->
   <TextInput
       id="whatsapp"
@@ -20,6 +6,7 @@
       v-model="modelValue.whatsapp"
       name="whatsapp"
       placeholder="(00) 00000-0000"
+      mask="(##) #####-####"
       :error="storeErrors?.whatsapp"
       :error-message="storeErrors?.whatsapp?.[0]"
       :required="required"
@@ -200,20 +187,6 @@
       :disabled="disabled"
   />
 
-  <!-- Disponível -->
-  <div class="flex items-center">
-    <input
-        id="disponivel"
-        type="checkbox"
-        v-model="modelValue.disponivel"
-        :disabled="disabled || readonly"
-        class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-    />
-    <label for="disponivel" class="ml-2 block text-sm text-gray-700">
-      Disponível para novos contatos
-    </label>
-  </div>
-
   <!-- CV -->
   <TextInput
       id="cv"
@@ -227,6 +200,20 @@
       :readonly="readonly"
       :disabled="disabled"
   />
+
+  <!-- Disponível -->
+  <div class="flex items-center">
+    <input
+        id="disponivel"
+        type="checkbox"
+        v-model="modelValue.disponivel"
+        :disabled="disabled || readonly"
+        class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+    />
+    <label for="disponivel" class="ml-2 block text-sm text-gray-700">
+      Disponível para novos contatos
+    </label>
+  </div>
 </template>
 
 <script setup>

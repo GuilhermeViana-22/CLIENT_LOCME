@@ -8,7 +8,7 @@
 
     <div class="bg-white py-8 px-4 shadow-lg rounded-lg sm:px-10 md:mt-0 mt-2">
 
-      <!-- Formulário do Agente de Viagem -->
+      <!-- Formulário do Representante -->
       <form class="md:flex md:flex-row flex-col" @submit.prevent="submit">
 
         <section class="md:w-1/3 w-full">
@@ -51,7 +51,7 @@
                 icon="fas fa-envelope text-gray-400"
                 readonly
             />
-            </div>
+          </div>
 
           <Line
               variant="text-center"
@@ -79,9 +79,9 @@
 
           <div class="w-full md:w-50 md:float-right">
             <ButtonSubmit
-              :loading="store.isLoading"
-              label="Finalizar"
-              custom-class="bg-accent"
+                :loading="store.isLoading"
+                label="Finalizar"
+                custom-class="bg-accent"
             />
           </div>
         </section>
@@ -101,6 +101,7 @@ import TextInput from "@/components/formulario/TextInput.vue";
 import ButtonSubmit from "@/components/formulario/ButtonSubmit.vue";
 import InfoAlert from "@/components/utils/InfoAlert.vue";
 import Line from "@/components/utils/Line.vue";
+import Agencia_viagem_form from "@/components/perfis/forms/agencia_viagem_form.vue";
 
 const store = useAgenteViagemStore();
 const perfilStore = usePerfilStore();
