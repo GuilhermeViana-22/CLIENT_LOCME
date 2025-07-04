@@ -25,13 +25,62 @@
 
         <!-- Formulário (ocupa 2 colunas em telas grandes) -->
         <div class="lg:col-span-2 bg-white rounded-lg shadow p-6">
-          <empresa_form 
-            v-model="formData"
-            :required="true"
-            :errors="errors"
-            :loading="loading"
-            @submit="submit"
+          <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
+          <!-- Dados do Usuário -->
+          <!-- Apelido -->
+          <TextInput
+              id="apelido"
+              label="Apelido"
+              v-model="form.apelido"
+              name="apelido"
+              placeholder="Seu apelido"
+              icon="fas fa-user text-gray-400"
+              readonly
           />
+
+          <!-- Email -->
+          <TextInput
+              id="email"
+              label="E-mail"
+              v-model="form.email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="seu@email.com"
+              icon="fas fa-envelope text-gray-400"
+              readonly
+          />
+        </div>
+
+        <Line
+            variant="text-center"
+            color="border-gray-200"
+            textColor="text-gray-700"
+            spacing="my-8"
+            text="Dados cadastrais"
+        />
+
+          <empresa_form 
+            v-model="form"
+            :required="true"
+          />
+
+          <Line
+              variant="text-center"
+              color="border-gray-200"
+              textColor="text-gray-700"
+              spacing="my-8"
+              text="Dados cadastrais"
+          />
+
+          <div class="w-full md:w-50 md:float-right">
+            <ButtonSubmit
+                :loading="store.isLoading"
+                label="Finalizar"
+                custom-class="bg-accent"
+            />
+          </div>
+
         </div>
       </form>
     </div>
@@ -45,12 +94,19 @@ import { useEmpresaStore } from '@/stores/perfil/empresa.store';
 import ProfileAvatarCompact from '@/components/user/ProfileAvatarCompact.vue';
 import empresa_form from '@/components/perfis/forms/empresa_form.vue';
 import InfoAlert from '@/components/utils/InfoAlert.vue';
+import TextInput from "@/components/formulario/TextInput.vue";
+import Line from "@/components/utils/Line.vue";
+import {usePerfilStore} from "@/stores/perfil/perfil.store.js";
+import ButtonSubmit from "@/components/formulario/ButtonSubmit.vue";
 
+const store = useEmpresaStore();
+const perfilStore = usePerfilStore();
 const authStore = useAuthStore();
-const empresaStore = useEmpresaStore();
 
-const loading = ref(false);
-const formData = ref({
+const form = ref({
+  apelido: authStore.user?.name,
+  email: authStore.user?.email,
+
   nome_empresa: '',
   telefone: '',
   email_contato: '',
@@ -70,17 +126,11 @@ const formData = ref({
   pais: ''
 });
 
-const errors = ref({});
-
 async function submit() {
-  loading.value = true;
   try {
-    await empresaStore.submitForm(formData.value);
+    await perfilStore.submitCompletarPerfil(form.value, store);
   } catch (error) {
-    errors.value = error?.response?.data?.errors || {};
-    console.error('Erro:', error);
-  } finally {
-    loading.value = false;
+    console.error('Erro no cadastro:', error);
   }
 }
 </script>
