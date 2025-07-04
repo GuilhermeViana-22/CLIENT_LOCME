@@ -118,7 +118,7 @@
 
   <!-- Endereço -->
   <EnderecoForm
-      v-model="modelValue.value"
+      v-model="modelValue.endereco"
       :store-errors="storeErrors"
       :required="true"
       :readonly="false"
@@ -139,19 +139,17 @@
       :disabled="disabled"
   />
 
-  <!-- Disponível -->
-  <div class="flex items-center">
-    <input
-        id="disponivel"
-        type="checkbox"
-        v-model="modelValue.disponivel"
-        :disabled="disabled || readonly"
-        class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-    />
-    <label for="disponivel" class="ml-2 block text-sm text-gray-700">
-      Disponível para novos contatos
-    </label>
-  </div>
+  <ToggleSwitch
+      id="disponivel"
+      label="Disponível para novos contatos"
+      v-model="modelValue.disponivel"
+      :required="true"
+      :error="storeErrors?.disponivel"
+      :error-message="storeErrors?.disponivel?.[0]"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode"
+  />
 </template>
 
 <script setup>
@@ -162,6 +160,7 @@ import { useRepresentateStore } from "@/stores/perfil/representante.store.js";
 import CpfInput from "@/components/formulario/CpfInput.vue";
 import TelefoneInput from "@/components/formulario/TelefoneInput.vue";
 import EnderecoForm from "@/components/formulario/EnderecoForm.vue";
+import ToggleSwitch from "@/components/formulario/ToggleSwitch.vue";
 
 const props = defineProps({
   modelValue: {
@@ -177,11 +176,13 @@ const props = defineProps({
       empresa_outra: '',
       telefone_vendas: '',
       url: '',
-      endereco: '',
-      cidade: '',
-      estado: '',
-      cep: '',
-      pais: 'Brasil',
+      endereco: {  // Todos campos de endereço movidos para aqui
+        endereco: '',
+        cidade: '',
+        estado: '',
+        cep: '',
+        pais: 'Brasil',
+      },
       disponivel: true,
       cv: ''
     })

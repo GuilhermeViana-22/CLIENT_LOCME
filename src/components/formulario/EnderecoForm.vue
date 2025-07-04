@@ -135,13 +135,6 @@ export default {
     modelValue: {
       type: Object,
       required: true,
-      default: () => ({
-        endereco: '',
-        cidade: '',
-        estado: '',
-        cep: '',
-        pais: 'Brasil',
-      }),
     },
     storeErrors: {
       type: Object,
