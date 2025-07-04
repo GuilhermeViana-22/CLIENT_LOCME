@@ -70,7 +70,6 @@
               color="border-gray-200"
               textColor="text-gray-700"
               spacing="my-8"
-              text="Dados cadastrais"
           />
 
           <div class="w-full md:w-50 md:float-right">
