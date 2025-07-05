@@ -143,7 +143,7 @@
       id="disponivel"
       label="Disponível para novos contatos"
       v-model="modelValue.disponivel"
-      :required="true"
+      :required="false"
       :error="storeErrors?.disponivel"
       :error-message="storeErrors?.disponivel?.[0]"
       :readonly="readonly"
