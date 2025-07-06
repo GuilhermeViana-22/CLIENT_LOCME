@@ -2,7 +2,7 @@
   <div class="bg-white rounded-lg shadow-md md:p-12 p-4 md:flex">
     <div class="flex items-center space-x-3 md:w-2/3">
       <div class="w-12 h-12 md:h-full md:w-24 md:rounded-lg rounded-full bg-accent flex items-center justify-center">
-        <img v-if="user.foto_perfil_url" :src="user.foto_perfil_url" class="w-12 h-12 md:h-full md:w-24 md:rounded-lg rounded-full">
+        <img v-if="user?.foto_perfil_url" :src="user.foto_perfil_url" class="w-12 h-12 md:h-full md:w-24 md:rounded-lg rounded-full">
         <i v-else class="fas fa-user text-white text-xl"></i>
       </div>
       <div>
