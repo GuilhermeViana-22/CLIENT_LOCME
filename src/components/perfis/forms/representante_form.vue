@@ -1,14 +1,14 @@
 <template>
 
   <TextInput
-      id="apelido"
+      id="nome"
       label="Nome"
-      v-model="modelValue.apelido"
-      name="apelido"
+      v-model="modelValue.nome"
+      name="nome"
       type="text"
-      placeholder="Nome ou apelido"
-      :error="storeErrors?.apelido"
-      :error-message="storeErrors?.apelido?.[0]"
+      placeholder="Nome"
+      :error="storeErrors?.nome"
+      :error-message="storeErrors?.nome?.[0]"
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
@@ -189,7 +189,7 @@ const props = defineProps({
     type: Object,
     required: true,
     default: () => ({
-      apelido: '',
+      nome: '',
       whatsapp: '',
       email_contato: '',
       data_nascimento: '',

@@ -110,8 +110,7 @@ const form = ref({
   usuario: authStore.user?.name || '',
   email: authStore.user?.email || '',
 
-  /// o apelido, na verdade, é o nome, porém pode já autossugestionar
-  apelido: authStore.user?.name || '',
+  nome: authStore.user?.name || '',
   whatsapp: '',
   email_contato: authStore.user?.email || '',
   data_nascimento: '',

@@ -20,7 +20,7 @@ export const useRepresentateStore = defineStore('representante', () => {
     // Retorna os campos dessa store que serão enviados para o backend
     const getDadosFiltrados = (formData = {}) => {
         return {
-            apelido: formData.apelido,
+            nome: formData.nome,
             whatsapp: formData.whatsapp,
             email_contato: formData.email_contato,
             data_nascimento: formData.data_nascimento,
