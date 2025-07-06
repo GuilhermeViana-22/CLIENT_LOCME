@@ -1,5 +1,19 @@
 <template>
 
+  <TextInput
+      id="apelido"
+      label="Nome"
+      v-model="modelValue.apelido"
+      name="apelido"
+      type="text"
+      placeholder="Nome ou apelido"
+      :error="storeErrors?.apelido"
+      :error-message="storeErrors?.apelido?.[0]"
+      :required="required"
+      :readonly="readonly"
+      :disabled="disabled"
+  />
+
   <!-- Whatsapp -->
   <TelefoneInput
       id="whatsapp"
@@ -43,35 +57,42 @@
       :disabled="disabled"
   />
 
-  <!-- Operadora ID -->
-  <TextInput
+  <SelectInput
+      :modelValue="modelValue.operadora_id"
+      @update:modelValue="modelValue.operadora_id = $event"
       id="operadora_id"
-      label="ID da Operadora"
-      v-model="modelValue.operadora_id"
       name="operadora_id"
-      type="number"
-      placeholder="ID da operadora"
+      label="Operadora"
+      placeholder="Selecione a operadora"
+      :required="required"
+      :disabled="disabled"
+      :readonly="readonly"
       :error="storeErrors?.operadora_id"
       :error-message="storeErrors?.operadora_id?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
-  />
+  >
+    <option value="1">Operadora 1</option>
+    <option value="2">Operadora 2</option>
+    <option value="3">Operadora 3</option>
+  </SelectInput>
 
-  <!-- Empresa ID -->
-  <TextInput
-      id="empresa_id"
-      label="ID da Empresa"
-      v-model="modelValue.empresa_id"
+  <!-- Empresa que ele representa -->
+  <SelectInput
+      :modelValue="modelValue.empresa_id"
+      @update:modelValue="modelValue.empresa_id = $event"
+      label="Empresa"
       name="empresa_id"
       type="number"
-      placeholder="ID da empresa (opcional)"
+      placeholder="Selecione uma empresa (opcional)"
       :error="storeErrors?.empresa_id"
       :error-message="storeErrors?.empresa_id?.[0]"
       :required="false"
       :readonly="readonly"
       :disabled="disabled"
-  />
+  >
+    <option value="1">Empresa 1</option>
+    <option value="2">Empresa 2</option>
+    <option value="3">Empresa 3</option>
+  </SelectInput>
 
   <!-- Empresa Outra -->
   <TextInput
@@ -161,6 +182,7 @@ import CpfInput from "@/components/formulario/CpfInput.vue";
 import TelefoneInput from "@/components/formulario/TelefoneInput.vue";
 import EnderecoForm from "@/components/formulario/EnderecoForm.vue";
 import ToggleSwitch from "@/components/formulario/ToggleSwitch.vue";
+import SelectInput from "@/components/formulario/SelectInput.vue";
 
 const props = defineProps({
   modelValue: {

@@ -30,11 +30,11 @@
             <!-- Dados do Usuário -->
             <!-- Apelido -->
             <TextInput
-                id="apelido"
-                label="Apelido"
-                v-model="form.apelido"
-                name="apelido"
-                placeholder="Seu apelido"
+                id="usuario"
+                label="Usuário"
+                v-model="form.usuario"
+                name="usuario"
+                placeholder="Seu usuário"
                 icon="fas fa-user text-gray-400"
                 readonly
             />
@@ -107,21 +107,26 @@ const perfilStore = usePerfilStore();
 const authStore = useAuthStore();
 
 const form = ref({
-  apelido: authStore.user?.name || '',
+  usuario: authStore.user?.name || '',
   email: authStore.user?.email || '',
+
+  /// o apelido, na verdade, é o nome, porém pode já autossugestionar
+  apelido: authStore.user?.name || '',
   whatsapp: '',
-  email_contato: '',
+  email_contato: authStore.user?.email || '',
   data_nascimento: '',
   operadora_id: null,
   empresa_id: null,
   empresa_outra: '',
   telefone_vendas: '',
   url: '',
-  endereco: '',
-  cidade: '',
-  estado: '',
-  cep: '',
-  pais: 'Brasil',
+  endereco: {  // Todos campos de endereço movidos para aqui
+    endereco: '',
+    cidade: '',
+    estado: '',
+    cep: '',
+    pais: 'Brasil',
+  },
   disponivel: true,
   cv: ''
 });

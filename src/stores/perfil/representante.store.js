@@ -29,11 +29,11 @@ export const useRepresentateStore = defineStore('representante', () => {
             empresa_outra: formData.empresa_outra,
             telefone_vendas: formData.telefone_vendas,
             url: formData.url,
-            endereco: formData.endereco,
-            cidade: formData.cidade,
-            estado: formData.estado,
-            cep: formData.cep,
-            pais: formData.pais,
+            endereco: formData.endereco.endereco,
+            cidade: formData.endereco.cidade,
+            estado: formData.endereco.estado,
+            cep: formData.endereco.cep,
+            pais: formData.endereco.pais,
             disponivel: formData.disponivel,
             cv: formData.cv
         }
