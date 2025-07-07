@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <label :for="id" class="block text-sm font-medium text-gray-700">
-      {{ label }} <span v-if="required" class="text-red-500">*</span>
+      {{ label }} <span v-if="required" class="text-red-500">*</span> <span class="text-red-500" v-if="hasCustomMessage"> {{customMessage}} </span>
     </label>
 
     <div class="mt-1 relative">
@@ -89,6 +89,14 @@ export default {
     readonly: {
       type: Boolean,
       default: false
+    },
+    hasCustomMessage: {
+      type: Boolean,
+      default: false
+    },
+    customMessage: {
+      type: String,
+      default: ''
     },
     error: {
       type: Boolean,

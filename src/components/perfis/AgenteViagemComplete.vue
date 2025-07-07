@@ -28,13 +28,13 @@
           <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
 
             <!-- Dados do Usuário -->
-            <!-- Apelido -->
+            <!-- Usuário -->
             <TextInput
-                id="apelido"
-                label="Apelido"
-                v-model="form.apelido"
-                name="apelido"
-                placeholder="Seu apelido"
+                id="usuario"
+                label="Usuário"
+                v-model="form.usuario"
+                name="usuario"
+                placeholder="Seu usuário"
                 icon="fas fa-user text-gray-400"
                 readonly
             />
@@ -67,6 +67,7 @@
             <agente_viagem_form
                 v-model="form"
                 :required="true"
+                :view-mode="false"
             />
           </div>
 
@@ -107,13 +108,13 @@ const perfilStore = usePerfilStore();
 const authStore = useAuthStore();
 
 const form = ref({
-  apelido: authStore.user?.name,
+  usuario: authStore.user?.name,
   email: authStore.user?.email,
   nome_completo: '',
   cpf: '',
   whatsapp: '',
+  uf: 'SP',
   cidade: '',
-  uf: '',
   portfolio_redes_sociais: '',
   vinculado_agencia: true,
   agencia_id: 5,

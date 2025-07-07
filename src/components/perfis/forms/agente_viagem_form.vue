@@ -41,20 +41,6 @@
       :disabled="disabled"
   />
 
-  <!-- Cidade -->
-  <TextInput
-      id="cidade"
-      label="Cidade"
-      v-model="modelValue.cidade"
-      name="cidade"
-      placeholder="Sua cidade"
-      :error="storeErrors?.cidade"
-      :error-message="storeErrors?.cidade?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
-  />
-
   <!-- UF -->
   <SelectInput
       :modelValue="modelValue.uf"
@@ -98,6 +84,19 @@
     <option value="SE">Sergipe</option>
     <option value="TO">Tocantins</option>
   </SelectInput>
+
+  <!-- Cidade -->
+  <CidadeSelect
+      :modelValue="modelValue.cidade"
+      @update:modelValue="modelValue.cidade = $event"
+      :uf="modelValue.uf"
+      label="Cidade"
+      placeholder="Comece a digitar o nome da cidade"
+      :required="true"
+      :error="storeErrors?.cidade"
+      :error-message="storeErrors?.cidade?.[0]"
+      :disabled="disabled"
+  />
 
   <!-- Portfolio Redes Sociais -->
   <TextInput
@@ -182,6 +181,7 @@ import SelectInput from "@/components/formulario/SelectInput.vue";
 import ToggleSwitch from "@/components/formulario/ToggleSwitch.vue";
 import TelefoneInput from "@/components/formulario/TelefoneInput.vue";
 import AsyncSelectInput from "@/components/formulario/AsyncSelectInput.vue";
+import CidadeSelect from "@/components/formulario/AsyncSelectCidade.vue";
 
 const props = defineProps({
   modelValue: {
@@ -194,10 +194,10 @@ const props = defineProps({
       cidade: '',
       uf: '',
       portfolio_redes_sociais: '',
-      vinculado_agencia: false,
-      cnpj_agencia_vinculada: '',
-      tem_cnpj_proprio: false,
-      aceita_contato_representantes: false
+      vinculado_agencia: '',
+      agencia_id: '',
+      tem_cnpj_proprio: '',
+      aceita_contato_representantes: ''
     })
   },
   readonly: {
@@ -209,6 +209,10 @@ const props = defineProps({
     default: false
   },
   required: {
+    type: Boolean,
+    default: false
+  },
+  viewMode: {
     type: Boolean,
     default: false
   }

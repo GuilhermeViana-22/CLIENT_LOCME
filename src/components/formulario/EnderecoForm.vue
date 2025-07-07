@@ -213,7 +213,7 @@ export default {
           title: 'CEP encontrado!',
           text: 'Os dados de endereço foram preenchidos automaticamente.',
           timer: 2000,
-          showConfirmButton: false,
+          showConfirmButton: true,
         });
 
       } catch (error) {

@@ -18,14 +18,6 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow-lg rounded-lg sm:px-10">
-        <!-- Assistente Inteligente para Agente de Viagem -->
-        <TravelAgentRegistrationHelper
-          v-if="showTravelAgentHelper"
-          :form-data="form"
-          :profile-type="selectedProfileType"
-          @close="showTravelAgentHelper = false"
-          @analysis-updated="onAnalysisUpdated"
-        />
 
         <!-- Formulário de Login -->
         <form class="space-y-6" @submit.prevent="handleRegister">
@@ -182,7 +174,6 @@ import { onMounted, ref, computed, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth/auth.store'
 import { usePerfilStore } from '@/stores/perfil/perfil.store'
 import TextInput from "@/components/formulario/TextInput.vue";
-import TravelAgentRegistrationHelper from "@/components/utils/TravelAgentRegistrationHelper.vue";
 
 const authStore = useAuthStore()
 const perfilStore = usePerfilStore()
@@ -196,47 +187,10 @@ const form = ref({
   tipo_perfil_id: ''
 })
 
-// Estado do assistente inteligente
-const showTravelAgentHelper = ref(false)
-const analysisData = ref(null)
-
-// Computed para o tipo de perfil selecionado
-const selectedProfileType = computed(() => {
-  if (!form.value.tipo_perfil_id || !perfilStore.tiposPerfil.length) {
-    return null
-  }
-  
-  const selectedProfile = perfilStore.tiposPerfil.find(
-    profile => profile.id === form.value.tipo_perfil_id
-  )
-  
-  return selectedProfile?.tipo?.toLowerCase().replace(/\s+/g, '_') || null
-})
-
-// Watch para mostrar o assistente quando agente de viagem for selecionado
-watch(() => form.value.tipo_perfil_id, (newValue, oldValue) => {
-  if (newValue && perfilStore.tiposPerfil.length > 0) {
-    const selectedProfile = perfilStore.tiposPerfil.find(
-      profile => profile.id === newValue
-    )
-    
-    if (selectedProfile && selectedProfile.tipo.toLowerCase().includes('agente')) {
-      showTravelAgentHelper.value = true
-    } else {
-      showTravelAgentHelper.value = false
-    }
-  }
-})
-
 // Carrega os tipos de perfil quando o componente é montado
 onMounted(async () => {
   await perfilStore.fetchTiposPerfil()
 })
-
-// Callback para quando a análise for atualizada
-const onAnalysisUpdated = (analysis) => {
-  analysisData.value = analysis
-}
 
 const handleRegister = async () => {
   // Validação básica de senha
@@ -245,32 +199,8 @@ const handleRegister = async () => {
     return
   }
 
-  // Se for agente de viagem e temos análise, considerar as validações do assistente
-  if (selectedProfileType.value === 'agente_de_viagem' && analysisData.value) {
-    if (analysisData.value.validation && analysisData.value.validation.length > 0) {
-      // Converter validações do assistente para o formato esperado pelo authStore
-      const errors = {}
-      analysisData.value.validation.forEach(error => {
-        errors[error.field] = [error.message]
-      })
-      authStore.errors = errors
-      
-      // Mostrar o assistente se não estiver visível
-      if (!showTravelAgentHelper.value) {
-        showTravelAgentHelper.value = true
-      }
-      
-      return
-    }
-  }
-
   try {
     await authStore.register(form.value)
-    
-    // Se o registro foi bem-sucedido e for agente de viagem, mostrar mensagem de sucesso
-    if (selectedProfileType.value === 'agente_de_viagem') {
-      console.log('✈️ Registro de agente de viagem realizado com sucesso!')
-    }
   } catch (error) {
     console.error('Erro no registro:', error)
   }
