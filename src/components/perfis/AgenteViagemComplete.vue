@@ -113,7 +113,7 @@ const form = ref({
   nome_completo: '',
   cpf: '',
   whatsapp: '',
-  uf: 'SP',
+  uf: '',
   cidade: '',
   portfolio_redes_sociais: '',
   vinculado_agencia: true,
