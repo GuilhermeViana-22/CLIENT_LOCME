@@ -22,6 +22,7 @@
           :autocomplete="autocomplete"
           class="py-2 pl-10 pr-10 block w-full border rounded-md focus:ring-2 focus:ring-offset-0 transition-colors"
           :class="inputClasses"
+          maxlength="15"
       />
       <!-- Ícone de validação -->
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center">

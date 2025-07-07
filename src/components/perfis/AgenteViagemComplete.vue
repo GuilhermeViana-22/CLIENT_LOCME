@@ -115,8 +115,8 @@ const form = ref({
   cidade: '',
   uf: '',
   portfolio_redes_sociais: '',
-  vinculado_agencia: false,
-  cnpj_agencia_vinculada: '',
+  vinculado_agencia: true,
+  agencia_id: 5,
   tem_cnpj_proprio: false,
   aceita_contato_representantes: false
 });

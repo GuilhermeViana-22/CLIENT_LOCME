@@ -44,7 +44,7 @@
                 'cursor-not-allowed': disabled || readonly
               }"
             >
-              {{ toggleValue ? 'Sim' : 'Não' }}
+              {{ toggleValue ? 'sim' : 'não' }}
             </div>
           </div>
           <!-- Optional Label Text -->

@@ -28,7 +28,7 @@
   />
 
   <!-- WhatsApp -->
-  <TextInput
+  <TelefoneInput
       id="whatsapp"
       label="WhatsApp"
       v-model="modelValue.whatsapp"
@@ -56,19 +56,48 @@
   />
 
   <!-- UF -->
-  <TextInput
+  <SelectInput
+      :modelValue="modelValue.uf"
+      @update:modelValue="modelValue.uf = $event"
       id="uf"
       label="Estado (UF)"
-      v-model="modelValue.uf"
       name="uf"
-      placeholder="SP"
+      placeholder="Selecione o estado"
       maxlength="2"
       :error="storeErrors?.uf"
       :error-message="storeErrors?.uf?.[0]"
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
-  />
+  >
+    <option value="AC">Acre</option>
+    <option value="AL">Alagoas</option>
+    <option value="AP">Amapá</option>
+    <option value="AM">Amazonas</option>
+    <option value="BA">Bahia</option>
+    <option value="CE">Ceará</option>
+    <option value="DF">Distrito Federal</option>
+    <option value="ES">Espírito Santo</option>
+    <option value="GO">Goiás</option>
+    <option value="MA">Maranhão</option>
+    <option value="MT">Mato Grosso</option>
+    <option value="MS">Mato Grosso do Sul</option>
+    <option value="MG">Minas Gerais</option>
+    <option value="PA">Pará</option>
+    <option value="PB">Paraíba</option>
+    <option value="PR">Paraná</option>
+    <option value="PE">Pernambuco</option>
+    <option value="PI">Piauí</option>
+    <option value="RJ">Rio de Janeiro</option>
+    <option value="RN">Rio Grande do Norte</option>
+    <option value="RS">Rio Grande do Sul</option>
+    <option value="RO">Rondônia</option>
+    <option value="RR">Roraima</option>
+    <option value="SC">Santa Catarina</option>
+    <option value="SP">São Paulo</option>
+    <option value="SE">Sergipe</option>
+    <option value="TO">Tocantins</option>
+  </SelectInput>
 
   <!-- Portfolio Redes Sociais -->
   <TextInput
@@ -85,61 +114,62 @@
   />
 
   <!-- Vinculado à Agência -->
-  <div class="flex items-center">
-    <input
-        id="vinculado_agencia"
-        type="checkbox"
-        v-model="modelValue.vinculado_agencia"
-        :disabled="disabled || readonly"
-        class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-    />
-    <label for="vinculado_agencia" class="ml-2 block text-sm text-gray-700">
-      Vinculado à uma agência
-    </label>
-  </div>
-
-  <!-- CNPJ Agência Vinculada (aparece apenas se vinculado_agencia for true) -->
-  <TextInput
-      v-if="modelValue.vinculado_agencia"
-      id="cnpj_agencia_vinculada"
-      label="CNPJ da Agência Vinculada"
-      v-model="modelValue.cnpj_agencia_vinculada"
-      name="cnpj_agencia_vinculada"
-      placeholder="00.000.000/0000-00"
-      :error="storeErrors?.cnpj_agencia_vinculada"
-      :error-message="storeErrors?.cnpj_agencia_vinculada?.[0]"
-      :required="modelValue.vinculado_agencia && required"
+  <ToggleSwitch
+      id="vinculado_agencia"
+      label="Vinculado à uma agência"
+      v-model="modelValue.vinculado_agencia"
+      :required="false"
+      :error="storeErrors?.vinculado_agencia"
+      :error-message="storeErrors?.vinculado_agencia?.[0]"
       :readonly="readonly"
+      :disabled="disabled || readonly"
+      :viewMode="viewMode || false"
+  />
+
+  <!-- Agência Vinculada (aparece apenas se vinculado_agencia for true) -->
+  <AsyncSelectInput
+      v-if="modelValue.vinculado_agencia"
+      :modelValue="modelValue.agencia_id"
+      @update:modelValue="modelValue.agencia_id = $event"
+      id="agencia_id"
+      name="agencia_id"
+      label="Agência Vinculada"
+      placeholder="Digite para pesquisar agências..."
+      :required="required"
       :disabled="disabled"
+      :readonly="readonly"
+      :error="storeErrors?.agencia_id"
+      :error-message="storeErrors?.agencia_id?.[0]"
+      :fetchOptions="fetchAgencias"
+      debounceTime="500"
+      minSearchLength="2"
   />
 
   <!-- Tem CNPJ Próprio -->
-  <div class="flex items-center">
-    <input
-        id="tem_cnpj_proprio"
-        type="checkbox"
-        v-model="modelValue.tem_cnpj_proprio"
-        :disabled="disabled || readonly"
-        class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-    />
-    <label for="tem_cnpj_proprio" class="ml-2 block text-sm text-gray-700">
-      Tenho CNPJ próprio
-    </label>
-  </div>
+  <ToggleSwitch
+      id="tem_cnpj_proprio"
+      label="Tenho CNPJ próprio"
+      v-model="modelValue.tem_cnpj_proprio"
+      :required="false"
+      :error="storeErrors?.tem_cnpj_proprio"
+      :error-message="storeErrors?.tem_cnpj_proprio?.[0]"
+      :readonly="readonly"
+      :disabled="disabled || readonly"
+      :viewMode="viewMode || false"
+  />
 
   <!-- Aceita Contato de Representantes -->
-  <div class="flex items-center">
-    <input
-        id="aceita_contato_representantes"
-        type="checkbox"
-        v-model="modelValue.aceita_contato_representantes"
-        :disabled="disabled || readonly"
-        class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-    />
-    <label for="aceita_contato_representantes" class="ml-2 block text-sm text-gray-700">
-      Aceito contato de representantes
-    </label>
-  </div>
+  <ToggleSwitch
+      id="aceita_contato_representantes"
+      label="Aceito contato de representantes"
+      v-model="modelValue.aceita_contato_representantes"
+      :required="false"
+      :error="storeErrors?.aceita_contato_representantes"
+      :error-message="storeErrors?.aceita_contato_representantes?.[0]"
+      :readonly="readonly"
+      :disabled="disabled || readonly"
+      :viewMode="viewMode || false"
+  />
 </template>
 
 <script setup>
@@ -148,6 +178,10 @@ import CpfInput from "@/components/formulario/CpfInput.vue";
 import { computed } from "vue";
 
 import { useAgenteViagemStore } from "@/stores/perfil/agenteViagem.store.js";
+import SelectInput from "@/components/formulario/SelectInput.vue";
+import ToggleSwitch from "@/components/formulario/ToggleSwitch.vue";
+import TelefoneInput from "@/components/formulario/TelefoneInput.vue";
+import AsyncSelectInput from "@/components/formulario/AsyncSelectInput.vue";
 
 const props = defineProps({
   modelValue: {
@@ -184,4 +218,47 @@ const store = useAgenteViagemStore();
 
 // Computed para os erros da store
 const storeErrors = computed(() => store.errors);
+
+const fetchAgencias = async function(searchQuery, currentValue = null) {
+  return new Promise((resolve) => {
+
+    const agenciasMock = [
+      { id: 1, nome: 'Agência Centro - 001', cidade: 'São Paulo' },
+      { id: 2, nome: 'Agência Vila Olímpia - 002', cidade: 'São Paulo' },
+      { id: 3, nome: 'Agência Copacabana - 003', cidade: 'Rio de Janeiro' },
+      { id: 4, nome: 'Agência Ipanema - 004', cidade: 'Rio de Janeiro' },
+      { id: 5, nome: 'Agência Savassi - 005', cidade: 'Belo Horizonte' },
+      { id: 6, nome: 'Agência Barra - 006', cidade: 'Salvador' },
+      { id: 7, nome: 'Agência Boa Viagem - 007', cidade: 'Recife' },
+      { id: 8, nome: 'Agência Batel - 008', cidade: 'Curitiba' },
+      { id: 9, nome: 'Agência Moema - 009', cidade: 'São Paulo' },
+      { id: 10, nome: 'Agência Jardins - 010', cidade: 'São Paulo' },
+    ];
+
+    // Simula delay de rede
+    setTimeout(() => {
+      if (!searchQuery) {
+        // Retorna todas as agências ou vazio - depende do seu caso
+        const results = agenciasMock.map(ag => ({
+          value: ag.id,
+          label: `${ag.nome} (${ag.cidade})`
+        }));
+        resolve(results);
+      } else {
+        const query = searchQuery.toLowerCase();
+        const filtered = agenciasMock
+            .filter(ag =>
+                ag.nome.toLowerCase().includes(query) ||
+                ag.cidade.toLowerCase().includes(query)
+            )
+            .map(ag => ({
+              value: ag.id,
+              label: `${ag.nome} (${ag.cidade})`
+            }));
+
+        resolve(filtered);
+      }
+    }, 300); // Simula delay de rede
+  });
+}
 </script> 
