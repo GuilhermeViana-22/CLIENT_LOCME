@@ -13,6 +13,20 @@
       :disabled="disabled"
   />
 
+  <!-- Data de Nascimento -->
+  <TextInput
+      id="data_nascimento"
+      label="Data de Nascimento"
+      v-model="modelValue.data_nascimento"
+      name="data_nascimento"
+      type="date"
+      :error="storeErrors?.data_nascimento"
+      :error-message="storeErrors?.data_nascimento?.[0]"
+      :required="required"
+      :readonly="readonly"
+      :disabled="disabled"
+  />
+
   <!-- CPF -->
   <CpfInput
       id="cpf"
@@ -157,6 +171,21 @@
       :viewMode="viewMode || false"
   />
 
+  <!-- CNPJ -->
+  <CnpjInput
+      v-if="modelValue.tem_cnpj_proprio"
+      id="cnpj"
+      label="CNPJ Próprio"
+      v-model="modelValue.cnpj_proprio"
+      name="cnpj"
+      placeholder="00.000.000/0000-00"
+      :error="storeErrors?.cnpj_proprio"
+      :error-message="storeErrors?.cnpj_proprio?.[0]"
+      :required="required"
+      :readonly="readonly"
+      :disabled="disabled"
+  />
+
   <!-- Aceita Contato de Representantes -->
   <ToggleSwitch
       id="aceita_contato_representantes"
@@ -182,6 +211,7 @@ import ToggleSwitch from "@/components/formulario/ToggleSwitch.vue";
 import TelefoneInput from "@/components/formulario/TelefoneInput.vue";
 import AsyncSelectInput from "@/components/formulario/AsyncSelectInput.vue";
 import CidadeSelect from "@/components/formulario/AsyncSelectCidade.vue";
+import CnpjInput from "@/components/formulario/CnpjInput.vue";
 
 const props = defineProps({
   modelValue: {
@@ -189,14 +219,16 @@ const props = defineProps({
     required: true,
     default: () => ({
       nome_completo: '',
+      data_nascimento: '',
       cpf: '',
       whatsapp: '',
-      cidade: '',
       uf: '',
+      cidade: '',
       portfolio_redes_sociais: '',
       vinculado_agencia: '',
       agencia_id: '',
       tem_cnpj_proprio: '',
+      cnpj_proprio: '',
       aceita_contato_representantes: ''
     })
   },

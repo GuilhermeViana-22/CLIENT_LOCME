@@ -111,6 +111,7 @@ const form = ref({
   usuario: authStore.user?.name,
   email: authStore.user?.email,
   nome_completo: '',
+  data_nascimento: '',
   cpf: '',
   whatsapp: '',
   uf: '',
@@ -119,6 +120,7 @@ const form = ref({
   vinculado_agencia: true,
   agencia_id: 5,
   tem_cnpj_proprio: false,
+  cnpj_proprio: '',
   aceita_contato_representantes: false
 });
 
