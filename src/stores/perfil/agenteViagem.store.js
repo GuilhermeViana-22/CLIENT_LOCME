@@ -23,13 +23,18 @@ export const useAgenteViagemStore = defineStore('agenteViagem', () => {
             apelido: formData.apelido,
             email: formData.email,
             nome_completo: formData.nome_completo,
+            data_nascimento: formData.data_nascimento,
             cpf: formData.cpf,
             whatsapp: formData.whatsapp,
             cidade: formData.cidade,
             uf: formData.uf,
+
             vinculado_agencia: formData.vinculado_agencia || false,
-            cnpj_agencia_vinculada: formData.cnpj_agencia_vinculada || '',
+            agencia_id: formData.agencia_id || '',
+
             tem_cnpj_proprio: formData.tem_cnpj_proprio || false,
+            cnpj_proprio: formData.cnpj_proprio || '',
+
             portfolio_redes_sociais: formData.portfolio_redes_sociais || '',
             aceita_contato_representantes: formData.aceita_contato_representantes || false
         }
