@@ -14,6 +14,7 @@
           :readonly="readonly"
           :disabled="disabled"
           class="w-full"
+          :viewMode="viewMode || false"
       />
     </div>
     <div class="grid md:grid-cols-3 gap-6">
@@ -30,56 +31,55 @@
             :readonly="readonly"
             :disabled="disabled"
             class="w-full"
+            :viewMode="viewMode || false"
         />
       </div>
-      <div>
-        <label for="estado" class="block text-sm font-medium text-gray-700">
-          Estado (UF) <span v-if="required" class="text-red-500">*</span>
-        </label>
-        <div class="mt-1">
-          <select
-              id="estado"
-              v-model="modelValue.estado"
-              name="estado"
-              :required="required"
-              :disabled="disabled || readonly"
-              class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-              :class="{'border-red-400': storeErrors?.estado, 'border-gray-300': !storeErrors?.estado}"
-          >
-            <option value="" disabled>Selecione o estado</option>
-            <option value="AC">Acre</option>
-            <option value="AL">Alagoas</option>
-            <option value="AP">Amapá</option>
-            <option value="AM">Amazonas</option>
-            <option value="BA">Bahia</option>
-            <option value="CE">Ceará</option>
-            <option value="DF">Distrito Federal</option>
-            <option value="ES">Espírito Santo</option>
-            <option value="GO">Goiás</option>
-            <option value="MA">Maranhão</option>
-            <option value="MT">Mato Grosso</option>
-            <option value="MS">Mato Grosso do Sul</option>
-            <option value="MG">Minas Gerais</option>
-            <option value="PA">Pará</option>
-            <option value="PB">Paraíba</option>
-            <option value="PR">Paraná</option>
-            <option value="PE">Pernambuco</option>
-            <option value="PI">Piauí</option>
-            <option value="RJ">Rio de Janeiro</option>
-            <option value="RN">Rio Grande do Norte</option>
-            <option value="RS">Rio Grande do Sul</option>
-            <option value="RO">Rondônia</option>
-            <option value="RR">Roraima</option>
-            <option value="SC">Santa Catarina</option>
-            <option value="SP">São Paulo</option>
-            <option value="SE">Sergipe</option>
-            <option value="TO">Tocantins</option>
-          </select>
-        </div>
-        <div v-if="storeErrors?.estado" class="text-red-600 text-sm mt-1.5">
-          {{ storeErrors.estado[0] }}
-        </div>
-      </div>
+
+      <!-- UF -->
+      <SelectInput
+          :modelValue="modelValue.estado"
+          @update:modelValue="modelValue.estado = $event"
+          id="estado"
+          label="Estado (UF)"
+          name="estado"
+          placeholder="Selecione o estado"
+          maxlength="2"
+          :error="storeErrors?.estado"
+          :error-message="storeErrors?.estado?.[0]"
+          :required="required"
+          :readonly="readonly"
+          :disabled="disabled"
+          :viewMode="viewMode || false"
+      >
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espírito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
+        <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
+      </SelectInput>
+
       <div>
         <TextInput
             id="cep"
@@ -95,9 +95,10 @@
             :disabled="disabled"
             @blur="consultarCEP"
             class="w-full"
+            :viewMode="viewMode || false"
         />
         <button
-            v-if="!readonly && !disabled"
+            v-if="!readonly && !disabled && !viewMode"
             type="button"
             @click="consultarCEP"
             class="mt-2 text-sm text-primary hover:text-primary-dark font-medium"
@@ -119,6 +120,7 @@
           :readonly="readonly"
           :disabled="disabled"
           class="w-full"
+          :viewMode="viewMode || false"
       />
     </div>
   </div>
@@ -127,10 +129,11 @@
 <script>
 import Swal from 'sweetalert2';
 import TextInput from "@/components/formulario/TextInput.vue";
+import SelectInput from "@/components/formulario/SelectInput.vue";
 
 export default {
   name: 'EnderecoForm',
-  components: {TextInput},
+  components: {SelectInput, TextInput},
   props: {
     modelValue: {
       type: Object,
@@ -152,6 +155,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    viewMode: {
+      type: Boolean,
+      default: false
+    }
   },
   emits: ['update:modelValue'],
   computed: {

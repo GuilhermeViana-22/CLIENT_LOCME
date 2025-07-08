@@ -1,14 +1,10 @@
 <template>
   <div>
-    <!-- Modo visualização (somente leitura) -->
-    <template v-if="viewMode">
-      <label :for="id" class="block text-sm font-medium text-gray-700">
-        {{ label }} <span v-if="required" class="text-red-500">*</span>
-      </label>
-      <div class="mt-1 p-2 bg-gray-100 rounded-md min-h-[42px]">
-        {{ displayValue || 'Nenhuma cidade selecionada' }}
-      </div>
-    </template>
+    <!-- Modo visualização -->
+    <div v-if="viewMode" class="view-mode">
+      <p class="text-sm text-gray-700">{{ label }}</p>
+      <p class="font-medium">{{ displayValue || 'Não informado' }}</p>
+    </div>
 
     <!-- Modo edição -->
     <template v-else>

@@ -55,7 +55,7 @@
 
             <div class="grid md:grid-cols-2 gap-4">
               <div>
-                <p class="text-sm text-gray-500">Nome Completo</p>
+                <p class="text-sm text-gray-500">Usuário</p>
                 <p class="font-medium">{{ authStore.user.name || 'Não disponível' }}</p>
               </div>
               <div>
@@ -63,12 +63,12 @@
                 <p class="font-medium">{{ authStore.user.email || 'Não disponível' }}</p>
               </div>
               <div>
-                <p class="text-sm text-gray-500">Telefone</p>
-                <p class="font-medium">Não disponível</p>
+                <p class="text-sm text-gray-500">Tipo de Perfil</p>
+                <p class="font-medium">{{ authStore.user.tipo_perfil || 'Não disponível' }}</p>
               </div>
               <div>
-                <p class="text-sm text-gray-500">Data de Nascimento</p>
-                <p class="font-medium">Não disponível</p>
+                <p class="text-sm text-gray-500">Membro desde</p>
+                <p class="font-medium">{{ formattedCreatedAt }}</p>
               </div>
             </div>
           </div>
@@ -81,22 +81,20 @@
             </h3>
 
             <div class="grid md:grid-cols-2 gap-4">
-              <div>
-                <p class="text-sm text-gray-500">Tipo de Perfil</p>
-                <p class="font-medium">{{ authStore.user.tipo_perfil || 'Não disponível' }}</p>
-              </div>
-              <div>
-                <p class="text-sm text-gray-500">Empresa</p>
-                <p class="font-medium">Não disponível</p>
-              </div>
-              <div>
-                <p class="text-sm text-gray-500">Registro Profissional</p>
-                <p class="font-medium">Não disponível</p>
-              </div>
-              <div>
-                <p class="text-sm text-gray-500">Membro desde</p>
-                <p class="font-medium">{{ formattedCreatedAt }}</p>
-              </div>
+
+              <!-- Formulário de cada tipo de perfil com o modo VIEW-MODE-->
+              <representante_form
+                  v-if="form.tipo_perfil_id === 1"
+                  v-model="form.perfil"
+                  :view-mode="true"
+              />
+
+              <agente_viagem_form
+                  v-if="form.tipo_perfil_id === 2"
+                  v-model="form.perfil"
+                  :view-mode="true"
+              />
+
             </div>
           </div>
         </div>
@@ -158,14 +156,21 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import {computed, ref} from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth/auth.store';
 import ProfileSkeleton from "@/components/user/ProfileSkeleton.vue";
 import ProfileAvatarCompact from "@/components/user/ProfileAvatarCompact.vue";
+import Agente_viagem_form from "@/components/perfis/forms/agente_viagem_form.vue";
+import Representante_form from "@/components/perfis/forms/representante_form.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
+
+const form = ref({
+  tipo_perfil_id: authStore.user.tipo_perfil_id,
+  perfil: authStore.user?.perfil,
+});
 
 // Dados padrão para estatísticas
 const stats = {

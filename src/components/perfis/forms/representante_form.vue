@@ -12,6 +12,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Whatsapp -->
@@ -26,6 +27,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Email de Contato -->
@@ -41,6 +43,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Data de Nascimento -->
@@ -55,6 +58,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <SelectInput
@@ -69,6 +73,7 @@
       :readonly="readonly"
       :error="storeErrors?.operadora_id"
       :error-message="storeErrors?.operadora_id?.[0]"
+      :viewMode="viewMode || false"
   >
     <option value="1">Operadora 1</option>
     <option value="2">Operadora 2</option>
@@ -88,6 +93,7 @@
       :required="false"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   >
     <option value="1">Empresa 1</option>
     <option value="2">Empresa 2</option>
@@ -106,6 +112,7 @@
       :required="false"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <TelefoneInput
@@ -119,6 +126,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- URL -->
@@ -134,6 +142,7 @@
       :required="false"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
 
@@ -144,6 +153,7 @@
       :required="true"
       :readonly="false"
       :disabled="false"
+      :viewMode="viewMode || false"
   />
 
   <!-- CV -->
@@ -158,6 +168,7 @@
       :required="false"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <ToggleSwitch
@@ -218,6 +229,10 @@ const props = defineProps({
     default: false
   },
   required: {
+    type: Boolean,
+    default: false
+  },
+  viewMode: {
     type: Boolean,
     default: false
   }

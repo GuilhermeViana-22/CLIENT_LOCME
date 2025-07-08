@@ -1,54 +1,61 @@
 <template>
   <div>
-    <label :for="id" class="block text-sm font-medium text-gray-700">
-      {{ label }} <span v-if="required" class="text-red-500">*</span>
-    </label>
-    <div class="mt-1 relative rounded-md shadow-sm">
-      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <i class="fas fa-phone text-gray-400"></i>
+    <div v-if="viewMode" class="view-mode">
+      <p class="text-sm text-gray-700">{{ label }}</p>
+      <p class="font-medium">{{ formattedValue || 'Não informado' }}</p>
+    </div>
+
+    <template v-else>
+      <label :for="id" class="block text-sm font-medium text-gray-700">
+        {{ label }} <span v-if="required" class="text-red-500">*</span>
+      </label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i class="fas fa-phone text-gray-400"></i>
+        </div>
+        <input
+            :id="id"
+            ref="inputRef"
+            :name="name"
+            type="text"
+            :value="formattedValue"
+            @input="handleInput"
+            @blur="handleBlur"
+            :placeholder="placeholder"
+            :required="required"
+            :readonly="readonly"
+            :disabled="disabled"
+            :autocomplete="autocomplete"
+            class="py-2 pl-10 pr-10 block w-full border rounded-md focus:ring-2 focus:ring-offset-0 transition-colors"
+            :class="inputClasses"
+            maxlength="15"
+        />
+        <!-- Ícone de validação -->
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+          <i
+              v-if="showValidationIcon"
+              :class="validationIconClass"
+          ></i>
+        </div>
       </div>
-      <input
-          :id="id"
-          ref="inputRef"
-          :name="name"
-          type="text"
-          :value="formattedValue"
-          @input="handleInput"
-          @blur="handleBlur"
-          :placeholder="placeholder"
-          :required="required"
-          :readonly="readonly"
-          :disabled="disabled"
-          :autocomplete="autocomplete"
-          class="py-2 pl-10 pr-10 block w-full border rounded-md focus:ring-2 focus:ring-offset-0 transition-colors"
-          :class="inputClasses"
-          maxlength="15"
-      />
-      <!-- Ícone de validação -->
-      <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-        <i
-            v-if="showValidationIcon"
-            :class="validationIconClass"
-        ></i>
+
+      <!-- Mensagem de erro -->
+      <div v-if="error && errorMessage" class="text-red-600 text-sm mt-1.5">
+        {{ errorMessage }}
       </div>
-    </div>
 
-    <!-- Mensagem de erro -->
-    <div v-if="error && errorMessage" class="text-red-600 text-sm mt-1.5">
-      {{ errorMessage }}
-    </div>
+      <!-- Indicador de telefone válido -->
+      <div v-if="isValid && formattedValue" class="text-green-600 text-sm mt-1.5 flex items-center">
+        <i class="fas fa-check-circle mr-1"></i>
+        Telefone válido
+      </div>
 
-    <!-- Indicador de telefone válido -->
-    <div v-if="isValid && formattedValue" class="text-green-600 text-sm mt-1.5 flex items-center">
-      <i class="fas fa-check-circle mr-1"></i>
-      Telefone válido
-    </div>
-
-    <!-- Indicador de telefone inválido (apenas se preenchido) -->
-    <div v-if="!isValid && formattedValue && formattedValue.length >= 14" class="text-red-600 text-sm mt-1.5 flex items-center">
-      <i class="fas fa-times-circle mr-1"></i>
-      Telefone inválido
-    </div>
+      <!-- Indicador de telefone inválido (apenas se preenchido) -->
+      <div v-if="!isValid && formattedValue && formattedValue.length >= 14" class="text-red-600 text-sm mt-1.5 flex items-center">
+        <i class="fas fa-times-circle mr-1"></i>
+        Telefone inválido
+      </div>
+    </template>
   </div>
 </template>
 
@@ -99,6 +106,10 @@ const props = defineProps({
   autocomplete: {
     type: String,
     default: 'tel'
+  },
+  viewMode: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -108,6 +119,8 @@ const inputRef = ref(null)
 
 // Função para aplicar máscara de telefone
 const applyMask = (value) => {
+  if (!value) return ''
+
   const phone = value.replace(/\D/g, '')
 
   if (phone.length <= 10) {

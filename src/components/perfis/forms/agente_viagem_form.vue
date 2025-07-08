@@ -11,6 +11,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Data de Nascimento -->
@@ -25,6 +26,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- CPF -->
@@ -39,6 +41,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- WhatsApp -->
@@ -53,6 +56,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- UF -->
@@ -69,6 +73,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   >
     <option value="AC">Acre</option>
     <option value="AL">Alagoas</option>
@@ -110,6 +115,7 @@
       :error="storeErrors?.cidade"
       :error-message="storeErrors?.cidade?.[0]"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Portfolio Redes Sociais -->
@@ -124,6 +130,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Vinculado à Agência -->
@@ -156,6 +163,7 @@
       :fetchOptions="fetchAgencias"
       debounceTime="500"
       minSearchLength="2"
+      :viewMode="viewMode || false"
   />
 
   <!-- Tem CNPJ Próprio -->
@@ -184,6 +192,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Aceita Contato de Representantes -->
