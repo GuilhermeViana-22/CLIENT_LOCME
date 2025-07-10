@@ -89,10 +89,9 @@
                 >
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
-                <span>{{ isRefreshing ? 'Recarregando...' : 'Recarregar Perfil' }}</span>
+                <span class="lg:block hidden">{{ isRefreshing ? 'Recarregando...' : 'Recarregar Perfil' }}</span>
               </button>
             </div>
-
 
             <div class="grid md:grid-cols-2 gap-4">
               <div>
@@ -177,22 +176,21 @@
       <!-- Botões de Ação -->
       <div class="flex flex-col md:flex-row justify-end space-y-3 md:space-y-0 md:space-x-4">
 
-        <div v-if="form.perfil == null">
-          <button
-              @click="completeProfile"
-              class="px-6 py-2 border rounded-lg font-medium bg-accent text-white transition-colors"
-          >
-            Completar Perfil
-          </button>
-        </div>
-        <div v-else>
-          <button
-              @click="changePassword"
-              class="px-6 py-2 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors"
-          >
-            Editar Perfil
-          </button>
-        </div>
+        <button
+            v-if="form.perfil == null"
+            @click="completeProfile"
+            class="px-6 py-2 border rounded-lg font-medium bg-accent text-white transition-colors"
+        >
+          Completar Perfil
+        </button>
+
+        <button
+            v-else
+            @click="changePassword"
+            class="px-6 py-2 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors"
+        >
+          Editar Perfil
+        </button>
 
         <button
             @click="changePassword"
