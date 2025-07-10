@@ -82,18 +82,25 @@
 
             <div class="grid md:grid-cols-2 gap-4">
 
-              <!-- Formulário de cada tipo de perfil com o modo VIEW-MODE-->
-              <representante_form
-                  v-if="form.tipo_perfil_id === 1"
-                  v-model="form.perfil"
-                  :view-mode="true"
-              />
+              <div v-if="form.perfil == null">
 
-              <agente_viagem_form
-                  v-if="form.tipo_perfil_id === 2"
-                  v-model="form.perfil"
-                  :view-mode="true"
-              />
+                <p>Sem informações</p>
+
+              </div>
+              <div v-else>
+                <!-- Formulário de cada tipo de perfil com o modo VIEW-MODE-->
+                <representante_form
+                    v-if="form.tipo_perfil_id === 1"
+                    v-model="form.perfil"
+                    :view-mode="true"
+                />
+
+                <agente_viagem_form
+                    v-if="form.tipo_perfil_id === 2"
+                    v-model="form.perfil"
+                    :view-mode="true"
+                />
+              </div>
 
             </div>
           </div>
@@ -132,12 +139,24 @@
 
       <!-- Botões de Ação -->
       <div class="flex flex-col md:flex-row justify-end space-y-3 md:space-y-0 md:space-x-4">
-        <button
-            @click="changePassword"
-            class="px-6 py-2 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors"
-        >
-          Editar Perfil
-        </button>
+
+        <div v-if="form.perfil == null">
+          <button
+              @click="completeProfile"
+              class="px-6 py-2 border rounded-lg font-medium bg-accent text-white transition-colors"
+          >
+            Completar Perfil
+          </button>
+        </div>
+        <div v-else>
+          <button
+              @click="changePassword"
+              class="px-6 py-2 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors"
+          >
+            Editar Perfil
+          </button>
+        </div>
+
         <button
             @click="changePassword"
             class="px-6 py-2 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors"
@@ -202,7 +221,11 @@ const formattedCreatedAt = computed(() => {
 
 // Métodos
 const changePassword = () => {
-  router.push('/change-password');
+  router.push({ name: 'change-password' });
+};
+
+const completeProfile = () => {
+  router.push({ name: 'completar' });
 };
 
 const logout = () => {
