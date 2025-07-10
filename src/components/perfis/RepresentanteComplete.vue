@@ -51,6 +51,15 @@
                 icon="fas fa-envelope text-gray-400"
                 readonly
             />
+
+            <TextArea
+                id="bio"
+                label="Biografia"
+                v-model="form.bio"
+                rows="6"
+                placeholder="Digite sua biografia aqui..."
+                class="w-full lg:col-span-2"
+            />
             </div>
 
           <Line
@@ -58,7 +67,7 @@
               color="border-gray-200"
               textColor="text-gray-700"
               spacing="my-8"
-              text="Dados cadastrais"
+              text="Dados do Perfil"
           />
 
           <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
@@ -101,6 +110,7 @@ import TextInput from "@/components/formulario/TextInput.vue";
 import ButtonSubmit from "@/components/formulario/ButtonSubmit.vue";
 import InfoAlert from "@/components/utils/InfoAlert.vue";
 import Line from "@/components/utils/Line.vue";
+import TextArea from "@/components/formulario/TextArea.vue";
 
 const store = useRepresentateStore();
 const perfilStore = usePerfilStore();
@@ -109,6 +119,7 @@ const authStore = useAuthStore();
 const form = ref({
   usuario: authStore.user?.name || '',
   email: authStore.user?.email || '',
+  bio : '',
 
   nome: authStore.user?.name || '',
   whatsapp: '',

@@ -2,7 +2,17 @@
   <div>
     <div v-if="viewMode">
       <p class="text-sm text-gray-700">{{ label }}</p>
-      <p class="font-medium">{{ formattedValue || 'Não informado'}}</p>
+      <template v-if="type === 'url' && modelValue">
+        <button
+            @click="confirmNavigate"
+            class="mt-1 px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-sm"
+        >
+          Ir para link
+        </button>
+      </template>
+      <template v-else>
+        <p class="font-medium">{{ formattedValue || 'Não informado' }}</p>
+      </template>
     </div>
 
     <template v-else>
@@ -41,6 +51,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   name: 'TextInput',
   props: {
@@ -92,6 +104,21 @@ export default {
       const rawValue = event.target.value;
       const masked = this.applyMask(rawValue);
       this.$emit('update:modelValue', masked);
+    },
+    confirmNavigate() {
+      Swal.fire({
+        title: 'Atenção',
+        text: `Tem certeza que deseja ir para o link: ${this.modelValue}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sim, ir para o link',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.open(this.modelValue, '_blank');
+        }
+      });
     }
   }
 }

@@ -91,7 +91,7 @@ export default {
 
       const options = this.$slots.default?.() || []
       const selectedOption = options.find(option =>
-          option.props?.value === this.modelValue
+          option.props?.value == this.modelValue
       )
 
       return selectedOption?.children || this.modelValue

@@ -151,6 +151,39 @@ export const useAuthStore = defineStore('auth', () => {
       }
     }
   }
+
+  const refreshUser = async () => {
+    if (token.value) {
+      const toast = useToast()
+      showFancyLoading()
+
+      try {
+        isLoading.value = true;
+        const { data } = await api.get('/me');
+
+        // Cria um NOVO objeto para forçar a reatividade
+        setUser({ ...data });
+
+        toast.success("Perfil recarregado com sucesso!", {
+          position: "bottom-right",
+          timeout: 3000
+        });
+
+        return data; // Retorna os dados para uso imediato se necessário
+      } catch (error) {
+        console.error('Falha ao carregar user:', error);
+        toast.error("Falha ao recarregar perfil", {
+          position: "bottom-right",
+          timeout: 3000
+        });
+        throw error;
+      } finally {
+        isLoading.value = false;
+        hideLoading();
+      }
+    }
+  }
+
   const updateProfilePhoto = async (file) => {
     const toast = useToast()
     showFancyLoading()
@@ -212,6 +245,7 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     refreshToken,
     initializeAuth,
-    updateProfilePhoto
+    updateProfilePhoto,
+    refreshUser
   }
 })

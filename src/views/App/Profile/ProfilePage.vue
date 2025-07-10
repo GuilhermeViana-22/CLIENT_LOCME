@@ -13,7 +13,6 @@
             <ProfileAvatarCompact :user="authStore.user" editable />
 
             <h2 class="text-xl font-bold text-center text-gray-800">{{ authStore.user.name || 'Nome não disponível' }}</h2>
-            <p class="text-sm text-gray-500">{{ userRole }}</p>
 
             <div class="mt-4 flex space-x-2">
               <span class="px-3 py-1 bg-purple-100 text-primary rounded-full text-xs">
@@ -42,16 +41,58 @@
               </div>
             </div>
           </div>
+
+          <TextArea
+              id="bio"
+              label="Biografia"
+              v-model="form.bio"
+              rows="6"
+              placeholder="Digite sua biografia aqui..."
+              class="w-full mt-12 p-2"
+              :view-mode="true"
+          />
         </div>
 
         <!-- Seção Direita (Desktop) -->
         <div class="md:flex-1 md:space-y-6">
           <!-- Card de Informações Pessoais -->
           <div class="bg-white rounded-xl shadow-lg p-6 mt-6 md:mt-0">
-            <h3 class="text-lg font-semibold text-primary mb-4 flex items-center">
-              <i class="fas fa-user-circle mr-2"></i>
-              Informações Pessoais
-            </h3>
+
+            <div class="flex justify-between">
+              <h3 class="text-lg font-semibold text-primary mb-4 flex items-center">
+                <i class="fas fa-user-circle mr-2"></i>
+                Informações Pessoais
+              </h3>
+
+              <button
+                  @click="refreshProfile"
+                  :disabled="isRefreshing"
+                  class="flex items-center gap-2 px-6 py-2.5 border border-primary rounded-lg font-medium text-primary bg-white hover:bg-purple-50 transition-colors duration-200 shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                <svg
+                    v-if="isRefreshing"
+                    class="animate-spin h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <svg
+                    v-else
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>{{ isRefreshing ? 'Recarregando...' : 'Recarregar Perfil' }}</span>
+              </button>
+            </div>
+
 
             <div class="grid md:grid-cols-2 gap-4">
               <div>
@@ -80,14 +121,11 @@
               Informações Profissionais
             </h3>
 
-            <div class="grid md:grid-cols-2 gap-4">
-
+            <div>
               <div v-if="form.perfil == null">
-
                 <p>Sem informações</p>
-
               </div>
-              <div v-else>
+              <div v-else class="grid md:grid-cols-2 gap-4 w-full">
                 <!-- Formulário de cada tipo de perfil com o modo VIEW-MODE-->
                 <representante_form
                     v-if="form.tipo_perfil_id === 1"
@@ -101,7 +139,6 @@
                     :view-mode="true"
                 />
               </div>
-
             </div>
           </div>
         </div>
@@ -176,19 +213,45 @@
 
 <script setup>
 import {computed, ref} from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth/auth.store';
+import {useRouter} from 'vue-router';
+import {useAuthStore} from '@/stores/auth/auth.store';
 import ProfileSkeleton from "@/components/user/ProfileSkeleton.vue";
 import ProfileAvatarCompact from "@/components/user/ProfileAvatarCompact.vue";
 import Agente_viagem_form from "@/components/perfis/forms/agente_viagem_form.vue";
 import Representante_form from "@/components/perfis/forms/representante_form.vue";
+import TextArea from "@/components/formulario/TextArea.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
 
+/// CASO TENHA ALGUMA DIFERENÇA ENTRE OS VALORES, É SÓ FORMATAR PARA CADA TIPO DE PERFIL
+const formatedPerfil = function(tipo_perfil_id, perfil) {
+  if (perfil == null) return null;
+
+  /// se for representante
+  if(tipo_perfil_id === 1){
+    return {
+      ...perfil,
+      endereco: {
+        endereco: perfil.endereco,
+        cep: perfil.cep,
+        estado: perfil.estado,
+        pais: perfil.pais,
+        cidade: perfil.cidade
+      }
+    };
+  }
+
+  /// aqui os outros perfis se for customizado
+
+  /// caso contrário, retorna o perfil original
+  return perfil;
+}
+
 const form = ref({
+  bio: authStore.user.bio,
   tipo_perfil_id: authStore.user.tipo_perfil_id,
-  perfil: authStore.user?.perfil,
+  perfil: formatedPerfil(authStore.user.tipo_perfil_id, authStore.user?.perfil),
 });
 
 // Dados padrão para estatísticas
@@ -231,6 +294,27 @@ const completeProfile = () => {
 const logout = () => {
   authStore.logout();
 };
+
+const isRefreshing = ref(false);
+
+const refreshProfile = async () => {
+  isRefreshing.value = true;
+  try {
+    await authStore.refreshUser();
+
+    // Atualiza o formulário com os novos dados
+    form.value = {
+      bio: authStore.user.bio,
+      tipo_perfil_id: authStore.user.tipo_perfil_id,
+      perfil: formatedPerfil(authStore.user.tipo_perfil_id, authStore.user?.perfil),
+    };
+
+  } catch (error) {
+    console.error('Erro ao recarregar perfil:', error);
+  } finally {
+    isRefreshing.value = false;
+  }
+}
 </script>
 
 <style scoped>
