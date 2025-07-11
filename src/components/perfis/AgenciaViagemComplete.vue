@@ -51,6 +51,15 @@
                 icon="fas fa-envelope text-gray-400"
                 readonly
             />
+
+            <TextArea
+                id="bio"
+                label="Biografia"
+                v-model="form.bio"
+                rows="6"
+                placeholder="Digite sua biografia aqui..."
+                class="w-full lg:col-span-2"
+            />
           </div>
 
           <Line
@@ -101,6 +110,7 @@ import InfoAlert from "@/components/utils/InfoAlert.vue";
 import Line from "@/components/utils/Line.vue";
 import {useAgenciaViagemStore} from "@/stores/perfil/agenciaViagem.store.js";
 import Agencia_viagem_form from "@/components/perfis/forms/agencia_viagem_form.vue";
+import TextArea from "@/components/formulario/TextArea.vue";
 
 const store = useAgenciaViagemStore();
 const perfilStore = usePerfilStore();

@@ -227,6 +227,7 @@ const props = defineProps({
     type: Object,
     required: true,
     default: () => ({
+      bio: '',
       nome_completo: '',
       data_nascimento: '',
       cpf: '',

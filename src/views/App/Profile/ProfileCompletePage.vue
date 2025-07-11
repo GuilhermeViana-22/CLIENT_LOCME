@@ -1,17 +1,14 @@
 <template>
   <div>
+    <RepresentanteComplete v-if="authStore.user?.tipo_perfil_id == 1" />
 
-    <RepresentanteComplete v-if="authStore.user?.tipo_perfil_id === 1" />
+    <AgenteViagemComplete v-if="authStore.user?.tipo_perfil_id == 2" />
 
-    <AgenteViagemComplete v-if="authStore.user?.tipo_perfil_id === 2" />
+    <AgenciaViagemComplete v-if="authStore.user?.tipo_perfil_id == 3" />
 
-    <AgenciaViagemComplete v-if="authStore.user?.tipo_perfil_id === 3" />
+    <GuiaTurismoComplete v-if="authStore.user?.tipo_perfil_id == 4" />
 
-    <GuiaTurismoComplete v-if="authStore.user?.tipo_perfil_id === 4" />
-
-    <EmpresaComplete v-if="authStore.user?.tipo_perfil_id === 5" />
-
-    <!-- outros tipos -->
+    <EmpresaComplete v-if="authStore.user?.tipo_perfil_id == 5" />
   </div>
 </template>
 

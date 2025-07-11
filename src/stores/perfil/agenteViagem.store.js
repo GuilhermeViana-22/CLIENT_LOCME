@@ -22,6 +22,7 @@ export const useAgenteViagemStore = defineStore('agenteViagem', () => {
         return {
             apelido: formData.apelido,
             email: formData.email,
+            bio: formData.bio,
             nome_completo: formData.nome_completo,
             data_nascimento: formData.data_nascimento,
             cpf: formData.cpf,
