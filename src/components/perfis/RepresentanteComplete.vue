@@ -56,6 +56,8 @@
                 id="bio"
                 label="Biografia"
                 v-model="form.bio"
+                :error="storeErrors?.bio"
+                :error-message="storeErrors?.bio?.[0]"
                 rows="6"
                 placeholder="Digite sua biografia aqui..."
                 class="w-full lg:col-span-2"
@@ -111,6 +113,7 @@ import ButtonSubmit from "@/components/formulario/ButtonSubmit.vue";
 import InfoAlert from "@/components/utils/InfoAlert.vue";
 import Line from "@/components/utils/Line.vue";
 import TextArea from "@/components/formulario/TextArea.vue";
+import { computed } from "vue";
 
 const store = useRepresentateStore();
 const perfilStore = usePerfilStore();
@@ -121,6 +124,7 @@ const form = ref({
   email: authStore.user?.email || '',
   bio : '',
 
+  cpf: '',
   nome: authStore.user?.name || '',
   whatsapp: '',
   email_contato: authStore.user?.email || '',
@@ -140,6 +144,9 @@ const form = ref({
   disponivel: true,
   cv: ''
 });
+
+// Computed para os erros da store
+const storeErrors = computed(() => store.errors);
 
 async function submit() {
   try {

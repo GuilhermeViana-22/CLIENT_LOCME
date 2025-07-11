@@ -15,6 +15,21 @@
       :viewMode="viewMode || false"
   />
 
+  <!-- CPF -->
+  <CpfInput
+      id="cpf"
+      label="CPF"
+      v-model="modelValue.cpf"
+      name="cpf"
+      placeholder="000.000.000-00"
+      :error="storeErrors?.cpf"
+      :error-message="storeErrors?.cpf?.[0]"
+      :required="required"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+  />
+
   <!-- Whatsapp -->
   <TelefoneInput
       id="whatsapp"
@@ -200,6 +215,7 @@ const props = defineProps({
     type: Object,
     required: true,
     default: () => ({
+      cpf: '',
       nome: '',
       whatsapp: '',
       email_contato: '',

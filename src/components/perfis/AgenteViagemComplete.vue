@@ -56,6 +56,8 @@
                 id="bio"
                 label="Biografia"
                 v-model="form.bio"
+                :error="storeErrors?.bio"
+                :error-message="storeErrors?.bio?.[0]"
                 rows="6"
                 placeholder="Digite sua biografia aqui..."
                 class="w-full lg:col-span-2"
@@ -103,7 +105,7 @@
 <script setup>
 import { useAgenteViagemStore } from "@/stores/perfil/agenteViagem.store.js";
 import { usePerfilStore } from "@/stores/perfil/perfil.store.js";
-import { ref } from "vue";
+import {computed, ref} from "vue";
 import { useAuthStore } from "@/stores/auth/auth.store.js";
 import ProfileAvatarCompact from "@/components/user/ProfileAvatarCompact.vue";
 import agente_viagem_form from "@/components/perfis/forms/agente_viagem_form.vue";
@@ -134,6 +136,9 @@ const form = ref({
   cnpj_proprio: '',
   aceita_contato_representantes: false
 });
+
+// Computed para os erros da store
+const storeErrors = computed(() => store.errors);
 
 async function submit() {
   try {

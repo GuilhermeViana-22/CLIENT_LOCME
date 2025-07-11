@@ -144,6 +144,12 @@
                     v-model="form.perfil"
                     :view-mode="true"
                 />
+
+                <guia_turismo_form
+                    v-if="form.tipo_perfil_id == 4"
+                    v-model="form.perfil"
+                    :view-mode="true"
+                />
               </div>
             </div>
           </div>
@@ -226,6 +232,7 @@ import Agente_viagem_form from "@/components/perfis/forms/agente_viagem_form.vue
 import Representante_form from "@/components/perfis/forms/representante_form.vue";
 import TextArea from "@/components/formulario/TextArea.vue";
 import Agencia_viagem_form from "@/components/perfis/forms/agencia_viagem_form.vue";
+import Guia_turismo_form from "@/components/perfis/forms/guia_turismo_form.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();

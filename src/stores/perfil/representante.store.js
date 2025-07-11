@@ -21,6 +21,7 @@ export const useRepresentateStore = defineStore('representante', () => {
     const getDadosFiltrados = (formData = {}) => {
         return {
             nome: formData.nome,
+            cpf: formData.cpf,
             bio: formData.bio,
             whatsapp: formData.whatsapp,
             email_contato: formData.email_contato,

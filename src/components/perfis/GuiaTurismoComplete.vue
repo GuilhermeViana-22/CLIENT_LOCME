@@ -51,6 +51,17 @@
                 icon="fas fa-envelope text-gray-400"
                 readonly
             />
+
+            <TextArea
+                id="bio"
+                label="Biografia"
+                v-model="form.bio"
+                :error="storeErrors?.bio"
+                :error-message="storeErrors?.bio?.[0]"
+                rows="6"
+                placeholder="Digite sua biografia aqui..."
+                class="w-full lg:col-span-2"
+            />
             </div>
 
           <Line
@@ -101,6 +112,8 @@ import TextInput from "@/components/formulario/TextInput.vue";
 import ButtonSubmit from "@/components/formulario/ButtonSubmit.vue";
 import InfoAlert from "@/components/utils/InfoAlert.vue";
 import Line from "@/components/utils/Line.vue";
+import TextArea from "@/components/formulario/TextArea.vue";
+import { computed } from "vue";
 
 const store = useGuiaTurismoStore();
 const perfilStore = usePerfilStore();
@@ -109,6 +122,9 @@ const authStore = useAuthStore();
 const form = ref({
   name: authStore.user?.name,
   email: authStore.user?.email,
+  bio : '',
+
+  cpf: '',
   apelido: '',
   whatsapp: '',
   email_contato: '',
@@ -116,6 +132,9 @@ const form = ref({
   cadastur: '',
   abrangencia_id: ''
 });
+
+// Computed para os erros da store
+const storeErrors = computed(() => store.errors);
 
 async function submit() {
   try {
