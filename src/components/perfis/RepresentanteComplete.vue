@@ -58,6 +58,7 @@
                 v-model="form.bio"
                 :error="storeErrors?.bio"
                 :error-message="storeErrors?.bio?.[0]"
+                required
                 rows="6"
                 placeholder="Digite sua biografia aqui..."
                 class="w-full lg:col-span-2"
