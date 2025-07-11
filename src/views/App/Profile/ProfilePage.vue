@@ -127,13 +127,20 @@
               <div v-else class="grid md:grid-cols-2 gap-4 w-full">
                 <!-- Formulário de cada tipo de perfil com o modo VIEW-MODE-->
                 <representante_form
-                    v-if="form.tipo_perfil_id === 1"
+                    v-if="form.tipo_perfil_id == 1"
                     v-model="form.perfil"
                     :view-mode="true"
                 />
 
                 <agente_viagem_form
-                    v-if="form.tipo_perfil_id === 2"
+                    v-if="form.tipo_perfil_id == 2"
+                    v-model="form.perfil"
+                    :view-mode="true"
+                />
+
+                <!-- Formulário -->
+                <agencia_viagem_form
+                    v-if="form.tipo_perfil_id == 3"
                     v-model="form.perfil"
                     :view-mode="true"
                 />
@@ -218,6 +225,7 @@ import ProfileAvatarCompact from "@/components/user/ProfileAvatarCompact.vue";
 import Agente_viagem_form from "@/components/perfis/forms/agente_viagem_form.vue";
 import Representante_form from "@/components/perfis/forms/representante_form.vue";
 import TextArea from "@/components/formulario/TextArea.vue";
+import Agencia_viagem_form from "@/components/perfis/forms/agencia_viagem_form.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -228,6 +236,20 @@ const formatedPerfil = function(tipo_perfil_id, perfil) {
 
   /// se for representante
   if(tipo_perfil_id === 1){
+    return {
+      ...perfil,
+      endereco: {
+        endereco: perfil.endereco,
+        cep: perfil.cep,
+        estado: perfil.estado,
+        pais: perfil.pais,
+        cidade: perfil.cidade
+      }
+    };
+  }
+
+  /// se for agência
+  if(tipo_perfil_id === 3){
     return {
       ...perfil,
       endereco: {

@@ -27,11 +27,14 @@ export const useAgenciaViagemStore = defineStore('agenciaViagem', () => {
             nome_fantasia: formData.nome_fantasia,
             email_institucional: formData.email_institucional,
             telefone_whatsapp: formData.telefone_whatsapp,
-            cidade: formData.cidade,
-            uf: formData.uf,
-            endereco_completo: formData.endereco_completo,
-            cep: formData.cep,
-            tipo_operacao: formData.tipo_operacao,
+
+            endereco: formData.endereco.endereco,
+            cidade: formData.endereco.cidade,
+            estado: formData.endereco.estado,
+            cep: formData.endereco.cep,
+            pais: formData.endereco.pais,
+
+            tipo_operacao_id: formData.tipo_operacao_id,
             recebe_representantes: formData.recebe_representantes,
             necessita_agendamento: formData.necessita_agendamento,
             atende_freelance: formData.atende_freelance,
@@ -41,7 +44,9 @@ export const useAgenciaViagemStore = defineStore('agenciaViagem', () => {
             excursoes_proprias: formData.excursoes_proprias,
             aceita_excursoes_outras: formData.aceita_excursoes_outras,
             descricao_livre: formData.descricao_livre,
-            logo_path: formData.logo_path,
+
+            //logo_path: formData.logo_path,
+
             divulgar: formData.divulgar
         }
     }

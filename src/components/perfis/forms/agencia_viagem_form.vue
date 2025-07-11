@@ -11,6 +11,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- CNPJ -->
@@ -26,6 +27,7 @@
       :readonly="readonly"
       :disabled="disabled"
       @validation="onCnpjValidation"
+      :viewMode="viewMode || false"
   />
 
   <!-- Razão Social -->
@@ -40,6 +42,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Nome Fantasia -->
@@ -54,6 +57,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Email Institucional -->
@@ -69,146 +73,58 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Telefone/WhatsApp -->
-  <TextInput
+  <TelefoneInput
       id="telefone_whatsapp"
       label="Telefone/WhatsApp"
       v-model="modelValue.telefone_whatsapp"
       name="telefone_whatsapp"
       placeholder="(00) 00000-0000"
-      mask="(##) #####-####"
       :error="storeErrors?.telefone_whatsapp"
       :error-message="storeErrors?.telefone_whatsapp?.[0]"
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
-  <!-- Cidade -->
-  <TextInput
-      id="cidade"
-      label="Cidade"
-      v-model="modelValue.cidade"
-      name="cidade"
-      placeholder="Cidade da agência"
-      :error="storeErrors?.cidade"
-      :error-message="storeErrors?.cidade?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
-  />
-
-  <!-- UF -->
-  <div>
-    <label for="uf" class="block text-sm font-medium text-gray-700">
-      Estado (UF) <span v-if="required" class="text-red-500">*</span>
-    </label>
-    <div class="mt-1">
-      <select
-          id="uf"
-          v-model="modelValue.uf"
-          name="uf"
-          :required="required"
-          :disabled="disabled || readonly"
-          class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-          :class="{'border-red-400': storeErrors?.uf, 'border-gray-300': !storeErrors?.uf}"
-      >
-        <option value="" disabled>Selecione o estado</option>
-        <option value="AC">Acre</option>
-        <option value="AL">Alagoas</option>
-        <option value="AP">Amapá</option>
-        <option value="AM">Amazonas</option>
-        <option value="BA">Bahia</option>
-        <option value="CE">Ceará</option>
-        <option value="DF">Distrito Federal</option>
-        <option value="ES">Espírito Santo</option>
-        <option value="GO">Goiás</option>
-        <option value="MA">Maranhão</option>
-        <option value="MT">Mato Grosso</option>
-        <option value="MS">Mato Grosso do Sul</option>
-        <option value="MG">Minas Gerais</option>
-        <option value="PA">Pará</option>
-        <option value="PB">Paraíba</option>
-        <option value="PR">Paraná</option>
-        <option value="PE">Pernambuco</option>
-        <option value="PI">Piauí</option>
-        <option value="RJ">Rio de Janeiro</option>
-        <option value="RN">Rio Grande do Norte</option>
-        <option value="RS">Rio Grande do Sul</option>
-        <option value="RO">Rondônia</option>
-        <option value="RR">Roraima</option>
-        <option value="SC">Santa Catarina</option>
-        <option value="SP">São Paulo</option>
-        <option value="SE">Sergipe</option>
-        <option value="TO">Tocantins</option>
-      </select>
-    </div>
-    <div v-if="storeErrors?.uf" class="text-red-600 text-sm mt-1.5">
-      {{ storeErrors.uf[0] }}
-    </div>
-  </div>
-
-  <!-- Endereço Completo -->
-  <TextInput
-      id="endereco_completo"
-      label="Endereço Completo"
-      v-model="modelValue.endereco_completo"
-      name="endereco_completo"
-      placeholder="Rua, número, bairro"
-      :error="storeErrors?.endereco_completo"
-      :error-message="storeErrors?.endereco_completo?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
-  />
-
-  <!-- CEP -->
-  <TextInput
-      id="cep"
-      label="CEP"
-      v-model="modelValue.cep"
-      name="cep"
-      placeholder="00000-000"
-      mask="#####-###"
-      :error="storeErrors?.cep"
-      :error-message="storeErrors?.cep?.[0]"
-      :required="required"
-      :readonly="readonly"
-      :disabled="disabled"
+  <!-- Endereço -->
+  <EnderecoForm
+      v-model="modelValue.endereco"
+      :store-errors="storeErrors"
+      :required="true"
+      :readonly="false"
+      :disabled="false"
+      :viewMode="viewMode || false"
   />
 
   <!-- Tipo de Operação -->
-  <div>
-    <label for="tipo_operacao" class="block text-sm font-medium text-gray-700">
-      Tipo de Operação <span v-if="required" class="text-red-500">*</span>
-    </label>
-    <div class="mt-1">
-      <select
-          id="tipo_operacao"
-          v-model="modelValue.tipo_operacao"
-          name="tipo_operacao"
-          :required="required"
-          :disabled="disabled || readonly"
-          class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-          :class="{'border-red-400': storeErrors?.tipo_operacao, 'border-gray-300': !storeErrors?.tipo_operacao}"
-      >
-        <option value="" disabled>Selecione o tipo de operação</option>
-        <option value="1">Agência de Viagem e Turismo</option>
-        <option value="2">Operadora de Turismo</option>
-        <option value="3">Organizadora de Eventos</option>
-        <option value="4">Guia de Turismo</option>
-        <option value="5">Meio de Hospedagem</option>
-        <option value="6">Transportadora Turística</option>
-        <option value="7">Prestadora de Infraestrutura de Apoio</option>
-        <option value="8">Parques Temáticos</option>
-      </select>
-    </div>
-    <div v-if="storeErrors?.tipo_operacao" class="text-red-600 text-sm mt-1.5">
-      {{ storeErrors.tipo_operacao[0] }}
-    </div>
-  </div>
+  <SelectInput
+      :modelValue="modelValue.tipo_operacao_id"
+      @update:modelValue="modelValue.tipo_operacao_id = $event"
+      label="Tipo de Operação"
+      name="tipo_operacao_id"
+      type="number"
+      placeholder="Selecione o tipo de operação"
+      :error="storeErrors?.tipo_operacao_id"
+      :error-message="storeErrors?.tipo_operacao_id?.[0]"
+      :required="true"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+  >
+    <option value="1">Agência de Viagem e Turismo</option>
+    <option value="2">Operadora de Turismo</option>
+    <option value="3">Organizadora de Eventos</option>
+    <option value="4">Guia de Turismo</option>
+    <option value="5">Meio de Hospedagem</option>
+    <option value="6">Transportadora Turística</option>
+    <option value="7">Prestadora de Infraestrutura de Apoio</option>
+    <option value="8">Parques Temáticos</option>
+  </SelectInput>
 
   <!-- CADASTUR -->
   <TextInput
@@ -222,6 +138,7 @@
       :required="required"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Instagram -->
@@ -236,171 +153,129 @@
       :required="false"
       :readonly="readonly"
       :disabled="disabled"
+      :viewMode="viewMode || false"
   />
 
   <!-- Segmento Principal -->
-  <div>
-    <label for="segmento_principal_id" class="block text-sm font-medium text-gray-700">
-      Segmento Principal <span v-if="required" class="text-red-500">*</span>
-    </label>
-    <div class="mt-1">
-      <select
-          id="segmento_principal_id"
-          v-model="modelValue.segmento_principal_id"
-          name="segmento_principal_id"
-          :required="required"
-          :disabled="disabled || readonly"
-          class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-          :class="{'border-red-400': storeErrors?.segmento_principal_id, 'border-gray-300': !storeErrors?.segmento_principal_id}"
-      >
-        <option value="" disabled>Selecione o segmento principal</option>
-        <option value="1">Turismo de Lazer</option>
-        <option value="2">Turismo Corporativo</option>
-        <option value="3">Turismo de Aventura</option>
-        <option value="4">Turismo Cultural</option>
-        <option value="5">Turismo Religioso</option>
-        <option value="6">Turismo Rural</option>
-        <option value="7">Turismo de Saúde</option>
-        <option value="8">Turismo Gastronômico</option>
-        <option value="9">Ecoturismo</option>
-        <option value="10">Turismo de Eventos</option>
-      </select>
-    </div>
-    <div v-if="storeErrors?.segmento_principal_id" class="text-red-600 text-sm mt-1.5">
-      {{ storeErrors.segmento_principal_id[0] }}
-    </div>
-  </div>
+  <SelectInput
+      :modelValue="modelValue.segmento_principal_id"
+      @update:modelValue="modelValue.segmento_principal_id = $event"
+      label="Segmento Principal"
+      name="segmento_principal_id"
+      type="number"
+      placeholder="Selecione o segmento principal"
+      :error="storeErrors?.segmento_principal_id"
+      :error-message="storeErrors?.segmento_principal_id?.[0]"
+      :required="true"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+  >
+    <option value="1">Turismo de Lazer</option>
+    <option value="2">Turismo Corporativo</option>
+    <option value="3">Turismo de Aventura</option>
+    <option value="4">Turismo Cultural</option>
+    <option value="5">Turismo Religioso</option>
+    <option value="6">Turismo Rural</option>
+    <option value="7">Turismo de Saúde</option>
+    <option value="8">Turismo Gastronômico</option>
+    <option value="9">Ecoturismo</option>
+    <option value="10">Turismo de Eventos</option>
+  </SelectInput>
 
   <!-- Excursões Próprias -->
-  <div>
-    <label for="excursoes_proprias" class="block text-sm font-medium text-gray-700">
-      Organiza Excursões Próprias? <span v-if="required" class="text-red-500">*</span>
-    </label>
-    <div class="mt-1">
-      <select
-          id="excursoes_proprias"
-          v-model="modelValue.excursoes_proprias"
-          name="excursoes_proprias"
-          :required="required"
-          :disabled="disabled || readonly"
-          class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-          :class="{'border-red-400': storeErrors?.excursoes_proprias, 'border-gray-300': !storeErrors?.excursoes_proprias}"
-      >
-        <option value="" disabled>Selecione uma opção</option>
-        <option value="S">Sim</option>
-        <option value="N">Não</option>
-      </select>
-    </div>
-    <div v-if="storeErrors?.excursoes_proprias" class="text-red-600 text-sm mt-1.5">
-      {{ storeErrors.excursoes_proprias[0] }}
-    </div>
-  </div>
+  <ToggleSwitch
+      id="excursoes_proprias"
+      label="Organiza Excursões Próprias?"
+      v-model="modelValue.excursoes_proprias"
+      :required="false"
+      :error="storeErrors?.excursoes_proprias"
+      :error-message="storeErrors?.excursoes_proprias?.[0]"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+  />
 
   <!-- Aceita Excursões de Outras Agências -->
-  <div>
-    <label for="aceita_excursoes_outras" class="block text-sm font-medium text-gray-700">
-      Aceita Excursões de Outras Agências? <span v-if="required" class="text-red-500">*</span>
-    </label>
-    <div class="mt-1">
-      <select
-          id="aceita_excursoes_outras"
-          v-model="modelValue.aceita_excursoes_outras"
-          name="aceita_excursoes_outras"
-          :required="required"
-          :disabled="disabled || readonly"
-          class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-          :class="{'border-red-400': storeErrors?.aceita_excursoes_outras, 'border-gray-300': !storeErrors?.aceita_excursoes_outras}"
-      >
-        <option value="" disabled>Selecione uma opção</option>
-        <option value="S">Sim</option>
-        <option value="N">Não</option>
-      </select>
-    </div>
-    <div v-if="storeErrors?.aceita_excursoes_outras" class="text-red-600 text-sm mt-1.5">
-      {{ storeErrors.aceita_excursoes_outras[0] }}
-    </div>
-  </div>
+  <ToggleSwitch
+      id="aceita_excursoes_outras"
+      label="Aceita Excursões de Outras Agências?"
+      v-model="modelValue.aceita_excursoes_outras"
+      :required="false"
+      :error="storeErrors?.aceita_excursoes_outras"
+      :error-message="storeErrors?.aceita_excursoes_outras?.[0]"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+  />
 
-  <!-- Checkboxes -->
-  <div class="space-y-4">
-    <!-- Recebe Representantes -->
-    <div class="flex items-center">
-      <input
-          id="recebe_representantes"
-          type="checkbox"
-          v-model="modelValue.recebe_representantes"
-          :disabled="disabled || readonly"
-          class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-      />
-      <label for="recebe_representantes" class="ml-2 block text-sm text-gray-700">
-        Recebe representantes comerciais
-      </label>
-    </div>
+  <!-- Recebe Representantes -->
+  <ToggleSwitch
+      id="recebe_representantes"
+      label="Recebe representantes comerciais?"
+      v-model="modelValue.recebe_representantes"
+      :required="false"
+      :error="storeErrors?.recebe_representantes"
+      :error-message="storeErrors?.recebe_representantes?.[0]"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+  />
 
-    <!-- Necessita Agendamento -->
-    <div class="flex items-center">
-      <input
-          id="necessita_agendamento"
-          type="checkbox"
-          v-model="modelValue.necessita_agendamento"
-          :disabled="disabled || readonly"
-          class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-      />
-      <label for="necessita_agendamento" class="ml-2 block text-sm text-gray-700">
-        Necessita agendamento para visitas
-      </label>
-    </div>
+  <!-- Necessita Agendamento -->
+  <ToggleSwitch
+      id="necessita_agendamento"
+      label="Necessita agendamento para visitas?"
+      v-model="modelValue.necessita_agendamento"
+      :required="false"
+      :error="storeErrors?.necessita_agendamento"
+      :error-message="storeErrors?.necessita_agendamento?.[0]"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+  />
 
-    <!-- Atende Freelance -->
-    <div class="flex items-center">
-      <input
-          id="atende_freelance"
-          type="checkbox"
-          v-model="modelValue.atende_freelance"
-          :disabled="disabled || readonly"
-          class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-      />
-      <label for="atende_freelance" class="ml-2 block text-sm text-gray-700">
-        Atende agentes freelance
-      </label>
-    </div>
+  <!-- Atende Freelance -->
+  <ToggleSwitch
+      id="atende_freelance"
+      label="Atende agentes freelance?"
+      v-model="modelValue.atende_freelance"
+      :required="false"
+      :error="storeErrors?.atende_freelance"
+      :error-message="storeErrors?.atende_freelance?.[0]"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+  />
 
-    <!-- Divulgar -->
-    <div class="flex items-center">
-      <input
-          id="divulgar"
-          type="checkbox"
-          v-model="modelValue.divulgar"
-          :disabled="disabled || readonly"
-          class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-      />
-      <label for="divulgar" class="ml-2 block text-sm text-gray-700">
-        Autorizo divulgação dos meus dados no sistema
-      </label>
-    </div>
-  </div>
+  <!-- Divulgar -->
+  <ToggleSwitch
+      id="divulgar"
+      label="Autorizo divulgação dos meus dados no sistema"
+      v-model="modelValue.divulgar"
+      :required="false"
+      :error="storeErrors?.divulgar"
+      :error-message="storeErrors?.divulgar?.[0]"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+  />
 
   <!-- Descrição Livre -->
-  <div>
-    <label for="descricao_livre" class="block text-sm font-medium text-gray-700">
-      Descrição da Agência
-    </label>
-    <div class="mt-1">
-      <textarea
-          id="descricao_livre"
-          v-model="modelValue.descricao_livre"
-          name="descricao_livre"
-          rows="4"
-          :disabled="disabled || readonly"
-          class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-          :class="{'border-red-400': storeErrors?.descricao_livre, 'border-gray-300': !storeErrors?.descricao_livre}"
-          placeholder="Descreva sua agência, especialidades, diferenciais..."
-      ></textarea>
-    </div>
-    <div v-if="storeErrors?.descricao_livre" class="text-red-600 text-sm mt-1.5">
-      {{ storeErrors.descricao_livre[0] }}
-    </div>
-  </div>
+  <TextArea
+      id="descricao_livre"
+      label="Descrição da Agência"
+      v-model="modelValue.descricao_livre"
+      :required="false"
+      :error="storeErrors?.descricao_livre"
+      :error-message="storeErrors?.descricao_livre?.[0]"
+      :readonly="readonly"
+      :disabled="disabled"
+      :viewMode="viewMode || false"
+      rows="6"
+      placeholder="Descreva sua agência, especialidades, diferenciais..."
+      class="w-full lg:col-span-2"
+  />
 </template>
 
 <script setup>
@@ -408,6 +283,11 @@ import TextInput from "@/components/formulario/TextInput.vue";
 import CnpjInput from "@/components/formulario/CnpjInput.vue";
 import { computed } from "vue";
 import { useAgenciaViagemStore } from "@/stores/perfil/agenciaViagem.store.js";
+import TelefoneInput from "@/components/formulario/TelefoneInput.vue";
+import EnderecoForm from "@/components/formulario/EnderecoForm.vue";
+import SelectInput from "@/components/formulario/SelectInput.vue";
+import ToggleSwitch from "@/components/formulario/ToggleSwitch.vue";
+import TextArea from "@/components/formulario/TextArea.vue";
 
 const props = defineProps({
   modelValue: {
@@ -420,22 +300,30 @@ const props = defineProps({
       nome_fantasia: '',
       email_institucional: '',
       telefone_whatsapp: '',
-      cidade: '',
-      uf: '',
-      endereco_completo: '',
-      cep: '',
-      tipo_operacao: '',
+
+      endereco: {  // Todos campos de endereço movidos para aqui
+        endereco: '',
+        cidade: '',
+        estado: '',
+        cep: '',
+        pais: 'Brasil',
+      },
+
+      cadastur: '',
+      instagram: '',
+
+      segmento_principal_id: '',
+      tipo_operacao_id: '',
+
+      excursoes_proprias: false,
+      aceita_excursoes_outras: false,
       recebe_representantes: false,
       necessita_agendamento: false,
       atende_freelance: false,
-      cadastur: '',
-      instagram: '',
-      segmento_principal_id: '',
-      excursoes_proprias: '',
-      aceita_excursoes_outras: '',
+      divulgar: false,
+
       descricao_livre: '',
       logo_path: '',
-      divulgar: false
     })
   },
   readonly: {
@@ -447,6 +335,10 @@ const props = defineProps({
     default: false
   },
   required: {
+    type: Boolean,
+    default: false
+  },
+  viewMode: {
     type: Boolean,
     default: false
   }

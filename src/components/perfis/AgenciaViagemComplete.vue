@@ -51,15 +51,6 @@
                 icon="fas fa-envelope text-gray-400"
                 readonly
             />
-
-            <TextArea
-                id="bio"
-                label="Biografia"
-                v-model="form.bio"
-                rows="6"
-                placeholder="Digite sua biografia aqui..."
-                class="w-full lg:col-span-2"
-            />
           </div>
 
           <Line
@@ -110,7 +101,6 @@ import InfoAlert from "@/components/utils/InfoAlert.vue";
 import Line from "@/components/utils/Line.vue";
 import {useAgenciaViagemStore} from "@/stores/perfil/agenciaViagem.store.js";
 import Agencia_viagem_form from "@/components/perfis/forms/agencia_viagem_form.vue";
-import TextArea from "@/components/formulario/TextArea.vue";
 
 const store = useAgenciaViagemStore();
 const perfilStore = usePerfilStore();
@@ -126,22 +116,30 @@ const form = ref({
   nome_fantasia: '',
   email_institucional: '',
   telefone_whatsapp: '',
-  cidade: '',
-  uf: '',
-  endereco_completo: '',
-  cep: '',
-  tipo_operacao: '',
+
+  endereco: {  // Todos campos de endereço movidos para aqui
+    endereco: '',
+    cidade: '',
+    estado: '',
+    cep: '',
+    pais: 'Brasil',
+  },
+
+  cadastur: '',
+  instagram: '',
+
+  segmento_principal_id: '',
+  tipo_operacao_id: '',
+
+  excursoes_proprias: false,
+  aceita_excursoes_outras: false,
   recebe_representantes: false,
   necessita_agendamento: false,
   atende_freelance: false,
-  cadastur: '',
-  instagram: '',
-  segmento_principal_id: '',
-  excursoes_proprias: '',
-  aceita_excursoes_outras: '',
+  divulgar: false,
+
   descricao_livre: '',
   logo_path: '',
-  divulgar: false
 });
 
 async function submit() {
