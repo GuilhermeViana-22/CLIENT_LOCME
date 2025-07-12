@@ -1,113 +1,57 @@
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { usePerfilStore } from './perfil.store.js';
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 export const useEmpresaStore = defineStore('empresa', () => {
-  const perfilStore = usePerfilStore();
+  // Estado básico
+  const errors = ref({})
+  const isLoading = ref(false)
 
-  // Estado dos dados do formulário
-  const formData = ref({
-    nome_empresa: '',
-    telefone: '',
-    email_contato: '',
-    url: '',
-    cadastur: '',
-    condicoes_especiais: false,
-    condicoes: '',
-    atividade_id: '',
-    unidades_localidades: '',
-    produtos_servicos: '',
-    nome_cadastro: '',
-    cargo_cadastro: '',
-    endereco: '',
-    cidade: '',
-    estado: '',
-    cep: '',
-    pais: ''
-  });
+  // Getter padrão para filtro de dados
+  const getDadosFiltrados = (formData = {}) => ({
+    cnpj: formData.cnpj,
+    nome_empresa: formData.nome_empresa,
+    telefone: formData.telefone,
+    email_contato: formData.email_contato,
 
-  // Estado de carregamento e erros
-  const isLoading = ref(false);
-  const errors = ref({});
+    url: formData.url || '',
+    cadastur: formData.cadastur || '',
 
-  // Getters
-  const getDadosFiltrados = (data) => {
-    const filteredData = {};
-    Object.keys(data).forEach(key => {
-      if (data[key] !== '' && data[key] !== null && data[key] !== undefined) {
-        filteredData[key] = data[key];
-      }
-    });
-    return filteredData;
-  };
+    condicoes_especiais: formData.condicoes_especiais,
+    condicoes: formData.condicoes || '',
 
-  // Setters
-  const setFormData = (data) => {
-    formData.value = { ...formData.value, ...data };
-  };
+    atividades: formData.atividades || [],
+    unidades_localidades: formData.unidades_localidades || [],
+    produtos_servicos: formData.produtos_servicos || [],
 
+    nome_cadastro: formData.nome_cadastro,
+    cargo_cadastro: formData.cargo_cadastro,
+
+    endereco: formData.endereco.endereco,
+    cidade: formData.endereco.cidade,
+    estado: formData.endereco.estado,
+    cep: formData.endereco.cep,
+    pais: formData.endereco.pais
+  })
+
+  // Controle de estado
   const setIsLoading = (loading) => {
-    isLoading.value = loading;
-  };
+    isLoading.value = loading
+  }
 
-  const setErrors = (newErrors) => {
-    errors.value = newErrors || {};
-  };
-
-  const clearErrors = () => {
-    errors.value = {};
-  };
-
-  // Actions
-  const submitForm = async () => {
-    try {
-      setIsLoading(true);
-      clearErrors();
-      await perfilStore.submitCompletarPerfil(formData.value, {
-        setIsLoading,
-        setErrors,
-        getDadosFiltrados
-      });
-    } catch (error) {
-      console.error('Erro ao submeter formulário de empresa:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const resetForm = () => {
-    formData.value = {
-      nome_empresa: '',
-      telefone: '',
-      email_contato: '',
-      url: '',
-      cadastur: '',
-      condicoes_especiais: false,
-      condicoes: '',
-      atividade_id: '',
-      unidades_localidades: '',
-      produtos_servicos: '',
-      nome_cadastro: '',
-      cargo_cadastro: '',
-      endereco: '',
-      cidade: '',
-      estado: '',
-      cep: '',
-      pais: ''
-    };
-    clearErrors();
-  };
+  const setErrors = (errorData) => {
+    errors.value = errorData || {}
+  }
 
   return {
-    formData,
-    isLoading,
+    // State
     errors,
-    setFormData,
-    setIsLoading,
-    setErrors,
-    clearErrors,
+    isLoading,
+
+    // Getters
     getDadosFiltrados,
-    submitForm,
-    resetForm
-  };
-}); 
+
+    // Setters
+    setIsLoading,
+    setErrors
+  }
+})

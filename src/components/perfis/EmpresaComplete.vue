@@ -63,6 +63,7 @@
           <empresa_form 
             v-model="form"
             :required="true"
+
           />
 
           <Line
@@ -106,6 +107,7 @@ const form = ref({
   apelido: authStore.user?.name,
   email: authStore.user?.email,
 
+  cnpj: '',
   nome_empresa: '',
   telefone: '',
   email_contato: '',
@@ -115,8 +117,9 @@ const form = ref({
   condicoes: '',
 
   atividades: [1, 3],
-  unidades_localidades: '',
-  produtos_servicos: '',
+  unidades_localidades: [],
+  produtos_servicos: [],
+
   nome_cadastro: '',
   cargo_cadastro: '',
 

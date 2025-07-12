@@ -1,95 +1,109 @@
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- Nome da Empresa -->
-    <div class="md:col-span-2">
-      <TextInput
-          id="nome_empresa"
-          label="Nome da Empresa"
-          v-model="modelValue.nome_empresa"
-          name="nome_empresa"
-          placeholder="Digite o nome completo da empresa"
-          :error="storeErrors?.nome_empresa"
-          :error-message="storeErrors?.nome_empresa?.[0]"
-          :required="required"
-          :readonly="readonly"
-          :disabled="disabled"
-          class="w-full"
+    <TextInput
+        id="nome_empresa"
+        label="Nome da Empresa"
+        v-model="modelValue.nome_empresa"
+        name="nome_empresa"
+        placeholder="Digite o nome completo da empresa"
+        :error="storeErrors?.nome_empresa"
+        :error-message="storeErrors?.nome_empresa?.[0]"
+        :required="required"
+        :readonly="readonly"
+        :disabled="disabled"
+        class="w-full"
 
-          :viewMode="viewMode || false"
-      />
-    </div>
+        :viewMode="viewMode || false"
+    />
+
+    <!-- CNPJ -->
+    <CnpjInput
+        id="cnpj"
+        label="CNPJ"
+        v-model="modelValue.cnpj"
+        name="cnpj"
+        placeholder="00.000.000/0000-00"
+        :error="storeErrors?.cnpj"
+        :error-message="storeErrors?.cnpj?.[0]"
+        :required="required"
+        :readonly="readonly"
+        :disabled="disabled"
+        @validation="onCnpjValidation"
+        :viewMode="viewMode || false"
+    />
 
     <!-- Telefone e Email -->
-    <div>
-      <TelefoneInput
-          id="telefone"
-          label="Telefone"
-          v-model="modelValue.telefone"
-          name="telefone"
-          placeholder="(00) 00000-0000"
-          :error="storeErrors?.telefone"
-          :error-message="storeErrors?.telefone?.[0]"
-          :required="required"
-          :readonly="readonly"
-          :disabled="disabled"
-          class="w-full"
 
-          :viewMode="viewMode || false"
-      />
-    </div>
-    <div>
-      <TextInput
-          id="email_contato"
-          label="Email de Contato"
-          v-model="modelValue.email_contato"
-          name="email_contato"
-          placeholder="contato@empresa.com"
-          type="email"
-          :error="storeErrors?.email_contato"
-          :error-message="storeErrors?.email_contato?.[0]"
-          :required="required"
-          :readonly="readonly"
-          :disabled="disabled"
-          class="w-full"
+    <TelefoneInput
+        id="telefone"
+        label="Telefone"
+        v-model="modelValue.telefone"
+        name="telefone"
+        placeholder="(00) 00000-0000"
+        :error="storeErrors?.telefone"
+        :error-message="storeErrors?.telefone?.[0]"
+        :required="required"
+        :readonly="readonly"
+        :disabled="disabled"
+        class="w-full"
 
-          :viewMode="viewMode || false"
-      />
-    </div>
+        :viewMode="viewMode || false"
+    />
+
+
+    <TextInput
+        id="email_contato"
+        label="Email de Contato"
+        v-model="modelValue.email_contato"
+        name="email_contato"
+        placeholder="contato@empresa.com"
+        type="email"
+        :error="storeErrors?.email_contato"
+        :error-message="storeErrors?.email_contato?.[0]"
+        :required="required"
+        :readonly="readonly"
+        :disabled="disabled"
+        class="w-full"
+
+        :viewMode="viewMode || false"
+    />
+
 
     <!-- Website e Cadastur -->
-    <div>
-      <TextInput
-          id="url"
-          label="Website"
-          v-model="modelValue.url"
-          name="url"
-          placeholder="https://suaempresa.com"
-          type="url"
-          :error="storeErrors?.url"
-          :error-message="storeErrors?.url?.[0]"
-          :readonly="readonly"
-          :disabled="disabled"
-          class="w-full"
 
-          :viewMode="viewMode || false"
-      />
-    </div>
-    <div>
-      <TextInput
-          id="cadastur"
-          label="CADASTUR"
-          v-model="modelValue.cadastur"
-          name="cadastur"
-          placeholder="Número do cadastur"
-          :error="storeErrors?.cadastur"
-          :error-message="storeErrors?.cadastur?.[0]"
-          :readonly="readonly"
-          :disabled="disabled"
-          class="w-full"
+    <TextInput
+        id="url"
+        label="Website"
+        v-model="modelValue.url"
+        name="url"
+        placeholder="https://suaempresa.com"
+        type="url"
+        :error="storeErrors?.url"
+        :error-message="storeErrors?.url?.[0]"
+        :readonly="readonly"
+        :disabled="disabled"
+        class="w-full"
 
-          :viewMode="viewMode || false"
-      />
-    </div>
+        :viewMode="viewMode || false"
+    />
+
+
+    <TextInput
+        id="cadastur"
+        label="CADASTUR"
+        v-model="modelValue.cadastur"
+        name="cadastur"
+        placeholder="Número do cadastur"
+        :error="storeErrors?.cadastur"
+        :error-message="storeErrors?.cadastur?.[0]"
+        :readonly="readonly"
+        :disabled="disabled"
+        class="w-full"
+
+        :viewMode="viewMode || false"
+    />
+
 
     <ToggleSwitch
         id="condicoes_especiais"
@@ -124,51 +138,50 @@
     />
 
     <!-- Atividade e Unidades -->
-    <div>
-      <MultiComboBox
-          v-model="modelValue.atividades"
-          :options="[
+
+    <MultiComboBox
+        v-model="modelValue.atividades"
+        :options="[
             { id: 1, name: 'Atividade 1' },
             { id: 2, name: 'Atividade 2' },
             { id: 3, name: 'Atividade 3' }
           ]"
-          option-label="name"
-          option-value="id"
-          label="Atividades"
-          placeholder="Digite para buscar..."
+        option-label="name"
+        option-value="id"
+        label="Atividades"
+        placeholder="Digite para buscar..."
 
-          :error="storeErrors?.atividades"
-          :error-message="storeErrors?.atividades?.[0]"
-          :required="required"
-          :readonly="readonly"
-          :disabled="disabled"
+        :error="storeErrors?.atividades"
+        :error-message="storeErrors?.atividades?.[0]"
+        :required="required"
+        :readonly="readonly"
+        :disabled="disabled"
 
-          :viewMode="viewMode || false"
-      />
-    </div>
-    <div>
-      <MultiComboBox
-          v-model="modelValue.unidades_localidades"
-          :options="[
+        :viewMode="viewMode || false"
+    />
+
+
+    <MultiComboBox
+        v-model="modelValue.unidades_localidades"
+        :options="[
             { id: 1, name: 'Norte' },
             { id: 2, name: 'Sul' },
             { id: 3, name: 'Leste' },
             { id: 4, name: 'Oeste' },
           ]"
-          option-label="name"
-          option-value="id"
-          label="Unidades/Localidades"
-          placeholder="Digite para buscar..."
+        option-label="name"
+        option-value="id"
+        label="Unidades/Localidades"
+        placeholder="Digite para buscar..."
 
-          :error="storeErrors?.unidades_localidades"
-          :error-message="storeErrors?.unidades_localidades?.[0]"
-          :required="required"
-          :readonly="readonly"
-          :disabled="disabled"
+        :error="storeErrors?.unidades_localidades"
+        :error-message="storeErrors?.unidades_localidades?.[0]"
+        :required="required"
+        :readonly="readonly"
+        :disabled="disabled"
 
-          :viewMode="viewMode || false"
-      />
-    </div>
+        :viewMode="viewMode || false"
+    />
 
     <!-- Produtos/Serviços -->
     <MultiComboBox
@@ -255,12 +268,14 @@ import EnderecoForm from "@/components/formulario/EnderecoForm.vue";
 import ToggleSwitch from "@/components/formulario/ToggleSwitch.vue";
 import TextArea from "@/components/formulario/TextArea.vue";
 import TelefoneInput from "@/components/formulario/TelefoneInput.vue";
+import CnpjInput from "@/components/formulario/CnpjInput.vue";
 
 const props = defineProps({
   modelValue: {
     type: Object,
     required: true,
     default: () => ({
+      cnpj: '',
       nome_empresa: '',
       telefone: '',
       email_contato: '',
@@ -269,9 +284,10 @@ const props = defineProps({
       condicoes_especiais: false,
       condicoes: '',
 
-      atividades: '',
-      unidades_localidades: '',
-      produtos_servicos: '',
+      atividades: [],
+      unidades_localidades: [],
+      produtos_servicos: [],
+
       nome_cadastro: '',
       cargo_cadastro: '',
 
