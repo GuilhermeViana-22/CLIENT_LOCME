@@ -30,10 +30,10 @@
           <!-- Apelido -->
           <TextInput
               id="apelido"
-              label="Apelido"
+              label="Usuário"
               v-model="form.apelido"
               name="apelido"
-              placeholder="Seu apelido"
+              placeholder="Seu usuário"
               icon="fas fa-user text-gray-400"
               readonly
           />
