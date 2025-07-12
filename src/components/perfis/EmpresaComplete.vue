@@ -113,16 +113,20 @@ const form = ref({
   cadastur: '',
   condicoes_especiais: false,
   condicoes: '',
-  atividade_id: '',
+
+  atividades: [1, 3],
   unidades_localidades: '',
   produtos_servicos: '',
   nome_cadastro: '',
   cargo_cadastro: '',
-  endereco: '',
-  cidade: '',
-  estado: '',
-  cep: '',
-  pais: ''
+
+  endereco: {  // Todos campos de endereço movidos para aqui
+    endereco: '',
+    cidade: '',
+    estado: '',
+    cep: '',
+    pais: 'Brasil',
+  },
 });
 
 async function submit() {

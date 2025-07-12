@@ -195,7 +195,7 @@
       :error-message="storeErrors?.disponivel?.[0]"
       :readonly="readonly"
       :disabled="disabled"
-      :viewMode="viewMode"
+      :viewMode="viewMode || false"
   />
 </template>
 

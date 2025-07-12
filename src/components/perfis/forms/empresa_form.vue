@@ -14,24 +14,27 @@
           :readonly="readonly"
           :disabled="disabled"
           class="w-full"
+
+          :viewMode="viewMode || false"
       />
     </div>
 
     <!-- Telefone e Email -->
     <div>
-      <TextInput
+      <TelefoneInput
           id="telefone"
           label="Telefone"
           v-model="modelValue.telefone"
           name="telefone"
           placeholder="(00) 00000-0000"
-          mask="(##) #####-####"
           :error="storeErrors?.telefone"
           :error-message="storeErrors?.telefone?.[0]"
           :required="required"
           :readonly="readonly"
           :disabled="disabled"
           class="w-full"
+
+          :viewMode="viewMode || false"
       />
     </div>
     <div>
@@ -48,6 +51,8 @@
           :readonly="readonly"
           :disabled="disabled"
           class="w-full"
+
+          :viewMode="viewMode || false"
       />
     </div>
 
@@ -65,6 +70,8 @@
           :readonly="readonly"
           :disabled="disabled"
           class="w-full"
+
+          :viewMode="viewMode || false"
       />
     </div>
     <div>
@@ -79,101 +86,112 @@
           :readonly="readonly"
           :disabled="disabled"
           class="w-full"
+
+          :viewMode="viewMode || false"
       />
     </div>
 
-    <!-- Checkbox Condições Especiais -->
-    <div class="md:col-span-2 flex items-center space-x-3 p-2 bg-gray-50 rounded-lg">
-      <input
-          id="condicoes_especiais"
-          type="checkbox"
-          v-model="modelValue.condicoes_especiais"
-          :disabled="disabled || readonly"
-          class="h-5 w-5 text-primary focus:ring-primary border-gray-300 rounded"
-      />
-      <label for="condicoes_especiais" class="block text-sm font-medium text-gray-700">
-        Oferece condições especiais?
-      </label>
-    </div>
+    <ToggleSwitch
+        id="condicoes_especiais"
+        label="Oferece condições especiais?"
+        v-model="modelValue.condicoes_especiais"
+        :required="false"
+        :error="storeErrors?.condicoes_especiais"
+        :error-message="storeErrors?.condicoes_especiais?.[0]"
+        :readonly="readonly"
+        :disabled="disabled"
+
+        :viewMode="viewMode || false"
+    />
 
     <!-- Descrição das Condições Especiais -->
-    <div v-if="modelValue.condicoes_especiais" class="md:col-span-2">
-      <div>
-        <label for="condicoes" class="block text-sm font-medium text-gray-700">
-          Descreva as condições especiais <span v-if="required" class="text-red-500">*</span>
-        </label>
-        <div class="mt-1">
-          <textarea
-              id="condicoes"
-              v-model="modelValue.condicoes"
-              name="condicoes"
-              rows="3"
-              :disabled="disabled || readonly"
-              class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-              :class="{'border-red-400': storeErrors?.condicoes, 'border-gray-300': !storeErrors?.condicoes}"
-              placeholder="Descreva as condições oferecidas"
-          ></textarea>
-        </div>
-        <div v-if="storeErrors?.condicoes" class="text-red-600 text-sm mt-1.5">
-          {{ storeErrors.condicoes[0] }}
-        </div>
-      </div>
-    </div>
+    <TextArea
+        v-if="modelValue.condicoes_especiais"
+
+        id="condicoes"
+        label="Descreva as condições especiais"
+        v-model="modelValue.condicoes"
+        :required="false"
+        :error="storeErrors?.condicoes"
+        :error-message="storeErrors?.condicoes?.[0]"
+        :readonly="readonly"
+        :disabled="disabled"
+        rows="6"
+        placeholder="Descreva as condições oferecidas..."
+        class="w-full lg:col-span-2"
+
+        :viewMode="viewMode || false"
+    />
 
     <!-- Atividade e Unidades -->
     <div>
-      <TextInput
-          id="atividade_id"
-          label="Atividade Principal"
-          v-model="modelValue.atividade_id"
-          name="atividade_id"
-          placeholder="Código da atividade"
-          :error="storeErrors?.atividade_id"
-          :error-message="storeErrors?.atividade_id?.[0]"
+      <MultiComboBox
+          v-model="modelValue.atividades"
+          :options="[
+            { id: 1, name: 'Atividade 1' },
+            { id: 2, name: 'Atividade 2' },
+            { id: 3, name: 'Atividade 3' }
+          ]"
+          option-label="name"
+          option-value="id"
+          label="Atividades"
+          placeholder="Digite para buscar..."
+
+          :error="storeErrors?.atividades"
+          :error-message="storeErrors?.atividades?.[0]"
           :required="required"
           :readonly="readonly"
           :disabled="disabled"
-          class="w-full"
+
+          :viewMode="viewMode || false"
       />
     </div>
     <div>
-      <TextInput
-          id="unidades_localidades"
-          label="Unidades/Localidades"
+      <MultiComboBox
           v-model="modelValue.unidades_localidades"
-          name="unidades_localidades"
-          placeholder="Locais de atuação"
+          :options="[
+            { id: 1, name: 'Norte' },
+            { id: 2, name: 'Sul' },
+            { id: 3, name: 'Leste' },
+            { id: 4, name: 'Oeste' },
+          ]"
+          option-label="name"
+          option-value="id"
+          label="Unidades/Localidades"
+          placeholder="Digite para buscar..."
+
           :error="storeErrors?.unidades_localidades"
           :error-message="storeErrors?.unidades_localidades?.[0]"
+          :required="required"
           :readonly="readonly"
           :disabled="disabled"
-          class="w-full"
+
+          :viewMode="viewMode || false"
       />
     </div>
 
     <!-- Produtos/Serviços -->
-    <div class="md:col-span-2">
-      <div>
-        <label for="produtos_servicos" class="block text-sm font-medium text-gray-700">
-          Produtos/Serviços <span v-if="required" class="text-red-500">*</span>
-        </label>
-        <div class="mt-1">
-          <textarea
-              id="produtos_servicos"
-              v-model="modelValue.produtos_servicos"
-              name="produtos_servicos"
-              rows="3"
-              :disabled="disabled || readonly"
-              class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-              :class="{'border-red-400': storeErrors?.produtos_servicos, 'border-gray-300': !storeErrors?.produtos_servicos}"
-              placeholder="Lista de produtos ou serviços oferecidos"
-          ></textarea>
-        </div>
-        <div v-if="storeErrors?.produtos_servicos" class="text-red-600 text-sm mt-1.5">
-          {{ storeErrors.produtos_servicos[0] }}
-        </div>
-      </div>
-    </div>
+    <MultiComboBox
+        v-model="modelValue.produtos_servicos"
+        :options="[
+            { id: 1, name: 'Produto 1' },
+            { id: 2, name: 'Produto 2' },
+            { id: 3, name: 'Produto 3' },
+            { id: 4, name: 'Produto 4' },
+          ]"
+        option-label="name"
+        option-value="id"
+        label="Produtos/Serviços"
+        placeholder="Digite para buscar..."
+
+        :error="storeErrors?.produtos_servicos"
+        :error-message="storeErrors?.produtos_servicos?.[0]"
+        :required="required"
+        :readonly="readonly"
+        :disabled="disabled"
+
+        :viewMode="viewMode || false"
+    />
 
     <!-- Responsável pelo Cadastro -->
     <div class="md:col-span-2 mt-4 pt-4 border-t border-gray-200">
@@ -192,6 +210,8 @@
               :readonly="readonly"
               :disabled="disabled"
               class="w-full"
+
+              :viewMode="viewMode || false"
           />
         </div>
         <div>
@@ -207,126 +227,22 @@
               :readonly="readonly"
               :disabled="disabled"
               class="w-full"
+
+              :viewMode="viewMode || false"
           />
         </div>
       </div>
     </div>
 
     <!-- Endereço -->
-    <div class="md:col-span-2 mt-4 pt-4 border-t border-gray-200">
-      <h3 class="text-lg font-medium text-gray-900 mb-4">Endereço da Empresa</h3>
-      <div class="mb-4">
-        <TextInput
-            id="endereco"
-            label="Endereço Completo"
-            v-model="modelValue.endereco"
-            name="endereco"
-            placeholder="Rua, número, complemento"
-            :error="storeErrors?.endereco"
-            :error-message="storeErrors?.endereco?.[0]"
-            :required="required"
-            :readonly="readonly"
-            :disabled="disabled"
-            class="w-full"
-        />
-      </div>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div>
-          <TextInput
-              id="cidade"
-              label="Cidade"
-              v-model="modelValue.cidade"
-              name="cidade"
-              placeholder="Cidade"
-              :error="storeErrors?.cidade"
-              :error-message="storeErrors?.cidade?.[0]"
-              :required="required"
-              :readonly="readonly"
-              :disabled="disabled"
-              class="w-full"
-          />
-        </div>
-        <div>
-          <label for="estado" class="block text-sm font-medium text-gray-700">
-            Estado (UF) <span v-if="required" class="text-red-500">*</span>
-          </label>
-          <div class="mt-1">
-            <select
-                id="estado"
-                v-model="modelValue.estado"
-                name="estado"
-                :required="required"
-                :disabled="disabled || readonly"
-                class="py-2 px-3 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-                :class="{'border-red-400': storeErrors?.estado, 'border-gray-300': !storeErrors?.estado}"
-            >
-              <option value="" disabled>Selecione o estado</option>
-              <option value="AC">Acre</option>
-              <option value="AL">Alagoas</option>
-              <option value="AP">Amapá</option>
-              <option value="AM">Amazonas</option>
-              <option value="BA">Bahia</option>
-              <option value="CE">Ceará</option>
-              <option value="DF">Distrito Federal</option>
-              <option value="ES">Espírito Santo</option>
-              <option value="GO">Goiás</option>
-              <option value="MA">Maranhão</option>
-              <option value="MT">Mato Grosso</option>
-              <option value="MS">Mato Grosso do Sul</option>
-              <option value="MG">Minas Gerais</option>
-              <option value="PA">Pará</option>
-              <option value="PB">Paraíba</option>
-              <option value="PR">Paraná</option>
-              <option value="PE">Pernambuco</option>
-              <option value="PI">Piauí</option>
-              <option value="RJ">Rio de Janeiro</option>
-              <option value="RN">Rio Grande do Norte</option>
-              <option value="RS">Rio Grande do Sul</option>
-              <option value="RO">Rondônia</option>
-              <option value="RR">Roraima</option>
-              <option value="SC">Santa Catarina</option>
-              <option value="SP">São Paulo</option>
-              <option value="SE">Sergipe</option>
-              <option value="TO">Tocantins</option>
-            </select>
-          </div>
-          <div v-if="storeErrors?.estado" class="text-red-600 text-sm mt-1.5">
-            {{ storeErrors.estado[0] }}
-          </div>
-        </div>
-        <div>
-          <TextInput
-              id="cep"
-              label="CEP"
-              v-model="modelValue.cep"
-              name="cep"
-              placeholder="00000-000"
-              mask="#####-###"
-              :error="storeErrors?.cep"
-              :error-message="storeErrors?.cep?.[0]"
-              :required="required"
-              :readonly="readonly"
-              :disabled="disabled"
-              class="w-full"
-          />
-        </div>
-      </div>
-      <div class="mt-4">
-        <TextInput
-            id="pais"
-            label="País"
-            v-model="modelValue.pais"
-            name="pais"
-            placeholder="País"
-            :error="storeErrors?.pais"
-            :error-message="storeErrors?.pais?.[0]"
-            :required="required"
-            :readonly="readonly"
-            :disabled="disabled"
-            class="w-full"
-        />
-      </div>
-    </div>
+    <EnderecoForm
+        v-model="modelValue.endereco"
+        :store-errors="storeErrors"
+        :required="true"
+        :readonly="false"
+        :disabled="false"
+        :viewMode="viewMode || false"
+    />
   </div>
 </template>
 
@@ -334,6 +250,11 @@
 import TextInput from '@/components/formulario/TextInput.vue';
 import { computed } from 'vue';
 import { useEmpresaStore } from '@/stores/perfil/empresa.store.js';
+import MultiComboBox from "@/components/formulario/MultiComboBox.vue";
+import EnderecoForm from "@/components/formulario/EnderecoForm.vue";
+import ToggleSwitch from "@/components/formulario/ToggleSwitch.vue";
+import TextArea from "@/components/formulario/TextArea.vue";
+import TelefoneInput from "@/components/formulario/TelefoneInput.vue";
 
 const props = defineProps({
   modelValue: {
@@ -347,16 +268,20 @@ const props = defineProps({
       cadastur: '',
       condicoes_especiais: false,
       condicoes: '',
-      atividade_id: '',
+
+      atividades: '',
       unidades_localidades: '',
       produtos_servicos: '',
       nome_cadastro: '',
       cargo_cadastro: '',
-      endereco: '',
-      cidade: '',
-      estado: '',
-      cep: '',
-      pais: ''
+
+      endereco: {  // Todos campos de endereço movidos para aqui
+        endereco: '',
+        cidade: '',
+        estado: '',
+        cep: '',
+        pais: 'Brasil',
+      },
     })
   },
   readonly: {
@@ -368,6 +293,10 @@ const props = defineProps({
     default: false
   },
   required: {
+    type: Boolean,
+    default: false
+  },
+  viewMode: {
     type: Boolean,
     default: false
   }
