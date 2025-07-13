@@ -29,7 +29,7 @@
         :required="required"
         :readonly="readonly"
         :disabled="disabled"
-        @validation="onCnpjValidation"
+
         :viewMode="viewMode || false"
     />
 

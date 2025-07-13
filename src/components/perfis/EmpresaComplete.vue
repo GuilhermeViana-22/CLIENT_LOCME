@@ -116,7 +116,7 @@ const form = ref({
   condicoes_especiais: false,
   condicoes: '',
 
-  atividades: [1, 3],
+  atividades: [],
   unidades_localidades: [],
   produtos_servicos: [],
 

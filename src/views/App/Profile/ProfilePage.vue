@@ -150,6 +150,13 @@
                     v-model="form.perfil"
                     :view-mode="true"
                 />
+
+                <empresa_form
+                    v-if="form.tipo_perfil_id == 5"
+                    v-model="form.perfil"
+                    :view-mode="true"
+                />
+
               </div>
             </div>
           </div>
@@ -233,6 +240,7 @@ import Representante_form from "@/components/perfis/forms/representante_form.vue
 import TextArea from "@/components/formulario/TextArea.vue";
 import Agencia_viagem_form from "@/components/perfis/forms/agencia_viagem_form.vue";
 import Guia_turismo_form from "@/components/perfis/forms/guia_turismo_form.vue";
+import Empresa_form from "@/components/perfis/forms/empresa_form.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -266,6 +274,26 @@ const formatedPerfil = function(tipo_perfil_id, perfil) {
         pais: perfil.pais,
         cidade: perfil.cidade
       }
+    };
+  }
+
+  /// se for empresa
+  if(tipo_perfil_id === 5){
+    return {
+      ...perfil,
+
+      endereco: {
+        endereco: perfil.endereco,
+        cep: perfil.cep,
+        estado: perfil.estado,
+        pais: perfil.pais,
+        cidade: perfil.cidade
+      },
+
+      /// muitos para muitos
+      atividades: perfil.atividades.map((obj) => obj.id),
+      produtos_servicos: perfil.produtos_servicos.map((obj) => obj.id),
+      unidades_localidades: perfil.unidades_localidades.map((obj) => obj.id),
     };
   }
 
