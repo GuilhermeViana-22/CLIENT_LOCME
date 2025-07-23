@@ -1,33 +1,53 @@
 # Etapa de build
 FROM node:18-alpine AS builder
 
+# Definir diretório de trabalho
 WORKDIR /app
 
-# Copie arquivos essenciais para cache eficiente
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+# Copiar arquivos de dependências primeiro (para aproveitar cache do Docker)
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
-# Copie o restante do código-fonte
+# Instalar dependências baseado no gerenciador de pacotes disponível
+RUN if [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
+    elif [ -f package-lock.json ]; then npm ci; \
+    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install --frozen-lockfile; \
+    else npm install; fi
+
+# Copiar código fonte
 COPY . .
 
-# Build para produção
-RUN yarn build
+# Build da aplicação para produção
+RUN if [ -f yarn.lock ]; then yarn build; \
+    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm build; \
+    else npm run build; fi
 
-# Etapa de produção (Nginx)
+# Etapa de produção sem nginx
+FROM node:18-alpine AS production
 
-FROM nginx:alpine
+# Criar diretório da aplicação
+WORKDIR /app
 
-# Copie build para webroot padrão do Nginx
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copiar apenas arquivos necessários da build
+COPY --from=builder /app .
 
-# Healthcheck simples
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-   CMD wget -q --spider http://localhost:80/ || exit 1
+# Instalar dependências de produção
+RUN if [ -f yarn.lock ]; then yarn install --production --frozen-lockfile; \
+    elif [ -f package-lock.json ]; then npm ci --only=production; \
+    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install --prod --frozen-lockfile; \
+    else npm install --production; fi
 
-EXPOSE 3000
+# Criar usuário não-root
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S appuser -u 1001
 
-# Use usuário não-root para servir os arquivos estáticos em produção
-RUN adduser -D -u 1001 appuser && chown -R appuser /usr/share/nginx/html
 USER appuser
 
-CMD ["nginx", "-g", "daemon off;"]
+# Expor porta (ex: 3000 para Next.js ou serve)
+EXPOSE 3000
+
+# Healthcheck básico (ajuste se necessário)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:3000 || exit 1
+
+# Comando padrão (ajuste conforme a sua aplicação)
+CMD ["node", "server.js"]
