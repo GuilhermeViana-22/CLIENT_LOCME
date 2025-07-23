@@ -1,4 +1,4 @@
-# Etapa de build
+# Usando imagem Node.js Alpine para menor tamanho
 FROM node:18-alpine AS builder
 
 # Definir diretório de trabalho
@@ -21,33 +21,41 @@ RUN if [ -f yarn.lock ]; then yarn build; \
     elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm build; \
     else npm run build; fi
 
-# Etapa de produção sem nginx
-FROM node:18-alpine AS production
+# Estágio de produção com Nginx
+FROM nginx:alpine AS production
 
-# Criar diretório da aplicação
-WORKDIR /app
+# Instalar curl para health checks
+RUN apk add --no-cache curl
 
-# Copiar apenas arquivos necessários da build
-COPY --from=builder /app .
+# Copiar arquivos buildados do estágio anterior
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Instalar dependências de produção
-RUN if [ -f yarn.lock ]; then yarn install --production --frozen-lockfile; \
-    elif [ -f package-lock.json ]; then npm ci --only=production; \
-    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install --prod --frozen-lockfile; \
-    else npm install --production; fi
+# Copiar configuração customizada do Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Criar usuário não-root
+# Criar usuário não-root para segurança
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S appuser -u 1001
+    adduser -S nextjs -u 1001
 
-USER appuser
+# Definir permissões corretas
+RUN chown -R nextjs:nodejs /usr/share/nginx/html && \
+    chown -R nextjs:nodejs /var/cache/nginx && \
+    chown -R nextjs:nodejs /var/log/nginx && \
+    chown -R nextjs:nodejs /etc/nginx/conf.d
 
-# Expor porta (ex: 3000 para Next.js ou serve)
-EXPOSE 3000
+# Criar diretórios necessários com permissões corretas
+RUN touch /var/run/nginx.pid && \
+    chown -R nextjs:nodejs /var/run/nginx.pid
 
-# Healthcheck básico (ajuste se necessário)
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget -qO- http://localhost:3000 || exit 1
+# Mudar para usuário não-root
+USER nextjs
 
-# Comando padrão (ajuste conforme a sua aplicação)
-CMD ["node", "server.js"]
+# Expor porta 8080 (não privilegiada)
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8080/ || exit 1
+
+# Comando para iniciar o Nginx
+CMD ["nginx", "-g", "daemon off;"]
