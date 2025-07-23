@@ -13,7 +13,8 @@ COPY . .
 # Build para produção
 RUN yarn build
 
-# Etapa de produção (Nginx)a
+# Etapa de produção (Nginx)
+
 FROM nginx:alpine
 
 # Copie build para webroot padrão do Nginx
