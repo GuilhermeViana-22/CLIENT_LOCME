@@ -24,7 +24,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
    CMD wget -q --spider http://localhost:80/ || exit 1
 
-EXPOSE 80
+EXPOSE 3000
 
 # Use usuário não-root para servir os arquivos estáticos em produção
 RUN adduser -D -u 1001 appuser && chown -R appuser /usr/share/nginx/html
