@@ -304,7 +304,7 @@ const formatedPerfil = function(tipo_perfil_id, perfil) {
 }
 
 const form = ref({
-  bio: authStore.user.bio,
+  bio: authStore.user.bio ?? '',
   tipo_perfil_id: authStore.user.tipo_perfil_id,
   perfil: formatedPerfil(authStore.user.tipo_perfil_id, authStore.user?.perfil),
 });
